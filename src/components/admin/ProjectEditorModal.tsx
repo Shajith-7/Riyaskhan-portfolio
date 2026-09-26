@@ -1,0 +1,369 @@
+import React, { useState, useEffect } from 'react';
+import { Project } from '../../types/portfolio';
+import { usePortfolio } from '../../context/PortfolioContext';
+import { X, Image, Save, Sparkles } from 'lucide-react';
+
+interface ProjectEditorModalProps {
+  isOpen: boolean;
+  projectToEdit: Project | null;
+  onClose: () => void;
+}
+
+const PRESET_COVERS = [
+  { label: 'Cloud Telemetry / Dashboard', url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'Abstract 3D / Creative Canvas', url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'FinTech / Trading System', url: 'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'AI / Network Topology', url: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'Mobile & Minimal UI', url: 'https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?auto=format&fit=crop&w=1200&q=80' },
+];
+
+export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
+  isOpen,
+  projectToEdit,
+  onClose,
+}) => {
+  const { addProject, updateProject, getAccentClasses } = usePortfolio();
+  const accent = getAccentClasses();
+
+  const [title, setTitle] = useState('');
+  const [tagline, setTagline] = useState('');
+  const [category, setCategory] = useState<Project['category']>('fullstack');
+  const [featured, setFeatured] = useState(false);
+  const [coverImage, setCoverImage] = useState(PRESET_COVERS[0].url);
+  const [tagsString, setTagsString] = useState('');
+  const [liveUrl, setLiveUrl] = useState('');
+  const [githubUrl, setGithubUrl] = useState('');
+  const [impactMetric, setImpactMetric] = useState('');
+  const [year, setYear] = useState('2025');
+  
+  // Case study
+  const [problem, setProblem] = useState('');
+  const [solution, setSolution] = useState('');
+  const [architecture, setArchitecture] = useState('');
+  const [resultsString, setResultsString] = useState('');
+
+  useEffect(() => {
+    if (projectToEdit) {
+      setTitle(projectToEdit.title);
+      setTagline(projectToEdit.tagline);
+      setCategory(projectToEdit.category);
+      setFeatured(projectToEdit.featured);
+      setCoverImage(projectToEdit.coverImage);
+      setTagsString(projectToEdit.tags.join(', '));
+      setLiveUrl(projectToEdit.liveUrl || '');
+      setGithubUrl(projectToEdit.githubUrl || '');
+      setImpactMetric(projectToEdit.impactMetric || '');
+      setYear(projectToEdit.year);
+      setProblem(projectToEdit.caseStudy.problem);
+      setSolution(projectToEdit.caseStudy.solution);
+      setArchitecture(projectToEdit.caseStudy.architecture);
+      setResultsString(projectToEdit.caseStudy.results.join('\n'));
+    } else {
+      // Defaults for new project
+      setTitle('');
+      setTagline('');
+      setCategory('fullstack');
+      setFeatured(false);
+      setCoverImage(PRESET_COVERS[0].url);
+      setTagsString('TypeScript, React, Node.js');
+      setLiveUrl('https://example.com');
+      setGithubUrl('https://github.com');
+      setImpactMetric('99.9% Uptime · 50k Users');
+      setYear(new Date().getFullYear().toString());
+      setProblem('Describe the critical business or technical friction the previous system suffered from.');
+      setSolution('Detail how you architected and implemented the solution.');
+      setArchitecture('Client (React) -> Edge Gateway (Express/Go) -> Database (PostgreSQL) -> Cache (Redis)');
+      setResultsString('Reduced query latency by 45%\nScaled to 50k concurrent users\nCut hosting infrastructure overhead');
+    }
+  }, [projectToEdit, isOpen]);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim() || !tagline.trim()) return;
+
+    const parsedTags = tagsString
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+
+    const parsedResults = resultsString
+      .split('\n')
+      .map((r) => r.trim())
+      .filter(Boolean);
+
+    const projectPayload = {
+      title: title.trim(),
+      tagline: tagline.trim(),
+      category,
+      featured,
+      coverImage: coverImage.trim(),
+      tags: parsedTags.length > 0 ? parsedTags : ['TypeScript', 'React'],
+      liveUrl: liveUrl.trim() || undefined,
+      githubUrl: githubUrl.trim() || undefined,
+      impactMetric: impactMetric.trim() || undefined,
+      year: year.trim() || '2025',
+      caseStudy: {
+        problem: problem.trim(),
+        solution: solution.trim(),
+        architecture: architecture.trim(),
+        results: parsedResults.length > 0 ? parsedResults : ['Successful delivery and rollout'],
+      },
+    };
+
+    if (projectToEdit) {
+      updateProject(projectToEdit.id, projectPayload);
+    } else {
+      addProject(projectPayload);
+    }
+
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto">
+      <div 
+        className="relative w-full max-w-3xl rounded-2xl bg-neutral-900 border border-neutral-800 shadow-2xl overflow-hidden my-6 flex flex-col max-h-[90vh]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Modal Top Header */}
+        <div className="px-6 py-4 border-b border-neutral-800 flex items-center justify-between bg-neutral-950/80">
+          <div className="space-y-0.5">
+            <span className="text-xs font-mono text-neutral-400 uppercase tracking-wider">
+              {projectToEdit ? 'Edit Case Study' : 'Create New Project'}
+            </span>
+            <h3 className="text-lg font-bold text-white tracking-tight">
+              {projectToEdit ? projectToEdit.title : 'Project & Case Study Editor'}
+            </h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 text-neutral-400 hover:text-white rounded-lg transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Scrollable Form Body */}
+        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-6 text-sm text-neutral-300">
+          {/* Main Info */}
+          <div className="space-y-4">
+            <h4 className="text-xs font-mono uppercase tracking-wider text-neutral-400 border-b border-neutral-800 pb-1">
+              Primary Metadata
+            </h4>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-300">Project Title *</label>
+                <input
+                  type="text"
+                  required
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="e.g. Aura Cloud Telemetry"
+                  className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-300">Category</label>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value as any)}
+                  className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                >
+                  <option value="cloud">Cloud &amp; Systems</option>
+                  <option value="frontend">Frontend &amp; UI</option>
+                  <option value="fullstack">Full-Stack</option>
+                  <option value="ai">AI &amp; Data</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-neutral-300">Short Tagline (1-2 sentences) *</label>
+              <input
+                type="text"
+                required
+                value={tagline}
+                onChange={(e) => setTagline(e.target.value)}
+                placeholder="High-throughput distributed event streaming platform..."
+                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-300">Impact Metric</label>
+                <input
+                  type="text"
+                  value={impactMetric}
+                  onChange={(e) => setImpactMetric(e.target.value)}
+                  placeholder="4.2M events/sec · 99.9% SLA"
+                  className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-300">Year</label>
+                <input
+                  type="text"
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                  placeholder="2025"
+                  className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                />
+              </div>
+
+              <div className="space-y-1.5 flex flex-col justify-end">
+                <label className="flex items-center gap-2 cursor-pointer py-2">
+                  <input
+                    type="checkbox"
+                    checked={featured}
+                    onChange={(e) => setFeatured(e.target.checked)}
+                    className="rounded border-neutral-800 bg-neutral-950 text-indigo-600 h-4 w-4"
+                  />
+                  <span className="text-xs text-neutral-300 font-medium">Feature on Homepage</span>
+                </label>
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-neutral-300">Tech Stack Tags (comma-separated)</label>
+              <input
+                type="text"
+                value={tagsString}
+                onChange={(e) => setTagsString(e.target.value)}
+                placeholder="TypeScript, React, Node.js, ClickHouse, Docker"
+                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+              />
+            </div>
+
+            {/* Cover Image Selector */}
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-neutral-300">Cover Image URL</label>
+              <input
+                type="url"
+                value={coverImage}
+                onChange={(e) => setCoverImage(e.target.value)}
+                placeholder="https://..."
+                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+              />
+              
+              {/* Presets */}
+              <div className="flex flex-wrap gap-2 pt-1">
+                <span className="text-[11px] text-neutral-500 self-center">Presets:</span>
+                {PRESET_COVERS.map((preset, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setCoverImage(preset.url)}
+                    className="text-[11px] px-2.5 py-1 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded border border-neutral-700 transition-colors"
+                  >
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Links */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-300">Live Demo URL</label>
+                <input
+                  type="url"
+                  value={liveUrl}
+                  onChange={(e) => setLiveUrl(e.target.value)}
+                  placeholder="https://myproject.com"
+                  className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-300">GitHub Repository URL</label>
+                <input
+                  type="url"
+                  value={githubUrl}
+                  onChange={(e) => setGithubUrl(e.target.value)}
+                  placeholder="https://github.com/..."
+                  className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Deep Case Study Fields */}
+          <div className="space-y-4 pt-4 border-t border-neutral-800">
+            <h4 className="text-xs font-mono uppercase tracking-wider text-neutral-400 border-b border-neutral-800 pb-1">
+              Deep Case Study Details (Shown in Reader Modal)
+            </h4>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-neutral-300">The Problem Statement</label>
+              <textarea
+                rows={2}
+                value={problem}
+                onChange={(e) => setProblem(e.target.value)}
+                placeholder="What challenge or friction did the previous architecture face?"
+                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none resize-none"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-neutral-300">The Architectural Solution</label>
+              <textarea
+                rows={2}
+                value={solution}
+                onChange={(e) => setSolution(e.target.value)}
+                placeholder="How did you solve it technically?"
+                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none resize-none"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-neutral-300">System Flow / Topology Notes</label>
+              <textarea
+                rows={2}
+                value={architecture}
+                onChange={(e) => setArchitecture(e.target.value)}
+                placeholder="Microservices, data pipeline flow, caching layers..."
+                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none resize-none font-mono text-xs"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-neutral-300">Results &amp; Impact (One bullet per line)</label>
+              <textarea
+                rows={3}
+                value={resultsString}
+                onChange={(e) => setResultsString(e.target.value)}
+                placeholder="Decreased median incident response time from 22m to under 4m&#10;Reduced cloud infrastructure spend by 48%"
+                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none resize-none"
+              />
+            </div>
+          </div>
+
+          {/* Form Actions */}
+          <div className="pt-4 border-t border-neutral-800 flex items-center justify-end gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white rounded-lg transition-colors"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              className={`px-5 py-2 rounded-lg text-xs font-semibold text-white ${accent.bg} hover:opacity-90 shadow-md ${accent.glow} transition-all flex items-center gap-1.5`}
+            >
+              <Save className="w-4 h-4" />
+              <span>{projectToEdit ? 'Save Changes' : 'Create Project'}</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};

@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    scroll-behavior: smooth;
+    background-color: #12343b;
+    color: #ffffff;
+  }
+  
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Plus Jakarta Sans', 'Outfit', 'Poppins', sans-serif;
+  }
+
+  code, pre, kbd, .font-mono {
+    font-family: 'IBM Plex Mono', 'Courier Prime', monospace;
+  }
+}
+
+/* Custom scrollbar in Sand Tan & Night Blue */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #12343b;
+}
+::-webkit-scrollbar-thumb {
+  background: #e1b382;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c89666;
+}
+
+/* Sand Tan & Night Blue Custom Glows & Shadows */
+.shadow-sand-glow {
+  box-shadow: 0 0 15px rgba(225, 179, 130, 0.25);
+}
+.shadow-sand-glow-lg {
+  box-shadow: 0 0 25px rgba(225, 179, 130, 0.4);
+}
+.shadow-night-md {
+  box-shadow: 0 8px 24px rgba(18, 52, 59, 0.6);
+}
+
+/* Subtle Night Blue Grid Pattern */
+.bg-night-grid {
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(225, 179, 130, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(225, 179, 130, 0.07) 1px, transparent 1px);
+}
+
+/* Keyframe Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1.5deg);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(225, 179, 130, 0.3);
+    border-color: #e1b382;
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(225, 179, 130, 0.6);
+    border-color: #f3d4b2;
+  }
+}
+
+@keyframes textShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Running Glowing Animated Border Effect */
+@keyframes borderGlowRun {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes conicSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.text-sand-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #e1b382 50%, #c89666 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 6s ease infinite;
+}
+
+/* Running Glowing Border Card Utility */
+.glow-card-running {
+  position: relative;
+  isolation: isolate;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.glow-card-running::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    #e1b382 0%,
+    #c89666 25%,
+    #12343b 50%,
+    #e1b382 75%,
+    #ffffff 100%
+  );
+  background-size: 300% 300%;
+  animation: borderGlowRun 3.5s ease infinite;
+  z-index: -2;
+  box-shadow: 0 0 18px rgba(225, 179, 130, 0.45);
+}
+
+.glow-card-running::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: inherit;
+  z-index: -1;
+}
+
+.glow-card-running:hover::before {
+  animation-duration: 1.5s;
+  box-shadow: 0 0 30px rgba(225, 179, 130, 0.75);
+}
+
+/* Conic Spinning Light-beam Card Border Utility */
+.glow-card-beam {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.glow-card-beam::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    transparent 0deg,
+    transparent 280deg,
+    #e1b382 320deg,
+    #ffffff 345deg,
+    #c89666 360deg
+  );
+  animation: conicSpin 4s linear infinite;
+  z-index: -2;
+}
+
+.glow-card-beam::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: inherit;
+  z-index: -1;
+}
+
