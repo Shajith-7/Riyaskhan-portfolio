@@ -13,7 +13,7 @@ export const initialPortfolioData: PortfolioData = {
     linkedin: 'https://linkedin.com',
     twitter: 'https://x.com',
     website: 'https://mohamedriyaskhan.dev',
-    resumeUrl: '#',
+    resumeUrl: '/images/Riyaskhan Final Resume 123.docx',
     avatarUrl: '/images/profile.png',
     status: 'available',
     heroTags: [

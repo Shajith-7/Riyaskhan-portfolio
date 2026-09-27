@@ -66,67 +66,17 @@ export const Hero: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, roleIndex]);
 
+  const resumePath = profile.resumeUrl && profile.resumeUrl !== '#' 
+    ? profile.resumeUrl 
+    : '/images/Riyaskhan Final Resume 123.docx';
+
   const handleDownloadResume = () => {
-    const resumeContent = `================================================================================
-MOHAMED RIYASKHAN S
-B.Tech IT Student | Web Developer | Aspiring Developer
-Coimbatore, Tamil Nadu | ${profile.email} | ${profile.phone}
-================================================================================
-
-PROFILE
-${profile.shortBio}
-
-EDUCATION
---------------------------------------------------------------------------------
-${data.education
-  .map(
-    (e) => `* ${e.degree}
-  ${e.institution}, ${e.location} | ${e.period}
-  ${e.score ? `Score / Status: ${e.score}` : ''}
-${e.highlights ? e.highlights.map((h) => `  - ${h}`).join('\n') : ''}`
-  )
-  .join('\n\n')}
-
-HACKATHON ACHIEVEMENTS & PROJECTS
---------------------------------------------------------------------------------
-${data.projects
-  .map(
-    (p) => `* ${p.title}
-  Tagline: ${p.tagline}
-  ${p.award ? `Achievement: ${p.award}` : ''}
-  Key Focus: ${p.tags.join(', ')}
-  Problem: ${p.caseStudy.problem}
-  Solution: ${p.caseStudy.solution}
-  Results:
-${p.caseStudy.results.map((r) => `    - ${r}`).join('\n')}`
-  )
-  .join('\n\n')}
-
-INTERNSHIP EXPERIENCE
---------------------------------------------------------------------------------
-${data.experience
-  .map(
-    (exp) => `* ${exp.role} — ${exp.company}
-  Location: ${exp.location} | Duration: ${exp.period}
-  Achievements:
-${exp.achievements.map((a) => `  - ${a}`).join('\n')}
-  Domain / Tech: ${exp.tech.join(', ')}`
-  )
-  .join('\n\n')}
-
-DECLARATION
---------------------------------------------------------------------------------
-I hereby declare that the above information is true to the best of my knowledge.
-Mohamed Riyaskhan S
-`;
-
-    const blob = new Blob([resumeContent.trim()], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href = url;
-    link.download = `Mohamed_Riyaskhan_S_Resume.txt`;
+    link.href = resumePath;
+    link.download = 'Riyaskhan Final Resume 123.docx';
+    document.body.appendChild(link);
     link.click();
-    URL.revokeObjectURL(url);
+    document.body.removeChild(link);
   };
 
   return (
@@ -176,13 +126,14 @@ Mohamed Riyaskhan S
             {/* CTA Buttons */}
             <div className="pt-2 flex flex-wrap items-center gap-4">
               {/* Button 1 — Primary */}
-              <button
-                onClick={handleDownloadResume}
+              <a
+                href={resumePath}
+                download="Riyaskhan Final Resume 123.docx"
                 className="px-8 py-3.5 bg-[#e1b382] hover:bg-[#ffffff] text-[#12343b] font-bold text-base rounded-xl border-2 border-[#c89666] shadow-sand-glow hover:shadow-sand-glow-lg hover:scale-[1.03] transition-all duration-300 flex items-center gap-2 group"
               >
                 <Download className="w-5 h-5 transition-transform group-hover:-translate-y-0.5" />
                 <span>Download Resume</span>
-              </button>
+              </a>
 
               {/* Button 2 — Secondary */}
               <a

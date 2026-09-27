@@ -1,9 +1,14 @@
 import React from 'react';
 import { usePortfolio } from '../../context/PortfolioContext';
+import { Download } from 'lucide-react';
 
 export const AboutSection: React.FC = () => {
   const { data } = usePortfolio();
   const { profile } = data;
+
+  const resumePath = profile.resumeUrl && profile.resumeUrl !== '#' 
+    ? profile.resumeUrl 
+    : '/images/Riyaskhan Final Resume 123.docx';
 
   const stats = [
     { number: '2nd Year', label: 'B.Tech IT Student' },
@@ -51,9 +56,20 @@ export const AboutSection: React.FC = () => {
                 Leveraging full-stack web technologies, AI integrations, and secure architecture, I build resilient applications designed to solve real-world engineering challenges. Constantly expanding technical capabilities through competitive hackathons and open-source contributions.
               </p>
 
-              <p className="text-base font-regular text-[#f3e8d6] leading-[1.8] mb-6 text-justify">
+              <p className="text-base font-regular text-[#f3e8d6] leading-[1.8] mb-4 text-justify">
                 Through competitive hackathons, I have developed award-winning projects like Selavu Sherlock AI (Top 5th Place @ Corexathon 2.0) and BioArbitrage (Top 12th Place @ Inno Hack 2.0). I thrive in collaborative sprint environments and am eager to contribute to real-world software teams.
               </p>
+
+              <div className="pt-1 mb-6">
+                <a
+                  href={resumePath}
+                  download="Riyaskhan Final Resume 123.docx"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#e1b382] hover:bg-[#ffffff] text-[#12343b] font-bold text-xs sm:text-sm rounded-xl border-2 border-[#c89666] shadow-sand-glow hover:scale-105 transition-all duration-300 group"
+                >
+                  <Download className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
+                  <span>Download Resume (.docx)</span>
+                </a>
+              </div>
             </div>
 
             {/* Quick Stats Grid with Running Glow Borders */}
