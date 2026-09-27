@@ -32,7 +32,11 @@ import {
   BookOpen,
 } from 'lucide-react';
 
-export const AdminDashboard: React.FC = () => {
+interface AdminDashboardProps {
+  onBackToPublic?: () => void;
+}
+
+export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }) => {
   const {
     data,
     updateProfile,
@@ -220,42 +224,44 @@ export const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <section id="admin-dashboard" className="border-b-2 border-[#e1b382]/40 bg-[#12343b] py-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+    <div id="admin-dashboard" className="min-h-screen bg-[#12343b] text-[#ffffff] py-8 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         
         {/* Top CMS Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#c89666]/60">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#e1b382] text-[#12343b] shadow-sand-glow">
-              <LayoutDashboard className="w-5 h-5" />
+            <div className="p-3 rounded-xl bg-[#e1b382] text-[#12343b] shadow-sand-glow border-2 border-[#c89666]">
+              <LayoutDashboard className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-bold text-[#ffffff] tracking-tight font-['Plus_Jakarta_Sans']">
+                <h2 className="text-2xl font-extrabold text-[#ffffff] tracking-tight font-['Plus_Jakarta_Sans']">
                   {data.profile.name} — CMS Admin Studio
                 </h2>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#e1b382]/20 text-[#e1b382] border border-[#c89666] font-semibold">
-                  Live Editing
+                <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#e1b382] text-[#12343b] border border-[#c89666] font-extrabold">
+                  Live CMS Active
                 </span>
               </div>
-              <p className="text-xs text-[#f3e8d6]">
-                Manage your student resume, hackathons, internship, certifications, and inquiries.
+              <p className="text-xs text-[#f3e8d6] mt-0.5">
+                Manage your resume details, hackathons, education, certifications, and inquiries.
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            <a
-              href="#projects"
-              className="px-3 py-1.5 text-xs font-bold text-[#e1b382] border-2 border-[#e1b382] hover:bg-[#e1b382] hover:text-[#12343b] rounded-xl transition-colors flex items-center gap-1.5 shadow-sand-glow"
-            >
-              <Eye className="w-3.5 h-3.5" />
-              <span>View Public Resume</span>
-            </a>
+          <div className="flex flex-wrap items-center gap-2.5">
+            {onBackToPublic && (
+              <button
+                onClick={onBackToPublic}
+                className="px-4 py-2 text-xs font-bold text-[#12343b] bg-[#e1b382] hover:bg-[#ffffff] border-2 border-[#c89666] rounded-xl transition-all shadow-sand-glow flex items-center gap-1.5 hover:scale-105"
+              >
+                <Eye className="w-3.5 h-3.5" />
+                <span>Return to Public Site</span>
+              </button>
+            )}
 
             <button
               onClick={handleExport}
-              className="px-3 py-1.5 text-xs font-bold text-[#e1b382] border-2 border-[#e1b382] hover:bg-[#e1b382] hover:text-[#12343b] rounded-xl transition-colors flex items-center gap-1.5 shadow-sand-glow"
+              className="px-3.5 py-2 text-xs font-bold text-[#e1b382] border-2 border-[#e1b382] hover:bg-[#e1b382] hover:text-[#12343b] rounded-xl transition-colors flex items-center gap-1.5 shadow-sand-glow"
               title="Download full JSON backup of portfolio"
             >
               <Download className="w-3.5 h-3.5" />
@@ -263,8 +269,11 @@ export const AdminDashboard: React.FC = () => {
             </button>
 
             <button
-              onClick={logoutAdmin}
-              className="px-3 py-1.5 text-xs font-bold text-red-400 bg-red-950/60 hover:bg-red-900 border border-red-700 rounded-xl transition-colors flex items-center gap-1.5"
+              onClick={() => {
+                logoutAdmin();
+                if (onBackToPublic) onBackToPublic();
+              }}
+              className="px-3.5 py-2 text-xs font-bold text-red-300 bg-red-950/80 hover:bg-red-900 border border-red-700 rounded-xl transition-colors flex items-center gap-1.5"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Exit Admin</span>
@@ -1467,6 +1476,6 @@ export const AdminDashboard: React.FC = () => {
           setExpToEdit(null);
         }}
       />
-    </section>
+    </div>
   );
 };

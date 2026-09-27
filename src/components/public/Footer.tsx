@@ -1,9 +1,14 @@
 import React from 'react';
 import { usePortfolio } from '../../context/PortfolioContext';
-import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
+import { Mail, Phone, MapPin, ShieldCheck } from 'lucide-react';
 
-export const Footer: React.FC = () => {
-  const { data } = usePortfolio();
+interface FooterProps {
+  onOpenArchitecture: () => void;
+  onGoToAdmin: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onGoToAdmin }) => {
+  const { data, isAdmin } = usePortfolio();
 
   return (
     <footer className="bg-[#12343b] border-t-2 border-[#e1b382]/40 pt-12 pb-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -45,6 +50,12 @@ export const Footer: React.FC = () => {
               <li><a href="#experience" className="hover:text-[#e1b382] transition-colors flex items-center gap-1"><span>Internships</span></a></li>
               <li><a href="#skills" className="hover:text-[#e1b382] transition-colors flex items-center gap-1"><span>Skills & Competencies</span></a></li>
               <li><a href="#contact" className="hover:text-[#e1b382] transition-colors flex items-center gap-1"><span>Get in Touch</span></a></li>
+              <li>
+                <button onClick={onGoToAdmin} className="hover:text-[#e1b382] transition-colors flex items-center gap-1 text-[#e1b382] font-bold">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>{isAdmin ? 'Admin Studio CMS' : 'Admin Portal Login'}</span>
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -80,8 +91,12 @@ export const Footer: React.FC = () => {
           <div>
             © {new Date().getFullYear()} <strong className="text-[#ffffff]">{data.profile.name}</strong>. All rights reserved.
           </div>
-          <div className="text-[11px] text-[#e1b382] font-mono">
-            B.Tech Information Technology Portfolio & Integrated CMS
+          <div className="flex items-center gap-3 text-[11px] text-[#e1b382] font-mono">
+            <span>B.Tech IT Portfolio & Integrated CMS</span>
+            <span>·</span>
+            <button onClick={onGoToAdmin} className="hover:underline text-[#e1b382] font-bold">
+              Admin Portal
+            </button>
           </div>
         </div>
 
@@ -89,4 +104,5 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+
 

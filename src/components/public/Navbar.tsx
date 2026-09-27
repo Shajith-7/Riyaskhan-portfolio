@@ -9,10 +9,11 @@ import {
 
 interface NavbarProps {
   onOpenArchitecture: () => void;
+  onGoToAdmin: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = () => {
-  const { data, isAdmin, setOpenAdminModal, logoutAdmin } = usePortfolio();
+export const Navbar: React.FC<NavbarProps> = ({ onGoToAdmin }) => {
+  const { data, isAdmin, logoutAdmin } = usePortfolio();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -64,18 +65,18 @@ export const Navbar: React.FC<NavbarProps> = () => {
         <div className="hidden sm:flex items-center gap-3">
           {isAdmin ? (
             <div className="flex items-center gap-2">
-              <a
-                href="#admin-dashboard"
-                className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-[#12343b] bg-[#e1b382] hover:bg-[#ffffff] border-2 border-[#c89666] rounded-xl shadow-sand-glow transition-all"
+              <button
+                onClick={onGoToAdmin}
+                className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-[#12343b] bg-[#e1b382] hover:bg-[#ffffff] border-2 border-[#c89666] rounded-xl shadow-sand-glow transition-all hover:scale-105"
               >
                 <ShieldCheck className="w-4 h-4" />
-                <span>Admin CMS</span>
+                <span>Admin Studio</span>
                 {unreadCount > 0 && (
                   <span className="ml-1 px-1.5 py-0.2 bg-[#12343b] text-[#e1b382] font-bold text-[10px] rounded-full">
                     {unreadCount}
                   </span>
                 )}
-              </a>
+              </button>
               <button
                 onClick={logoutAdmin}
                 className="px-3 py-1.5 text-xs text-[#e1b382] hover:text-[#ffffff] border border-[#c89666] rounded-xl hover:bg-[#2d545e]"
@@ -85,10 +86,11 @@ export const Navbar: React.FC<NavbarProps> = () => {
             </div>
           ) : (
             <button
-              onClick={() => setOpenAdminModal(true)}
-              className="px-4 py-2 text-xs font-bold text-[#e1b382] hover:text-[#12343b] border-2 border-[#e1b382] hover:bg-[#e1b382] rounded-xl shadow-sand-glow transition-all duration-300"
+              onClick={onGoToAdmin}
+              className="px-4 py-2 text-xs font-bold text-[#e1b382] hover:text-[#12343b] border-2 border-[#e1b382] hover:bg-[#e1b382] rounded-xl shadow-sand-glow transition-all duration-300 flex items-center gap-1.5 hover:scale-105"
             >
-              Admin Dashboard
+              <ShieldCheck className="w-4 h-4" />
+              <span>Admin Portal</span>
             </button>
           )}
 
@@ -104,9 +106,9 @@ export const Navbar: React.FC<NavbarProps> = () => {
         {/* Mobile (Hamburger Menu) */}
         <div className="flex items-center gap-2 lg:hidden">
           <button
-            onClick={() => setOpenAdminModal(true)}
+            onClick={onGoToAdmin}
             className="p-2 text-[#e1b382]"
-            aria-label="Admin"
+            aria-label="Admin Portal"
           >
             <ShieldCheck className="w-6 h-6" />
           </button>
@@ -140,12 +142,12 @@ export const Navbar: React.FC<NavbarProps> = () => {
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                setOpenAdminModal(true);
+                onGoToAdmin();
               }}
               className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-[#e1b382] border-2 border-[#e1b382] rounded-xl"
             >
               <ShieldCheck className="w-4 h-4" />
-              <span>Admin Dashboard</span>
+              <span>Admin Portal</span>
             </button>
 
             <a

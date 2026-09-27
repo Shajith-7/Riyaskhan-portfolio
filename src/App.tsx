@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PortfolioProvider, usePortfolio } from './context/PortfolioContext';
 import { Navbar } from './components/public/Navbar';
 import { Hero } from './components/public/Hero';
@@ -17,21 +17,61 @@ import { TestimonialsSection } from './components/public/TestimonialsSection';
 import { ContactSection } from './components/public/ContactSection';
 import { Footer } from './components/public/Footer';
 import { ArchitectureGuideModal } from './components/public/ArchitectureGuideModal';
-import { AdminAuthModal } from './components/admin/AdminAuthModal';
+import { AdminLoginPage } from './components/admin/AdminLoginPage';
 import { AdminDashboard } from './components/admin/AdminDashboard';
-import { BookOpen, ShieldCheck, Sparkles, Sliders } from 'lucide-react';
 
 const AppContent: React.FC = () => {
-  const { isAdmin, setOpenAdminModal, getAccentClasses } = usePortfolio();
+  const { isAdmin } = usePortfolio();
   const [architectureOpen, setArchitectureOpen] = useState(false);
-  const accent = getAccentClasses();
+  const [view, setView] = useState<'portfolio' | 'admin'>(() => {
+    return window.location.hash === '#admin' || window.location.pathname.startsWith('/admin')
+      ? 'admin'
+      : 'portfolio';
+  });
 
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#admin' || window.location.pathname.startsWith('/admin')) {
+        setView('admin');
+      } else {
+        setView('portfolio');
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handleHashChange);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('popstate', handleHashChange);
+    };
+  }, []);
+
+  const navigateToAdmin = () => {
+    window.location.hash = 'admin';
+    setView('admin');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToPortfolio = () => {
+    if (window.location.hash === '#admin') {
+      window.location.hash = '';
+    }
+    setView('portfolio');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // If in admin view mode:
+  if (view === 'admin') {
+    if (!isAdmin) {
+      return <AdminLoginPage onBackToPublic={navigateToPortfolio} />;
+    }
+    return <AdminDashboard onBackToPublic={navigateToPortfolio} />;
+  }
+
+  // Public portfolio view:
   return (
     <div className="min-h-screen bg-[#12343b] text-[#ffffff] flex flex-col font-sans selection:bg-[#e1b382]/30 selection:text-[#e1b382]">
       {/* Main Public Header */}
-
-      {/* Main Public Header */}
-      <Navbar onOpenArchitecture={() => setArchitectureOpen(true)} />
+      <Navbar onOpenArchitecture={() => setArchitectureOpen(true)} onGoToAdmin={navigateToAdmin} />
 
       {/* Main Public Body */}
       <main className="flex-1">
@@ -44,29 +84,17 @@ const AppContent: React.FC = () => {
         <SkillsSection />
         <TestimonialsSection />
         <ContactSection />
-
-        {/* Embedded Admin CMS Dashboard when logged in */}
-        {isAdmin && <AdminDashboard />}
       </main>
 
       {/* Footer */}
-      <Footer onOpenArchitecture={() => setArchitectureOpen(true)} />
+      <Footer onOpenArchitecture={() => setArchitectureOpen(true)} onGoToAdmin={navigateToAdmin} />
 
       {/* Modals */}
       <ArchitectureGuideModal
         isOpen={architectureOpen}
         onClose={() => setArchitectureOpen(false)}
-        onGoToAdmin={() => {
-          if (!isAdmin) {
-            setOpenAdminModal(true);
-          } else {
-            const el = document.getElementById('admin-dashboard');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }
-        }}
+        onGoToAdmin={navigateToAdmin}
       />
-
-      <AdminAuthModal />
     </div>
   );
 };
@@ -78,3 +106,4 @@ export default function App() {
     </PortfolioProvider>
   );
 }
+
