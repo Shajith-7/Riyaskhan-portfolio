@@ -66,14 +66,15 @@ export const Hero: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, roleIndex]);
 
-  const resumePath = profile.resumeUrl && profile.resumeUrl !== '#' 
+  const resumePath = profile.resumeUrl && profile.resumeUrl !== '#' && profile.resumeUrl.trim() !== ''
     ? profile.resumeUrl 
-    : '/images/Riyaskhan Final Resume 123.docx';
+    : '/images/Riyaskhan_Final_Resume_123.docx';
 
-  const handleDownloadResume = () => {
+  const handleDownloadResume = (e: React.MouseEvent) => {
+    e.preventDefault();
     const link = document.createElement('a');
     link.href = resumePath;
-    link.download = 'Riyaskhan Final Resume 123.docx';
+    link.setAttribute('download', 'Riyaskhan Final Resume 123.docx');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -129,6 +130,7 @@ export const Hero: React.FC = () => {
               <a
                 href={resumePath}
                 download="Riyaskhan Final Resume 123.docx"
+                onClick={handleDownloadResume}
                 className="px-8 py-3.5 bg-[#e1b382] hover:bg-[#ffffff] text-[#12343b] font-bold text-base rounded-xl border-2 border-[#c89666] shadow-sand-glow hover:shadow-sand-glow-lg hover:scale-[1.03] transition-all duration-300 flex items-center gap-2 group"
               >
                 <Download className="w-5 h-5 transition-transform group-hover:-translate-y-0.5" />

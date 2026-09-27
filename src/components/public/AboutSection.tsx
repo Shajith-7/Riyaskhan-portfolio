@@ -6,9 +6,19 @@ export const AboutSection: React.FC = () => {
   const { data } = usePortfolio();
   const { profile } = data;
 
-  const resumePath = profile.resumeUrl && profile.resumeUrl !== '#' 
+  const resumePath = profile.resumeUrl && profile.resumeUrl !== '#' && profile.resumeUrl.trim() !== ''
     ? profile.resumeUrl 
-    : '/images/Riyaskhan Final Resume 123.docx';
+    : '/images/Riyaskhan_Final_Resume_123.docx';
+
+  const handleDownloadResume = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const link = document.createElement('a');
+    link.href = resumePath;
+    link.setAttribute('download', 'Riyaskhan Final Resume 123.docx');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const stats = [
     { number: '2nd Year', label: 'B.Tech IT Student' },
@@ -64,6 +74,7 @@ export const AboutSection: React.FC = () => {
                 <a
                   href={resumePath}
                   download="Riyaskhan Final Resume 123.docx"
+                  onClick={handleDownloadResume}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-[#e1b382] hover:bg-[#ffffff] text-[#12343b] font-bold text-xs sm:text-sm rounded-xl border-2 border-[#c89666] shadow-sand-glow hover:scale-105 transition-all duration-300 group"
                 >
                   <Download className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />

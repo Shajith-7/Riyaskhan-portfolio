@@ -101,6 +101,10 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           if (!parsed.profile.avatarUrl || parsed.profile.avatarUrl.includes('unsplash')) {
             parsed.profile.avatarUrl = '/images/profile.png';
           }
+          // Ensure valid resume URL path
+          if (!parsed.profile.resumeUrl || parsed.profile.resumeUrl === '#' || parsed.profile.resumeUrl.trim() === '') {
+            parsed.profile.resumeUrl = '/images/Riyaskhan_Final_Resume_123.docx';
+          }
           // Migration for Education period 2024-2028 and Mark percentages
           parsed.education = parsed.education.map((edu: any) => {
             if (edu.id === 'edu-1' || edu.degree.includes('B.Tech')) {
