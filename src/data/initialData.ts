@@ -48,6 +48,8 @@ export const initialPortfolioData: PortfolioData = {
       current: false,
       highlights: [
         'Scored 81.6% aggregate with strong foundation in Mathematics, Physics, and Chemistry',
+        'Demonstrated strong analytical problem-solving skills in Higher Secondary Mathematics & Sciences',
+        'Actively participated in school science exhibitions, academic seminars, and technical quizzes',
       ],
     },
     {
@@ -60,6 +62,8 @@ export const initialPortfolioData: PortfolioData = {
       current: false,
       highlights: [
         'Graduated with distinction securing 85.2% aggregate score',
+        'Achieved top academic performance in Science and Mathematics foundational coursework',
+        'Maintained consistent academic excellence and active participation in school co-curricular events',
       ],
     },
   ],

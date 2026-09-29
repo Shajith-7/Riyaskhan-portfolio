@@ -26,10 +26,14 @@ export const ExperienceSection: React.FC = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-[40px]">
-          <h2 className="text-3xl sm:text-[36px] font-bold text-[#ffffff] mb-2 font-['Plus_Jakarta_Sans'] tracking-tight">
-            Internship <span className="text-[#e1b382]">Experience</span>
-          </h2>
+        <div className="text-center max-w-3xl mx-auto mb-[40px] space-y-3">
+          <div className="inline-block animate-float-subtle group cursor-default transition-all duration-300">
+            <div className="px-6 py-2.5 rounded-2xl bg-[#2d545e]/50 border border-[#c89666]/40 shadow-xl group-hover:border-[#e1b382] group-hover:shadow-sand-glow group-hover:-translate-y-1.5 transition-all duration-300 backdrop-blur-sm">
+              <h2 className="text-3xl sm:text-[36px] font-bold text-[#ffffff] font-['Plus_Jakarta_Sans'] tracking-tight">
+                Internship <span className="text-[#e1b382] group-hover:drop-shadow-[0_0_12px_rgba(225,179,130,0.8)] transition-all">Experience</span>
+              </h2>
+            </div>
+          </div>
           <p className="text-base font-regular text-[#f3e8d6]">
             Practical cyber security engineering, verified credentials, and completed project deliverables
           </p>
@@ -193,7 +197,7 @@ export const ExperienceSection: React.FC = () => {
                   <div className="pt-4 border-t border-[#c89666]/40">
                     <h4 className="text-xs uppercase tracking-wider font-extrabold text-[#e1b382] mb-3 flex items-center gap-2">
                       <FolderGit2 className="w-4 h-4 text-[#e1b382]" />
-                      Projects Developed During Internship ({exp.internshipProjects.length})
+                      Projects Developed During Internship
                     </h4>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

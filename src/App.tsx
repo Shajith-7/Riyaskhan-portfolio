@@ -13,7 +13,6 @@ import { EducationSection } from './components/public/EducationSection';
 import { ExperienceSection } from './components/public/ExperienceSection';
 import { WorkshopsAndCertsSection } from './components/public/WorkshopsAndCertsSection';
 import { SkillsSection } from './components/public/SkillsSection';
-import { TestimonialsSection } from './components/public/TestimonialsSection';
 import { ContactSection } from './components/public/ContactSection';
 import { Footer } from './components/public/Footer';
 import { ArchitectureGuideModal } from './components/public/ArchitectureGuideModal';
@@ -82,7 +81,6 @@ const AppContent: React.FC = () => {
         <ExperienceSection />
         <WorkshopsAndCertsSection />
         <SkillsSection />
-        <TestimonialsSection />
         <ContactSection />
       </main>
 

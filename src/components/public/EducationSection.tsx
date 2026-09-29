@@ -17,10 +17,14 @@ export const EducationSection: React.FC = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-[40px]">
-          <h2 className="text-3xl sm:text-[36px] font-bold text-[#ffffff] mb-2 font-['Plus_Jakarta_Sans'] tracking-tight">
-            Education & <span className="text-[#e1b382]">Academic Path</span>
-          </h2>
+        <div className="text-center max-w-3xl mx-auto mb-[40px] space-y-3">
+          <div className="inline-block animate-float-subtle group cursor-default transition-all duration-300">
+            <div className="px-6 py-2.5 rounded-2xl bg-[#2d545e]/50 border border-[#c89666]/40 shadow-xl group-hover:border-[#e1b382] group-hover:shadow-sand-glow group-hover:-translate-y-1.5 transition-all duration-300 backdrop-blur-sm">
+              <h2 className="text-3xl sm:text-[36px] font-bold text-[#ffffff] font-['Plus_Jakarta_Sans'] tracking-tight">
+                Education & <span className="text-[#e1b382] group-hover:drop-shadow-[0_0_12px_rgba(225,179,130,0.8)] transition-all">Academic Path</span>
+              </h2>
+            </div>
+          </div>
           <p className="text-base font-regular text-[#f3e8d6]">
             Rigorous undergraduate IT studies combined with solid secondary analytical foundations
           </p>

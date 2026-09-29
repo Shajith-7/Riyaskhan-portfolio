@@ -52,7 +52,6 @@
     linear-gradient(to bottom, rgba(225, 179, 130, 0.07) 1px, transparent 1px);
 }
 
-/* Keyframe Animations */
 @keyframes float {
   0%, 100% {
     transform: translateY(0px) rotate(0deg);
@@ -60,6 +59,19 @@
   50% {
     transform: translateY(-10px) rotate(1.5deg);
   }
+}
+
+@keyframes floatSubtle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-subtle {
+  animation: floatSubtle 4.5s ease-in-out infinite;
 }
 
 @keyframes glowPulse {
@@ -189,5 +201,18 @@
   border-radius: inherit;
   background: inherit;
   z-index: -1;
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 22s linear infinite;
 }
 

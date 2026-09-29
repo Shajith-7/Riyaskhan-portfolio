@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '../../context/PortfolioContext';
-import { Award, BookOpen, Eye, X, Maximize2, CheckCircle2 } from 'lucide-react';
+import { Award, BookOpen, Eye, X, Maximize2, CheckCircle2, Sparkles } from 'lucide-react';
 
 interface ActiveCertModal {
   url: string;
@@ -12,6 +12,7 @@ interface ActiveCertModal {
 export const WorkshopsAndCertsSection: React.FC = () => {
   const { data } = usePortfolio();
   const [activeCert, setActiveCert] = useState<ActiveCertModal | null>(null);
+  const [activeTab, setActiveTab] = useState<'courses' | 'training'>('courses');
 
   if (
     (!data.settings.showWorkshops && !data.settings.showCertifications) ||
@@ -27,29 +28,68 @@ export const WorkshopsAndCertsSection: React.FC = () => {
       <div className="absolute top-1/2 left-1/4 w-80 h-80 bg-[#e1b382]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#2d545e]/40 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 space-y-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 space-y-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-[40px]">
-          <h2 className="text-3xl sm:text-[36px] font-bold text-[#ffffff] mb-2 font-['Plus_Jakarta_Sans'] tracking-tight">
-            Certifications & <span className="text-[#e1b382]">Technical Training</span>
-          </h2>
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-block animate-float-subtle group cursor-default transition-all duration-300">
+            <div className="px-6 py-2.5 rounded-2xl bg-[#2d545e]/50 border border-[#c89666]/40 shadow-xl group-hover:border-[#e1b382] group-hover:shadow-sand-glow group-hover:-translate-y-1.5 transition-all duration-300 backdrop-blur-sm">
+              <h2 className="text-3xl sm:text-[36px] font-bold text-[#ffffff] font-['Plus_Jakarta_Sans'] tracking-tight">
+                Certifications & <span className="text-[#e1b382] group-hover:drop-shadow-[0_0_12px_rgba(225,179,130,0.8)] transition-all">Technical Training</span>
+              </h2>
+            </div>
+          </div>
           <p className="text-base font-regular text-[#f3e8d6]">
-            16 Verified Certifications (8 Professional Course Certifications & 8 Hands-on Workshop / Internship Training Certificates)
+            Verified professional course certifications, hands-on workshops, and technical training credentials
           </p>
         </div>
 
         {/* ========================================================================= */}
-        {/* 1. COURSE CERTIFICATIONS GRID (8 ITEMS) */}
+        {/* TOGGLE TAB CONTROLS */}
         {/* ========================================================================= */}
-        {data.certifications.length > 0 && (
-          <div className="space-y-6">
+        <div className="flex justify-center">
+          <div className="bg-[#2d545e]/90 p-1.5 rounded-2xl border border-[#c89666]/40 shadow-xl inline-flex max-w-full overflow-x-auto gap-1.5 backdrop-blur-sm">
+            
+            {/* Professional Courses Tab */}
+            <button
+              onClick={() => setActiveTab('courses')}
+              className={`flex items-center gap-2.5 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
+                activeTab === 'courses'
+                  ? 'bg-[#e1b382] text-[#12343b] shadow-lg shadow-[#e1b382]/20 scale-[1.02]'
+                  : 'text-[#f3e8d6]/80 hover:text-white hover:bg-[#12343b]/40'
+              }`}
+            >
+              <Award className={`w-4 h-4 ${activeTab === 'courses' ? 'text-[#12343b]' : 'text-[#e1b382]'}`} />
+              <span>Professional Courses</span>
+            </button>
+
+            {/* Technical Training Tab */}
+            <button
+              onClick={() => setActiveTab('training')}
+              className={`flex items-center gap-2.5 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
+                activeTab === 'training'
+                  ? 'bg-[#e1b382] text-[#12343b] shadow-lg shadow-[#e1b382]/20 scale-[1.02]'
+                  : 'text-[#f3e8d6]/80 hover:text-white hover:bg-[#12343b]/40'
+              }`}
+            >
+              <BookOpen className={`w-4 h-4 ${activeTab === 'training' ? 'text-[#12343b]' : 'text-[#e1b382]'}`} />
+              <span>Technical Training</span>
+            </button>
+
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* 1. PROFESSIONAL COURSES CONTENT */}
+        {/* ========================================================================= */}
+        {activeTab === 'courses' && data.certifications.length > 0 && (
+          <div className="space-y-6 animate-fadeIn">
             <div className="flex items-center justify-between border-b border-[#c89666]/40 pb-3">
               <h3 className="text-xl font-bold text-white font-['Plus_Jakarta_Sans'] flex items-center gap-2">
                 <Award className="w-5 h-5 text-[#e1b382]" />
-                <span>Professional Course Certifications ({data.certifications.length})</span>
+                <span>Professional Course Certifications</span>
               </h3>
-              <span className="text-xs font-mono text-[#e1b382] bg-[#2d545e] px-3 py-1 rounded-full border border-[#c89666]/40">
+              <span className="text-xs font-mono text-[#e1b382] bg-[#2d545e] px-3 py-1 rounded-full border border-[#c89666]/40 hidden sm:inline-block">
                 Simplilearn · Coursera · Cisco · Scaler · MY Bharat
               </span>
             </div>
@@ -139,16 +179,16 @@ export const WorkshopsAndCertsSection: React.FC = () => {
         )}
 
         {/* ========================================================================= */}
-        {/* 2. WORKSHOPS & TRAINING SESSIONS GRID (8 ITEMS) */}
+        {/* 2. TECHNICAL TRAINING CONTENT */}
         {/* ========================================================================= */}
-        {data.workshops.length > 0 && (
-          <div className="space-y-6 pt-4">
+        {activeTab === 'training' && data.workshops.length > 0 && (
+          <div className="space-y-6 animate-fadeIn">
             <div className="flex items-center justify-between border-b border-[#c89666]/40 pb-3">
               <h3 className="text-xl font-bold text-white font-['Plus_Jakarta_Sans'] flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-[#e1b382]" />
-                <span>Workshops & Technical Training ({data.workshops.length})</span>
+                <span>Workshops & Technical Training</span>
               </h3>
-              <span className="text-xs font-mono text-[#e1b382] bg-[#2d545e] px-3 py-1 rounded-full border border-[#c89666]/40">
+              <span className="text-xs font-mono text-[#e1b382] bg-[#2d545e] px-3 py-1 rounded-full border border-[#c89666]/40 hidden sm:inline-block">
                 IIT Madras · Rathinam Tech · AIC RAISE · IIT Top Engineers
               </span>
             </div>
