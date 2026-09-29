@@ -3,6 +3,7 @@ import { usePortfolio } from '../../context/PortfolioContext';
 import { Project, Experience, Education, Certification, Workshop, SkillCategory, AccentColor } from '../../types/portfolio';
 import { ProjectEditorModal } from './ProjectEditorModal';
 import { ExperienceEditorModal } from './ExperienceEditorModal';
+import { ImageUploader } from './ImageUploader';
 import {
   LayoutDashboard,
   User,
@@ -544,6 +545,32 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
                       className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:outline-none"
                     />
                   </div>
+                </div>
+
+                {/* Profile Photo Uploader */}
+                <ImageUploader
+                  label="Profile Photo / Avatar (Hero Section)"
+                  value={profileForm.avatarUrl}
+                  onChange={(url) => setProfileForm({ ...profileForm, avatarUrl: url })}
+                  placeholder="e.g. /images/profile.png or upload high-res photo"
+                  presetImages={[
+                    { label: 'Current profile.png', url: '/images/profile.png' }
+                  ]}
+                />
+
+                {/* Resume URL / Path */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-neutral-300">Resume File Path / URL</label>
+                  <input
+                    type="text"
+                    value={profileForm.resumeUrl}
+                    onChange={(e) => setProfileForm({ ...profileForm, resumeUrl: e.target.value })}
+                    placeholder="/images/Riyaskhan_Final_Resume_123.docx"
+                    className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:outline-none text-xs"
+                  />
+                  <p className="text-[11px] text-gray-400">
+                    Put resume file in <code className="text-[#e1b382]">public/images/</code> and set path like <code className="text-[#e1b382]">/images/Riyaskhan_Final_Resume_123.docx</code>
+                  </p>
                 </div>
 
                 <div className="pt-2">

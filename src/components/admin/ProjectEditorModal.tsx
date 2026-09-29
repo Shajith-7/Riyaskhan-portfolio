@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Project } from '../../types/portfolio';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { X, Image, Save, Sparkles } from 'lucide-react';
+import { ImageUploader } from './ImageUploader';
 
 interface ProjectEditorModalProps {
   isOpen: boolean;
@@ -35,6 +36,7 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
   const [githubUrl, setGithubUrl] = useState('');
   const [impactMetric, setImpactMetric] = useState('');
   const [year, setYear] = useState('2025');
+  const [certificateUrl, setCertificateUrl] = useState('');
   
   // Case study
   const [problem, setProblem] = useState('');
@@ -54,6 +56,7 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
       setGithubUrl(projectToEdit.githubUrl || '');
       setImpactMetric(projectToEdit.impactMetric || '');
       setYear(projectToEdit.year);
+      setCertificateUrl(projectToEdit.certificateUrl || '');
       setProblem(projectToEdit.caseStudy.problem);
       setSolution(projectToEdit.caseStudy.solution);
       setArchitecture(projectToEdit.caseStudy.architecture);
@@ -104,6 +107,7 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
       githubUrl: githubUrl.trim() || undefined,
       impactMetric: impactMetric.trim() || undefined,
       year: year.trim() || '2025',
+      certificateUrl: certificateUrl.trim() || undefined,
       caseStudy: {
         problem: problem.trim(),
         solution: solution.trim(),
@@ -241,31 +245,13 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
             </div>
 
             {/* Cover Image Selector */}
-            <div className="space-y-2">
-              <label className="text-xs font-medium text-neutral-300">Cover Image URL</label>
-              <input
-                type="url"
-                value={coverImage}
-                onChange={(e) => setCoverImage(e.target.value)}
-                placeholder="https://..."
-                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
-              />
-              
-              {/* Presets */}
-              <div className="flex flex-wrap gap-2 pt-1">
-                <span className="text-[11px] text-neutral-500 self-center">Presets:</span>
-                {PRESET_COVERS.map((preset, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setCoverImage(preset.url)}
-                    className="text-[11px] px-2.5 py-1 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded border border-neutral-700 transition-colors"
-                  >
-                    {preset.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <ImageUploader
+              value={coverImage}
+              onChange={setCoverImage}
+              label="Project Cover Image"
+              placeholder="e.g. /images/selavu-sherlock.png or upload image file"
+              presetImages={PRESET_COVERS}
+            />
 
             {/* Links */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

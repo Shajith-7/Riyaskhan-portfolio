@@ -159,6 +159,9 @@ export const Hero: React.FC = () => {
                   src={profile.avatarUrl}
                   alt={profile.name}
                   className="w-full h-full object-cover rounded-2xl transition-transform duration-700 group-hover:scale-105"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/images/profile.png';
+                  }}
                 />
               </div>
 

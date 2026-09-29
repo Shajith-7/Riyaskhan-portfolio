@@ -85,7 +85,7 @@ interface PortfolioContextType {
   };
 }
 
-const STORAGE_KEY = 'portfolio_cms_riyaskhan_v1';
+const STORAGE_KEY = 'portfolio_cms_riyaskhan_v4';
 const AUTH_STORAGE_KEY = 'portfolio_admin_auth_v1';
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
@@ -118,6 +118,105 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             }
             return edu;
           });
+
+          // Migration for Experience certificates and projects
+          if (parsed.experience && parsed.experience.length > 0) {
+            parsed.experience = parsed.experience.map((exp: any) => {
+              if (exp.id === 'exp-1' || exp.company?.toLowerCase().includes('codtech')) {
+                return {
+                  ...exp,
+                  offerLetterUrl: exp.offerLetterUrl || '/images/internship-certificates/intern offer letter.PNG',
+                  completionCertificateUrl: exp.completionCertificateUrl || '/images/internship-certificates/intern certificate.PNG',
+                  internshipProjects: (exp.internshipProjects && exp.internshipProjects.length > 0)
+                    ? exp.internshipProjects
+                    : [
+                        {
+                          id: 'int-p1',
+                          title: 'File Integrity Monitoring Tool',
+                          description: 'SHA-256 hash calculation and integrity validation tool for detecting unauthorized file modifications and system tampering.',
+                          imageUrl: '/images/internship-certificates/file integrity.jpg',
+                          tags: ['Python', 'SHA-256', 'Security Audit'],
+                        },
+                        {
+                          id: 'int-p2',
+                          title: 'MalwareGuard Security Analyzer',
+                          description: 'Automated file threat analysis tool to detect malicious signatures, suspicious file structures, and payload patterns.',
+                          imageUrl: '/images/internship-certificates/malwareguard.jpg',
+                          tags: ['Python', 'Malware Analysis', 'Threat Detection'],
+                        },
+                        {
+                          id: 'int-p3',
+                          title: 'Password Strength & Entropy Analyzer',
+                          description: 'Cyber security utility for testing password complexity, entropy scoring, dictionary vulnerability, and brute-force estimate.',
+                          imageUrl: '/images/internship-certificates/password strenght.jpg',
+                          tags: ['Cyber Security', 'Entropy Scoring', 'Python'],
+                        },
+                      ],
+                };
+              }
+              return exp;
+            });
+          }
+
+          // Migration for Projects & Hackathons certificates
+          if (parsed.projects && parsed.projects.length > 0) {
+            parsed.projects = parsed.projects.map((p: any) => {
+              if (p.id === 'proj-1' || p.title?.includes('Selavu')) {
+                return { ...p, coverImage: '/images/hackathon-certificates/Selavu Sherlock AI.PNG', certificateUrl: '/images/hackathon-certificates/Selavu Sherlock AI.PNG' };
+              }
+              if (p.id === 'proj-2' || p.title?.includes('BioArbitrage')) {
+                return { ...p, coverImage: '/images/hackathon-certificates/Bio-Arbitrage.PNG', certificateUrl: '/images/hackathon-certificates/Bio-Arbitrage.PNG' };
+              }
+              if (p.id === 'proj-3' || p.title?.includes('SmartQ')) {
+                return { ...p, coverImage: '/images/hackathon-certificates/SmartQ AI.PNG', certificateUrl: '/images/hackathon-certificates/SmartQ AI.PNG' };
+              }
+              if (p.id === 'proj-4' || p.title?.includes('CIH')) {
+                return { ...p, coverImage: '/images/hackathon-certificates/CIH 2k26.PNG', certificateUrl: '/images/hackathon-certificates/CIH 2k26.PNG' };
+              }
+              return p;
+            });
+
+            // If proj-4 doesn't exist yet, append it
+            if (!parsed.projects.some((p: any) => p.id === 'proj-4' || p.title?.includes('CIH'))) {
+              parsed.projects.push({
+                id: 'proj-4',
+                title: 'CIH 2k26 Innovation Challenge',
+                tagline: '24-hour global innovation hackathon project building intelligent software solutions under high-pressure deadline constraints.',
+                category: 'hackathon',
+                featured: true,
+                coverImage: '/images/hackathon-certificates/CIH 2k26.PNG',
+                tags: ['24-Hour Hackathon', 'Global Innovation', 'Rapid Prototyping', 'Teamwork'],
+                liveUrl: 'https://example.com/cih-2k26',
+                githubUrl: 'https://github.com/mohamedriyaskhan/cih-2k26',
+                impactMetric: 'Participant @ CIH 2k26 (24-Hr Global Hackathon)',
+                award: 'Participant — CIH 2k26 24-Hour Global Innovation Hackathon',
+                year: '2026',
+                order: 4,
+                certificateUrl: '/images/hackathon-certificates/CIH 2k26.PNG',
+                caseStudy: {
+                  problem: 'Complex real-world problem statement presented at CIH 2k26 requiring a functional software prototype within a strict 24-hour hackathon timeframe.',
+                  solution: 'Collaborated as a team to rapidly design, build, and present an innovative software solution during the 24-hour global hackathon sprint.',
+                  architecture: 'Modular architecture, responsive user interface, rapid data processing pipeline, and live interactive presentation layout.',
+                  results: [
+                    'Successfully built and pitched a complete functional prototype within 24 non-stop hackathon hours',
+                    'Earned official Certificate of Participation at CIH 2k26 24-Hour Global Innovation Hackathon',
+                    'Demonstrated real-time problem solving, agile development under pressure, and efficient teamwork',
+                  ],
+                },
+              });
+            }
+          }
+
+          // Migration for Certifications (8 course certificates)
+          if (!parsed.certifications || parsed.certifications.length < 8 || !parsed.certifications[0]?.certificateUrl) {
+            parsed.certifications = initialPortfolioData.certifications;
+          }
+
+          // Migration for Workshops & Trainings (8 training certificates)
+          if (!parsed.workshops || parsed.workshops.length < 8 || !parsed.workshops[0]?.certificateUrl) {
+            parsed.workshops = initialPortfolioData.workshops;
+          }
+
           return parsed;
         }
       }

@@ -33,6 +33,7 @@ export interface Workshop {
   organizer: string;
   dateOrDuration: string;
   type: 'workshop' | 'training' | 'internship';
+  certificateUrl?: string;
 }
 
 export interface Certification {
@@ -42,6 +43,7 @@ export interface Certification {
   date: string;
   details?: string;
   credentialUrl?: string;
+  certificateUrl?: string;
 }
 
 export interface CaseStudy {
@@ -56,7 +58,7 @@ export interface Project {
   id: string;
   title: string;
   tagline: string;
-  category: 'fullstack' | 'frontend' | 'mobile' | 'ai' | 'cloud' | 'hackathon';
+  category: 'fullstack' | 'frontend' | 'mobile' | 'ai' | 'cloud' | 'hackathon' | 'cyber';
   featured: boolean;
   coverImage: string;
   tags: string[];
@@ -66,7 +68,16 @@ export interface Project {
   award?: string;
   year: string;
   order: number;
+  certificateUrl?: string;
   caseStudy: CaseStudy;
+}
+
+export interface InternshipProject {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  tags?: string[];
 }
 
 export interface Experience {
@@ -78,6 +89,9 @@ export interface Experience {
   current: boolean;
   achievements: string[];
   tech: string[];
+  offerLetterUrl?: string;
+  completionCertificateUrl?: string;
+  internshipProjects?: InternshipProject[];
 }
 
 export interface SkillCategory {

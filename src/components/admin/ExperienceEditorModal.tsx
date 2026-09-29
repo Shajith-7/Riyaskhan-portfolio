@@ -24,6 +24,8 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
   const [current, setCurrent] = useState(false);
   const [achievementsString, setAchievementsString] = useState('');
   const [techString, setTechString] = useState('');
+  const [offerLetterUrl, setOfferLetterUrl] = useState('');
+  const [completionCertificateUrl, setCompletionCertificateUrl] = useState('');
 
   useEffect(() => {
     if (expToEdit) {
@@ -34,14 +36,18 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
       setCurrent(expToEdit.current);
       setAchievementsString(expToEdit.achievements.join('\n'));
       setTechString(expToEdit.tech.join(', '));
+      setOfferLetterUrl(expToEdit.offerLetterUrl || '');
+      setCompletionCertificateUrl(expToEdit.completionCertificateUrl || '');
     } else {
       setRole('');
       setCompany('');
-      setLocation('San Francisco, CA (or Remote)');
-      setPeriod('2024 - Present');
-      setCurrent(true);
-      setAchievementsString('Spearheaded platform migration to modern distributed architecture\nLed a team of 6 engineers across product initiatives\nOptimized high-traffic endpoints reducing latency by 40%');
-      setTechString('TypeScript, React, Node.js, PostgreSQL, Docker');
+      setLocation('Virtual / Coimbatore');
+      setPeriod('2026');
+      setCurrent(false);
+      setAchievementsString('Successfully completed internship deliverables\nDemonstrated technical proficiency in cyber security');
+      setTechString('Cyber Security, Ethical Hacking, Linux');
+      setOfferLetterUrl('/images/internship-certificates/intern offer letter.PNG');
+      setCompletionCertificateUrl('/images/internship-certificates/intern certificate.PNG');
     }
   }, [expToEdit, isOpen]);
 
@@ -69,6 +75,9 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
       current,
       achievements: parsedAchievements.length > 0 ? parsedAchievements : ['Key deliverables completed'],
       tech: parsedTech.length > 0 ? parsedTech : ['TypeScript', 'React'],
+      offerLetterUrl: offerLetterUrl.trim() || undefined,
+      completionCertificateUrl: completionCertificateUrl.trim() || undefined,
+      internshipProjects: expToEdit?.internshipProjects,
     };
 
     if (expToEdit) {
@@ -187,6 +196,30 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
               placeholder="React, TypeScript, GraphQL, Node.js, Kubernetes"
               className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
             />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-neutral-800">
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-neutral-300">Intern Offer Letter Image Path / URL</label>
+              <input
+                type="text"
+                value={offerLetterUrl}
+                onChange={(e) => setOfferLetterUrl(e.target.value)}
+                placeholder="/images/internship-certificates/intern offer letter.PNG"
+                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none text-xs font-mono"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-neutral-300">Completion Certificate Image Path / URL</label>
+              <input
+                type="text"
+                value={completionCertificateUrl}
+                onChange={(e) => setCompletionCertificateUrl(e.target.value)}
+                placeholder="/images/internship-certificates/intern certificate.PNG"
+                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none text-xs font-mono"
+              />
+            </div>
           </div>
 
           <div className="pt-4 border-t border-neutral-800 flex items-center justify-end gap-3">
