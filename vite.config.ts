@@ -17,7 +17,7 @@ export default defineConfig(() => {
       hmr: process.env.DISABLE_HMR !== 'true',
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {
-        ignored: ['**/public/images/**', '**/*.PNG', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.docx'],
+        ignored: ['**/*.~tmp', '**/*.tmp', '**/desktop.ini'],
       },
     },
   };

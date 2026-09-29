@@ -70,7 +70,7 @@ export const initialPortfolioData: PortfolioData = {
       tagline: 'AI-driven cost optimization and personal expenditure assistant to detect budget leakages.',
       category: 'ai',
       featured: true,
-      coverImage: '/images/hackathon-certificates/Selavu Sherlock AI.PNG',
+      coverImage: '/images/hackathon-certificates/selavu-sherlock.png',
       tags: ['AI Assistant', 'Python', 'Financial Analytics', 'FinTech'],
       liveUrl: 'https://example.com/selavu-sherlock',
       githubUrl: 'https://github.com/mohamedriyaskhan/selavu-sherlock-ai',
@@ -78,7 +78,7 @@ export const initialPortfolioData: PortfolioData = {
       award: '🏆 Top 5th Place — Corexathon 2.0 (SNS College of Engineering)',
       year: '2025',
       order: 1,
-      certificateUrl: '/images/hackathon-certificates/Selavu Sherlock AI.PNG',
+      certificateUrl: '/images/hackathon-certificates/selavu-sherlock.png',
       caseStudy: {
         problem: 'Students and households often struggle to track daily micro-expenses, leading to unintentional overspending without actionable insights.',
         solution: 'Built Selavu Sherlock AI, an automated assistant that analyzes transactional records, flags unnecessary recurring charges, and provides personalized cost-saving suggestions.',
@@ -96,7 +96,7 @@ export const initialPortfolioData: PortfolioData = {
       tagline: 'Drug repurposing evidence platform to discover, compare, validate, and trace drug–disease links across biomedical databases.',
       category: 'ai',
       featured: true,
-      coverImage: '/images/hackathon-certificates/Bio-Arbitrage.PNG',
+      coverImage: '/images/hackathon-certificates/bio-arbitrage.png',
       tags: ['Biomedical Informatics', 'Python', 'Data Mining', 'Evidence Validation'],
       liveUrl: 'https://example.com/bioarbitrage',
       githubUrl: 'https://github.com/mohamedriyaskhan/bioarbitrage',
@@ -104,7 +104,7 @@ export const initialPortfolioData: PortfolioData = {
       award: '🏆 Top 12th Place — Inno Hack 2.0 (VIT Vellore)',
       year: '2025',
       order: 2,
-      certificateUrl: '/images/hackathon-certificates/Bio-Arbitrage.PNG',
+      certificateUrl: '/images/hackathon-certificates/bio-arbitrage.png',
       caseStudy: {
         problem: 'Discovering if approved drugs can treat alternative diseases requires querying fragmented biomedical repositories, creating high manual research friction.',
         solution: 'Engineered BioArbitrage to aggregate and trace disease-target connections across multi-source clinical databases, evaluating repurposing viability quickly.',
@@ -122,7 +122,7 @@ export const initialPortfolioData: PortfolioData = {
       tagline: 'Intelligent queue & service management platform to eliminate waiting bottlenecks in public institutions.',
       category: 'fullstack',
       featured: true,
-      coverImage: '/images/hackathon-certificates/SmartQ AI.PNG',
+      coverImage: '/images/hackathon-certificates/smartq-ai.png',
       tags: ['Web Development', 'Queue Optimization', 'Python', 'System Architecture'],
       liveUrl: 'https://example.com/smartq-ai',
       githubUrl: 'https://github.com/mohamedriyaskhan/smartq-ai',
@@ -130,7 +130,7 @@ export const initialPortfolioData: PortfolioData = {
       award: 'Participated & Selected Finalist — Hack Fusion (CIT Chennai)',
       year: '2026',
       order: 3,
-      certificateUrl: '/images/hackathon-certificates/SmartQ AI.PNG',
+      certificateUrl: '/images/hackathon-certificates/smartq-ai.png',
       caseStudy: {
         problem: 'Overcrowded waiting rooms and unpredictable wait times in service centers create chaos, patient stress, and inefficient counter utilization.',
         solution: 'Developed SmartQ AI to enable virtual queue ticketing, real-time wait estimation, and counter workload balancing.',
@@ -148,7 +148,7 @@ export const initialPortfolioData: PortfolioData = {
       tagline: '24-hour global innovation hackathon project building intelligent software solutions under high-pressure deadline constraints.',
       category: 'hackathon',
       featured: true,
-      coverImage: '/images/hackathon-certificates/CIH 2k26.PNG',
+      coverImage: '/images/hackathon-certificates/cih-2k26.png',
       tags: ['24-Hour Hackathon', 'Global Innovation', 'Rapid Prototyping', 'Teamwork'],
       liveUrl: 'https://example.com/cih-2k26',
       githubUrl: 'https://github.com/mohamedriyaskhan/cih-2k26',
@@ -156,7 +156,7 @@ export const initialPortfolioData: PortfolioData = {
       award: 'Participant — CIH 2k26 24-Hour Global Innovation Hackathon',
       year: '2026',
       order: 4,
-      certificateUrl: '/images/hackathon-certificates/CIH 2k26.PNG',
+      certificateUrl: '/images/hackathon-certificates/cih-2k26.png',
       caseStudy: {
         problem: 'Complex real-world problem statement presented at CIH 2k26 requiring a functional software prototype within a strict 24-hour hackathon timeframe.',
         solution: 'Collaborated as a team to rapidly design, build, and present an innovative software solution during the 24-hour global hackathon sprint.',
@@ -184,14 +184,14 @@ export const initialPortfolioData: PortfolioData = {
         'Analyzed common web vulnerabilities (OWASP Top 10) and practiced basic packet capture and network diagnostics.',
       ],
       tech: ['Cyber Security', 'Ethical Hacking', 'Network Protocols', 'Vulnerability Assessment', 'Linux'],
-      offerLetterUrl: '/images/internship-certificates/intern offer letter.PNG',
-      completionCertificateUrl: '/images/internship-certificates/intern certificate.PNG',
+      offerLetterUrl: '/images/internship-certificates/offer-letter.png',
+      completionCertificateUrl: '/images/internship-certificates/internship-certificate.png',
       internshipProjects: [
         {
           id: 'int-p1',
           title: 'File Integrity Monitoring Tool',
           description: 'SHA-256 hash calculation and integrity validation tool for detecting unauthorized file modifications and system tampering.',
-          imageUrl: '/images/internship-certificates/file integrity.jpg',
+          imageUrl: '/images/internship-certificates/file-integrity.jpg',
           tags: ['Python', 'SHA-256', 'Security Audit'],
         },
         {
@@ -205,7 +205,7 @@ export const initialPortfolioData: PortfolioData = {
           id: 'int-p3',
           title: 'Password Strength & Entropy Analyzer',
           description: 'Cyber security utility for testing password complexity, entropy scoring, dictionary vulnerability, and brute-force estimate.',
-          imageUrl: '/images/internship-certificates/password strenght.jpg',
+          imageUrl: '/images/internship-certificates/password-strength.jpg',
           tags: ['Cyber Security', 'Entropy Scoring', 'Python'],
         },
       ],
@@ -218,7 +218,7 @@ export const initialPortfolioData: PortfolioData = {
       organizer: 'Top Engineers India @ IIT Madras Research Park, Chennai',
       dateOrDuration: '01 Nov 2025',
       type: 'workshop',
-      certificateUrl: '/images/training-certificates/ai and agentic.PNG',
+      certificateUrl: '/images/training-certificates/agentic-ai-workshop.png',
     },
     {
       id: 'ws-2',
@@ -226,7 +226,7 @@ export const initialPortfolioData: PortfolioData = {
       organizer: 'Dept. of Science & Humanities, Rathinam Technical Campus',
       dateOrDuration: '11–12 Oct 2025',
       type: 'workshop',
-      certificateUrl: '/images/training-certificates/cisco network.PNG',
+      certificateUrl: '/images/training-certificates/cisco-packet-tracer.png',
     },
     {
       id: 'ws-3',
@@ -234,7 +234,7 @@ export const initialPortfolioData: PortfolioData = {
       organizer: 'IIT Top Engineers',
       dateOrDuration: '2 Days Intensive',
       type: 'workshop',
-      certificateUrl: '/images/training-certificates/2 day data analytics .jpeg',
+      certificateUrl: '/images/training-certificates/data-analytics-workshop.jpeg',
     },
     {
       id: 'ws-4',
@@ -242,7 +242,7 @@ export const initialPortfolioData: PortfolioData = {
       organizer: 'Dept. of Science & Humanities, Rathinam Technical Campus',
       dateOrDuration: 'Technical Hands-On Session',
       type: 'workshop',
-      certificateUrl: '/images/training-certificates/vibe coding.PNG',
+      certificateUrl: '/images/training-certificates/vibe-coding-workshop.png',
     },
     {
       id: 'ws-5',
@@ -250,7 +250,7 @@ export const initialPortfolioData: PortfolioData = {
       organizer: 'AIC RAISE',
       dateOrDuration: 'Innovation & Ideation Session',
       type: 'workshop',
-      certificateUrl: '/images/training-certificates/monetize your mind.jpeg',
+      certificateUrl: '/images/training-certificates/monetize-your-mind.jpeg',
     },
     {
       id: 'ws-6',
@@ -258,7 +258,7 @@ export const initialPortfolioData: PortfolioData = {
       organizer: 'IIT Top Engineers',
       dateOrDuration: '1 Week',
       type: 'training',
-      certificateUrl: '/images/training-certificates/1 week python.PNG',
+      certificateUrl: '/images/training-certificates/python-training.png',
     },
     {
       id: 'ws-7',
@@ -266,7 +266,7 @@ export const initialPortfolioData: PortfolioData = {
       organizer: 'IIT Top Engineers',
       dateOrDuration: '1 Week',
       type: 'training',
-      certificateUrl: '/images/training-certificates/1 week iot.PNG',
+      certificateUrl: '/images/training-certificates/iot-training.png',
     },
     {
       id: 'ws-8',
@@ -274,7 +274,7 @@ export const initialPortfolioData: PortfolioData = {
       organizer: 'Dept. of Science & Humanities, Rathinam Technical Campus',
       dateOrDuration: '11 Dec 2025',
       type: 'training',
-      certificateUrl: '/images/training-certificates/intelluctual property.PNG',
+      certificateUrl: '/images/training-certificates/ip-awareness.png',
     },
   ],
   certifications: [
@@ -284,7 +284,7 @@ export const initialPortfolioData: PortfolioData = {
       issuer: 'Simplilearn',
       date: '2025',
       details: 'Certified proficiency in Microsoft Excel formulas, data manipulation, pivot tables, and spreadsheet analytics.',
-      certificateUrl: '/images/course-certificates/simple learn ms excel.jpeg',
+      certificateUrl: '/images/course-certificates/ms-excel.jpeg',
     },
     {
       id: 'cert-2',
@@ -292,7 +292,7 @@ export const initialPortfolioData: PortfolioData = {
       issuer: 'Simplilearn',
       date: '2025',
       details: 'Foundational training in Generative AI Studio, prompt engineering, LLM customization, and AI application workflows.',
-      certificateUrl: '/images/course-certificates/simple learn intro to gen ai.jpeg',
+      certificateUrl: '/images/course-certificates/generative-ai.jpeg',
     },
     {
       id: 'cert-3',
@@ -300,7 +300,7 @@ export const initialPortfolioData: PortfolioData = {
       issuer: 'Simplilearn',
       date: '2025',
       details: 'Hands-on certification covering Salesforce CRM architecture, app building, workflow automation, and user management.',
-      certificateUrl: '/images/course-certificates/simple learn salseforce.jpeg',
+      certificateUrl: '/images/course-certificates/salesforce.jpeg',
     },
     {
       id: 'cert-4',
@@ -308,7 +308,7 @@ export const initialPortfolioData: PortfolioData = {
       issuer: 'Coursera',
       date: '2025',
       details: 'Guided project certification on WordPress site creation, custom themes, plugin integration, and CMS deployment.',
-      certificateUrl: '/images/course-certificates/coursera.PNG',
+      certificateUrl: '/images/course-certificates/wordpress.png',
     },
     {
       id: 'cert-5',
@@ -316,7 +316,7 @@ export const initialPortfolioData: PortfolioData = {
       issuer: 'Cisco Networking Academy',
       date: 'Oct 2025',
       details: 'Comprehensive certification covering IPv4/IPv6 addressing schemes, subnetting, ICMP diagnostics, and network troubleshooting fundamentals.',
-      certificateUrl: '/images/course-certificates/network and troubleshoot.PNG',
+      certificateUrl: '/images/course-certificates/cisco-troubleshooting.png',
     },
     {
       id: 'cert-6',
@@ -324,7 +324,7 @@ export const initialPortfolioData: PortfolioData = {
       issuer: 'Scaler Topics',
       date: 'Oct 2025',
       details: 'Completed 23 video tutorials across 3 intensive modules focused on core programming logic, data structures, and algorithmic mindset.',
-      certificateUrl: '/images/course-certificates/coding essential.PNG',
+      certificateUrl: '/images/course-certificates/coding-essentials.png',
     },
     {
       id: 'cert-7',
@@ -332,7 +332,7 @@ export const initialPortfolioData: PortfolioData = {
       issuer: 'Ministry of Youth Affairs & Sports (MY Bharat)',
       date: 'Oct 2025',
       details: 'National level online quiz initiative recognizing young visionaries and analytical thinkers for Viksit Bharat 2026.',
-      certificateUrl: '/images/course-certificates/viksit bharat 2026.PNG',
+      certificateUrl: '/images/course-certificates/viksit-bharat-2026.png',
     },
     {
       id: 'cert-8',
@@ -340,7 +340,7 @@ export const initialPortfolioData: PortfolioData = {
       issuer: 'Ministry of Youth Affairs & Sports (MY Bharat)',
       date: '2026',
       details: 'National level online quiz recognition honoring youth leadership, innovation, and civic governance vision for Viksit Bharat 2027.',
-      certificateUrl: '/images/course-certificates/viksit bharat 2027.PNG',
+      certificateUrl: '/images/course-certificates/viksit-bharat-2027.png',
     },
   ],
   skills: [
