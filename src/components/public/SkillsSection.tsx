@@ -16,7 +16,8 @@ import {
   ArrowRight,
   Bot,
   Flame,
-  Star
+  Star,
+  Database
 } from 'lucide-react';
 
 // Custom SVG Icons for Tech Skills
@@ -120,6 +121,17 @@ export const SkillsSection: React.FC = () => {
       tag: 'CodTech Certified',
       rating: 86,
       desc: 'Network Auditing, Security Tools, Vulnerability Scan'
+    },
+    {
+      id: 'database',
+      name: 'Database',
+      category: 'Data & Storage',
+      level: 'Practical Hands-on',
+      icon: <Database className="w-8 h-8 text-[#009688]" />,
+      color: '#009688',
+      tag: 'SQL & Storage',
+      rating: 85,
+      desc: 'Relational Databases, SQL Queries, Data Modeling & Management'
     }
   ];
 
@@ -157,9 +169,6 @@ export const SkillsSection: React.FC = () => {
               </h2>
             </div>
           </div>
-          <p className="text-base font-regular text-[#f3e8d6]">
-            Floating technical toolkits, running icon streams, and core professional strengths
-          </p>
 
           {/* Interactive Dual Option Switcher */}
           <div className="flex items-center justify-center gap-2 pt-2">
@@ -213,13 +222,7 @@ export const SkillsSection: React.FC = () => {
                 <div>
                   <h3 className="text-xl font-bold text-white font-['Plus_Jakarta_Sans'] flex items-center gap-2">
                     Technical & Programming Skills
-                    <span className="text-xs font-mono text-[#e1b382] bg-[#12343b] px-2.5 py-0.5 rounded-full border border-[#c89666]/40">
-                      Icon Stream & Floating Badges
-                    </span>
                   </h3>
-                  <p className="text-xs font-mono text-[#e1b382]/80">
-                    C, Python, Web Dev, MS Office, Machine Learning, Vibe Coding, Cybersecurity
-                  </p>
                 </div>
               </div>
             </div>
@@ -321,13 +324,7 @@ export const SkillsSection: React.FC = () => {
                 <div>
                   <h3 className="text-xl font-bold text-white font-['Plus_Jakarta_Sans'] flex items-center gap-2">
                     Soft Skills & Strengths
-                    <span className="text-xs font-mono text-[#e1b382] bg-[#12343b] px-2.5 py-0.5 rounded-full border border-[#c89666]/40">
-                      Personal & Professional Attributes
-                    </span>
                   </h3>
-                  <p className="text-xs font-mono text-[#e1b382]/80">
-                    Adaptability, teamwork, rapid continuous learning & motivation
-                  </p>
                 </div>
               </div>
             </div>
