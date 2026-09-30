@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { usePortfolio } from '../../context/PortfolioContext';
-import { Download, ArrowRight, Volume2, VolumeX } from 'lucide-react';
+import { Download, ArrowRight } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   const { data } = usePortfolio();
   const { profile } = data;
   const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isAudioMuted, setIsAudioMuted] = useState(true);
 
   // Running Typewriter animation for Tagline Roles
   const roles = [
@@ -47,24 +46,7 @@ export const Hero: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, roleIndex]);
 
-  const enableAudio = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    const video = videoRef.current;
-    if (video) {
-      const nextMuteState = !video.muted;
-      video.muted = nextMuteState;
-      video.volume = 1.0;
-      if (!nextMuteState) {
-        video.play().then(() => {
-          setIsAudioMuted(false);
-        }).catch(() => {});
-      } else {
-        setIsAudioMuted(true);
-      }
-    }
-  };
-
-  // Handle Autoplay Audio and Scroll Stop / Play Logic
+  // Handle Automatic Audio Autoplay and Scroll Stop / Play Logic
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -73,30 +55,25 @@ export const Hero: React.FC = () => {
 
     // Attempt unmuted play on mount
     video.muted = false;
-    video.play().then(() => {
-      setIsAudioMuted(false);
-    }).catch(() => {
-      // Browser blocked unmuted autoplay, play muted temporarily until user gesture
+    video.play().catch(() => {
+      // If browser blocks unmuted autoplay, play muted temporarily until first visitor gesture
       video.muted = true;
-      setIsAudioMuted(true);
       video.play().catch(() => {});
     });
 
-    // User gesture handler to immediately unlock and play full audio
-    const handleUserGesture = () => {
-      if (video && video.muted) {
+    // Invisible background handler: Unmute audio on any visitor interaction
+    const handleUserInteraction = () => {
+      if (video) {
         video.muted = false;
         video.volume = 1.0;
-        video.play().then(() => {
-          setIsAudioMuted(false);
-        }).catch(() => {});
+        video.play().catch(() => {});
       }
     };
 
-    const events = ['click', 'touchstart', 'keydown', 'pointerdown', 'scroll'];
-    events.forEach((evt) => window.addEventListener(evt, handleUserGesture, { passive: true }));
+    const events = ['click', 'touchstart', 'keydown', 'pointerdown', 'scroll', 'mousemove'];
+    events.forEach((evt) => window.addEventListener(evt, handleUserInteraction, { passive: true }));
 
-    // IntersectionObserver: Pause video when scrolled away, resume when on Hero screen
+    // IntersectionObserver: Pause video and audio when scrolled away, resume when on Hero screen
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -116,7 +93,7 @@ export const Hero: React.FC = () => {
 
     return () => {
       observer.disconnect();
-      events.forEach((evt) => window.removeEventListener(evt, handleUserGesture));
+      events.forEach((evt) => window.removeEventListener(evt, handleUserInteraction));
     };
   }, []);
 
@@ -137,8 +114,7 @@ export const Hero: React.FC = () => {
   return (
     <section 
       ref={heroRef} 
-      onClick={enableAudio}
-      className="relative min-h-[90vh] flex flex-col justify-center py-16 md:py-24 bg-[#000000] border-b border-[#2A2A2A] overflow-hidden cursor-pointer"
+      className="relative min-h-[90vh] flex flex-col justify-center py-16 md:py-24 bg-[#000000] border-b border-[#2A2A2A] overflow-hidden"
     >
       
       {/* Background Video (High Clarity, Face Clearly Visible, Seamless Edge Blend) */}
@@ -158,26 +134,6 @@ export const Hero: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-transparent to-[#000000]/40" />
       </div>
 
-      {/* Floating Subtle Sound Badge in Bottom Right Corner */}
-      <div className="absolute bottom-6 right-6 z-20">
-        <button
-          onClick={enableAudio}
-          className="px-4 py-2 rounded-full bg-black/80 hover:bg-[#F0444B] text-white border border-[#2A2A2A] hover:border-[#F0444B] backdrop-blur-md transition-all duration-300 flex items-center gap-2 text-xs font-bold shadow-xl"
-        >
-          {isAudioMuted ? (
-            <>
-              <VolumeX className="w-4 h-4 text-[#F0444B] group-hover:text-white animate-pulse" />
-              <span>Click for Voice Audio</span>
-            </>
-          ) : (
-            <>
-              <Volume2 className="w-4 h-4 text-[#27D6D9]" />
-              <span>Voice Sound Active</span>
-            </>
-          )}
-        </button>
-      </div>
-
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
@@ -193,7 +149,7 @@ export const Hero: React.FC = () => {
               </div>
             </div>
 
-            {/* Headline Title (Font size reduced by 2 points) */}
+            {/* Headline Title */}
             <div className="space-y-2">
               <p className="text-2xl sm:text-3xl font-bold text-white tracking-tight drop-shadow-md">
                 Hi, I'm
@@ -246,6 +202,7 @@ export const Hero: React.FC = () => {
     </section>
   );
 };
+
 
 
 
