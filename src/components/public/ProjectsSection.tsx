@@ -34,28 +34,40 @@ export const ProjectsSection: React.FC = () => {
 
         {/* Compact & Interactive Project Card Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-7xl mx-auto">
-          {data.projects.map((project) => (
-            <article
-              key={project.id}
-              className="bg-[#050505] rounded-[20px] overflow-hidden border border-[#2A2A2A] hover:border-[#F0444B] transition-all duration-300 flex flex-col justify-between group shadow-lg hover:-translate-y-1.5"
-            >
-              <div>
-                {/* Interactive Cover Image Container - Click to open project details/description modal */}
-                <div 
-                  onClick={() => setActiveCaseStudy(project)}
-                  className="relative h-44 w-full overflow-hidden bg-black/40 cursor-pointer border-b border-[#2A2A2A]"
-                >
-                  <img
-                    src={encodeURI(project.coverImage)}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80';
-                    }}
-                  />
-                  
-                  {/* Subtle dark gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+          {data.projects.map((project) => {
+            const defaultShowcaseMap: { [id: string]: string } = {
+              'proj-1': '/images/project-showcase/selavu-sherlock-ui.png',
+              'proj-2': '/images/project-showcase/bio-arbitrage-ui.png',
+              'proj-3': '/images/project-showcase/smartq-ai-ui.png',
+              'proj-4': '/images/project-showcase/cih-2k26-ui.png',
+            };
+
+            const projectCover = (project.coverImage && !project.coverImage.includes('hackathon-certificates'))
+              ? project.coverImage
+              : defaultShowcaseMap[project.id] || '/images/project-showcase/selavu-sherlock-ui.png';
+
+            return (
+              <article
+                key={project.id}
+                className="bg-[#050505] rounded-[20px] overflow-hidden border border-[#2A2A2A] hover:border-[#F0444B] transition-all duration-300 flex flex-col justify-between group shadow-lg hover:-translate-y-1.5"
+              >
+                <div>
+                  {/* Interactive Cover Image Container - Click to open project details/description modal */}
+                  <div 
+                    onClick={() => setActiveCaseStudy(project)}
+                    className="relative h-44 w-full overflow-hidden bg-black/40 cursor-pointer border-b border-[#2A2A2A]"
+                  >
+                    <img
+                      src={encodeURI(projectCover)}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = defaultShowcaseMap[project.id] || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80';
+                      }}
+                    />
+                    
+                    {/* Subtle dark gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
 
                   {/* Award Badge Top Left */}
                   {project.impactMetric && (
@@ -150,7 +162,8 @@ export const ProjectsSection: React.FC = () => {
                 </div>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
 
       </div>

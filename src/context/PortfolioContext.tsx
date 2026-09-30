@@ -85,7 +85,7 @@ interface PortfolioContextType {
   };
 }
 
-const STORAGE_KEY = 'portfolio_cms_riyaskhan_v8';
+const STORAGE_KEY = 'portfolio_cms_riyaskhan_v9';
 const AUTH_STORAGE_KEY = 'portfolio_admin_auth_v1';
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
@@ -124,17 +124,20 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             };
             parsed.projects = parsed.projects.map((p: any) => {
               const mapped = projectDataMap[p.id];
-              if (mapped) {
-                return {
-                  ...p,
-                  title: mapped.title || p.title,
-                  coverImage: mapped.cover,
-                  certificateUrl: mapped.cert,
-                  githubUrl: mapped.github,
-                  liveUrl: mapped.github,
-                };
-              }
-              return p;
+              const safeCover = mapped
+                ? mapped.cover
+                : (p.coverImage && !p.coverImage.includes('hackathon-certificates'))
+                ? p.coverImage
+                : '/images/project-showcase/selavu-sherlock-ui.png';
+
+              return {
+                ...p,
+                title: (mapped && mapped.title) || p.title,
+                coverImage: safeCover,
+                certificateUrl: (mapped && mapped.cert) || p.certificateUrl || p.coverImage,
+                githubUrl: (mapped && mapped.github) || p.githubUrl,
+                liveUrl: (mapped && mapped.github) || p.liveUrl,
+              };
             });
           }
           // Ensure male avatar image is applied
