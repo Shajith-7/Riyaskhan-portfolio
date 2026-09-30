@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { usePortfolio } from '../../context/PortfolioContext';
-import { Download, ArrowRight } from 'lucide-react';
+import { Download, ArrowRight, Volume2, VolumeX } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   const { data } = usePortfolio();
   const { profile } = data;
   const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [, setIsAudioActive] = useState(false);
+  const [isAudioMuted, setIsAudioMuted] = useState(true);
 
   // Running Typewriter animation for Tagline Roles
   const roles = [
@@ -47,14 +47,20 @@ export const Hero: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, roleIndex]);
 
-  const unmuteAndPlayAudio = () => {
+  const enableAudio = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     const video = videoRef.current;
     if (video) {
-      video.muted = false;
+      const nextMuteState = !video.muted;
+      video.muted = nextMuteState;
       video.volume = 1.0;
-      video.play().then(() => {
-        setIsAudioActive(true);
-      }).catch(() => {});
+      if (!nextMuteState) {
+        video.play().then(() => {
+          setIsAudioMuted(false);
+        }).catch(() => {});
+      } else {
+        setIsAudioMuted(true);
+      }
     }
   };
 
@@ -68,28 +74,27 @@ export const Hero: React.FC = () => {
     // Attempt unmuted play on mount
     video.muted = false;
     video.play().then(() => {
-      setIsAudioActive(true);
+      setIsAudioMuted(false);
     }).catch(() => {
       // Browser blocked unmuted autoplay, play muted temporarily until user gesture
       video.muted = true;
+      setIsAudioMuted(true);
       video.play().catch(() => {});
     });
 
     // User gesture handler to immediately unlock and play full audio
     const handleUserGesture = () => {
-      if (video) {
+      if (video && video.muted) {
         video.muted = false;
         video.volume = 1.0;
         video.play().then(() => {
-          setIsAudioActive(true);
+          setIsAudioMuted(false);
         }).catch(() => {});
       }
     };
 
-    window.addEventListener('click', handleUserGesture);
-    window.addEventListener('touchstart', handleUserGesture);
-    window.addEventListener('keydown', handleUserGesture);
-    window.addEventListener('pointerdown', handleUserGesture);
+    const events = ['click', 'touchstart', 'keydown', 'pointerdown', 'scroll'];
+    events.forEach((evt) => window.addEventListener(evt, handleUserGesture, { passive: true }));
 
     // IntersectionObserver: Pause video when scrolled away, resume when on Hero screen
     const observer = new IntersectionObserver(
@@ -111,10 +116,7 @@ export const Hero: React.FC = () => {
 
     return () => {
       observer.disconnect();
-      window.removeEventListener('click', handleUserGesture);
-      window.removeEventListener('touchstart', handleUserGesture);
-      window.removeEventListener('keydown', handleUserGesture);
-      window.removeEventListener('pointerdown', handleUserGesture);
+      events.forEach((evt) => window.removeEventListener(evt, handleUserGesture));
     };
   }, []);
 
@@ -135,7 +137,7 @@ export const Hero: React.FC = () => {
   return (
     <section 
       ref={heroRef} 
-      onClick={unmuteAndPlayAudio}
+      onClick={enableAudio}
       className="relative min-h-[90vh] flex flex-col justify-center py-16 md:py-24 bg-[#000000] border-b border-[#2A2A2A] overflow-hidden cursor-pointer"
     >
       
@@ -154,6 +156,26 @@ export const Hero: React.FC = () => {
         {/* Soft Side & Bottom Gradient Overlay for Maximum Text Contrast without Obscuring Face */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#000000] via-[#000000]/80 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-transparent to-[#000000]/40" />
+      </div>
+
+      {/* Floating Subtle Sound Badge in Bottom Right Corner */}
+      <div className="absolute bottom-6 right-6 z-20">
+        <button
+          onClick={enableAudio}
+          className="px-4 py-2 rounded-full bg-black/80 hover:bg-[#F0444B] text-white border border-[#2A2A2A] hover:border-[#F0444B] backdrop-blur-md transition-all duration-300 flex items-center gap-2 text-xs font-bold shadow-xl"
+        >
+          {isAudioMuted ? (
+            <>
+              <VolumeX className="w-4 h-4 text-[#F0444B] group-hover:text-white animate-pulse" />
+              <span>Click for Voice Audio</span>
+            </>
+          ) : (
+            <>
+              <Volume2 className="w-4 h-4 text-[#27D6D9]" />
+              <span>Voice Sound Active</span>
+            </>
+          )}
+        </button>
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full z-10">
