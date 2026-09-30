@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '../../context/PortfolioContext';
-import { FileText, Award, Eye, X, Maximize2, ShieldCheck, FolderGit2 } from 'lucide-react';
+import { FileText, Award, Eye, X, Maximize2, ShieldCheck, FolderGit2, ExternalLink } from 'lucide-react';
+import { Experience } from '../../types/portfolio';
 
 interface ActiveImageModal {
   url: string;
@@ -11,6 +12,8 @@ interface ActiveImageModal {
 export const ExperienceSection: React.FC = () => {
   const { data } = usePortfolio();
   const [activeImage, setActiveImage] = useState<ActiveImageModal | null>(null);
+  const [activeCredentialsExp, setActiveCredentialsExp] = useState<Experience | null>(null);
+  const [activeProjectsExp, setActiveProjectsExp] = useState<Experience | null>(null);
 
   if (!data.settings.showExperience || data.experience.length === 0) {
     return null;
@@ -81,7 +84,7 @@ export const ExperienceSection: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Key Achievements List */}
+                {/* Key Highlights & Responsibilities */}
                 <div>
                   <h4 className="text-xs uppercase tracking-wider font-extrabold text-[#F0444B] mb-3">
                     Key Highlights & Responsibilities
@@ -106,156 +109,26 @@ export const ExperienceSection: React.FC = () => {
                   ))}
                 </div>
 
-                {/* OFFICIAL DOCUMENTS & CERTIFICATES SECTION */}
-                {(exp.offerLetterUrl || exp.completionCertificateUrl) && (
-                  <div className="pt-4 border-t border-[#2A2A2A]">
-                    <h4 className="text-xs uppercase tracking-wider font-extrabold text-[#F0444B] mb-3 flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-[#F0444B]" />
-                      Official Internship Credentials & Documents
-                    </h4>
+                {/* CARD ACTION BUTTONS */}
+                <div className="pt-4 border-t border-[#2A2A2A] flex flex-wrap items-center gap-3">
+                  {/* View Details Button (Shows Offer Letter & Certificates) */}
+                  <button
+                    onClick={() => setActiveCredentialsExp(exp)}
+                    className="px-5 py-2.5 bg-[#F0444B] hover:bg-[#FF6B6B] text-white text-xs font-bold rounded-xl transition-all shadow-md flex items-center gap-2 hover:scale-105"
+                  >
+                    <FileText className="w-4 h-4" />
+                    <span>View Details</span>
+                  </button>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      
-                      {/* Offer Letter Card */}
-                      {exp.offerLetterUrl && (
-                        <div 
-                          onClick={() => setActiveImage({
-                            url: exp.offerLetterUrl!,
-                            title: `Internship Offer Letter - ${exp.company}`,
-                            category: 'Official Offer Letter'
-                          })}
-                          className="group/doc relative rounded-xl border border-[#2A2A2A] bg-[#000000] overflow-hidden cursor-pointer hover:border-[#F0444B] transition-all duration-300"
-                        >
-                          <div className="h-44 overflow-hidden relative bg-black/40">
-                            <img 
-                              src={encodeURI(exp.offerLetterUrl)} 
-                              alt="Internship Offer Letter"
-                              className="w-full h-full object-cover object-top group-hover/doc:scale-105 transition-transform duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-transparent to-black/20 opacity-80 group-hover/doc:opacity-40 transition-opacity" />
-                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/doc:opacity-100 bg-black/50 backdrop-blur-xs transition-all duration-300">
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F0444B] hover:bg-[#FF6B6B] text-white font-bold text-xs shadow-lg">
-                                <Maximize2 className="w-3.5 h-3.5" />
-                                View Full Letter
-                              </span>
-                            </div>
-                          </div>
-                          <div className="p-3 flex items-center justify-between bg-[#000000]">
-                            <div className="flex items-center gap-2">
-                              <FileText className="w-4 h-4 text-[#F0444B]" />
-                              <span className="text-xs font-bold text-white">Intern Offer Letter</span>
-                            </div>
-                            <span className="text-[10px] font-mono text-[#27D6D9] bg-[#050505] px-2 py-0.5 rounded border border-[#2A2A2A]">
-                              Verified PDF/Img
-                            </span>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Completion Certificate Card */}
-                      {exp.completionCertificateUrl && (
-                        <div 
-                          onClick={() => setActiveImage({
-                            url: exp.completionCertificateUrl!,
-                            title: `Internship Completion Certificate - ${exp.company}`,
-                            category: 'Official Completion Certificate'
-                          })}
-                          className="group/doc relative rounded-xl border border-[#2A2A2A] bg-[#000000] overflow-hidden cursor-pointer hover:border-[#F0444B] transition-all duration-300"
-                        >
-                          <div className="h-44 overflow-hidden relative bg-black/40">
-                            <img 
-                              src={encodeURI(exp.completionCertificateUrl)} 
-                              alt="Internship Completion Certificate"
-                              className="w-full h-full object-cover object-top group-hover/doc:scale-105 transition-transform duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-transparent to-black/20 opacity-80 group-hover/doc:opacity-40 transition-opacity" />
-                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/doc:opacity-100 bg-black/50 backdrop-blur-xs transition-all duration-300">
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F0444B] hover:bg-[#FF6B6B] text-white font-bold text-xs shadow-lg">
-                                <Maximize2 className="w-3.5 h-3.5" />
-                                View Certificate
-                              </span>
-                            </div>
-                          </div>
-                          <div className="p-3 flex items-center justify-between bg-[#000000]">
-                            <div className="flex items-center gap-2">
-                              <Award className="w-4 h-4 text-[#F0444B]" />
-                              <span className="text-xs font-bold text-white">Completion Certificate</span>
-                            </div>
-                            <span className="text-[10px] font-mono text-[#27D6D9] bg-[#050505] px-2 py-0.5 rounded border border-[#2A2A2A]">
-                              Verified
-                            </span>
-                          </div>
-                        </div>
-                      )}
-
-                    </div>
-                  </div>
-                )}
-
-                {/* PROJECTS COMPLETED DURING INTERNSHIP */}
-                {exp.internshipProjects && exp.internshipProjects.length > 0 && (
-                  <div className="pt-4 border-t border-[#2A2A2A]">
-                    <h4 className="text-xs uppercase tracking-wider font-extrabold text-[#F0444B] mb-3 flex items-center gap-2">
-                      <FolderGit2 className="w-4 h-4 text-[#F0444B]" />
-                      Projects Developed During Internship
-                    </h4>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {exp.internshipProjects.map((proj) => (
-                        <div 
-                          key={proj.id}
-                          className="group/proj bg-[#000000] border border-[#2A2A2A] rounded-xl overflow-hidden hover:border-[#F0444B] transition-all duration-300 flex flex-col justify-between"
-                        >
-                          <div>
-                            {/* Image Container */}
-                            <div 
-                              onClick={() => setActiveImage({
-                                url: proj.imageUrl,
-                                title: proj.title,
-                                category: `Internship Project @ ${exp.company}`
-                              })}
-                              className="h-36 relative overflow-hidden bg-black/50 cursor-pointer"
-                            >
-                              <img 
-                                src={encodeURI(proj.imageUrl)} 
-                                alt={proj.title}
-                                className="w-full h-full object-cover group-hover/proj:scale-105 transition-transform duration-500"
-                              />
-                              <div className="absolute inset-0 bg-black/40 group-hover/proj:bg-black/20 transition-colors" />
-                              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/proj:opacity-100 bg-black/60 transition-opacity">
-                                <span className="p-2 rounded-full bg-[#F0444B] text-white">
-                                  <Eye className="w-4 h-4" />
-                                </span>
-                              </div>
-                            </div>
-
-                            {/* Text Info */}
-                            <div className="p-4 space-y-2">
-                              <h5 className="text-sm font-bold text-white group-hover/proj:text-[#F0444B] transition-colors leading-snug">
-                                {proj.title}
-                              </h5>
-                              <p className="text-xs text-[#BDBDBD] line-clamp-3 leading-relaxed">
-                                {proj.description}
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* Tags */}
-                          {proj.tags && (
-                            <div className="p-4 pt-0 flex flex-wrap gap-1">
-                              {proj.tags.map((tag) => (
-                                <span key={tag} className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#050505] text-[#27D6D9] border border-[#2A2A2A]">
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                  {/* View Projects Button (Shows Internship Projects with Images) */}
+                  <button
+                    onClick={() => setActiveProjectsExp(exp)}
+                    className="px-5 py-2.5 bg-[#000000] hover:bg-[#1B1B1B] text-[#FFFFFF] hover:text-[#27D6D9] border border-[#2A2A2A] text-xs font-bold rounded-xl transition-all flex items-center gap-2 hover:border-[#27D6D9]"
+                  >
+                    <FolderGit2 className="w-4 h-4 text-[#27D6D9]" />
+                    <span>View Projects</span>
+                  </button>
+                </div>
 
               </div>
             </div>
@@ -264,14 +137,246 @@ export const ExperienceSection: React.FC = () => {
 
       </div>
 
+      {/* VIEW DETAILS MODAL (Offer Letter & Completion Certificate) */}
+      {activeCredentialsExp && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md animate-fadeIn"
+          onClick={() => setActiveCredentialsExp(null)}
+        >
+          <div 
+            className="relative max-w-4xl w-full bg-[#050505] border border-[#2A2A2A] rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="px-6 py-4 bg-[#000000] border-b border-[#2A2A2A] flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#27D6D9] font-bold">
+                  Official Credentials & Documents
+                </span>
+                <h3 className="text-lg font-bold text-white tracking-tight">
+                  {activeCredentialsExp.role} @ {activeCredentialsExp.company}
+                </h3>
+              </div>
+              <button
+                onClick={() => setActiveCredentialsExp(null)}
+                className="p-2 text-[#BDBDBD] hover:text-white hover:bg-[#1B1B1B] rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-[#050505]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                
+                {/* Offer Letter Card */}
+                {activeCredentialsExp.offerLetterUrl && (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-[#F0444B]" />
+                        <h4 className="text-sm font-bold text-white font-['Plus_Jakarta_Sans']">
+                          Internship Offer Letter
+                        </h4>
+                      </div>
+                      <span className="text-[10px] font-mono text-[#27D6D9] bg-[#000000] px-2 py-0.5 rounded border border-[#2A2A2A]">
+                        Verified
+                      </span>
+                    </div>
+
+                    <div 
+                      onClick={() => setActiveImage({
+                        url: activeCredentialsExp.offerLetterUrl!,
+                        title: `Offer Letter - ${activeCredentialsExp.company}`,
+                        category: 'Official Offer Letter'
+                      })}
+                      className="relative h-64 sm:h-72 rounded-xl border border-[#2A2A2A] bg-[#000000] overflow-hidden cursor-pointer group hover:border-[#F0444B] transition-all"
+                    >
+                      <img 
+                        src={encodeURI(activeCredentialsExp.offerLetterUrl)} 
+                        alt="Internship Offer Letter"
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span className="px-4 py-2 bg-[#F0444B] text-white text-xs font-extrabold rounded-lg shadow-lg flex items-center gap-2">
+                          <Maximize2 className="w-4 h-4" />
+                          Click for High-Res View
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Completion Certificate Card */}
+                {activeCredentialsExp.completionCertificateUrl && (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Award className="w-4 h-4 text-[#F0444B]" />
+                        <h4 className="text-sm font-bold text-white font-['Plus_Jakarta_Sans']">
+                          Completion Certificate
+                        </h4>
+                      </div>
+                      <span className="text-[10px] font-mono text-[#27D6D9] bg-[#000000] px-2 py-0.5 rounded border border-[#2A2A2A]">
+                        Verified
+                      </span>
+                    </div>
+
+                    <div 
+                      onClick={() => setActiveImage({
+                        url: activeCredentialsExp.completionCertificateUrl!,
+                        title: `Completion Certificate - ${activeCredentialsExp.company}`,
+                        category: 'Official Certificate'
+                      })}
+                      className="relative h-64 sm:h-72 rounded-xl border border-[#2A2A2A] bg-[#000000] overflow-hidden cursor-pointer group hover:border-[#F0444B] transition-all"
+                    >
+                      <img 
+                        src={encodeURI(activeCredentialsExp.completionCertificateUrl)} 
+                        alt="Completion Certificate"
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span className="px-4 py-2 bg-[#F0444B] text-white text-xs font-extrabold rounded-lg shadow-lg flex items-center gap-2">
+                          <Maximize2 className="w-4 h-4" />
+                          Click for High-Res View
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 py-3 bg-[#000000] border-t border-[#2A2A2A] flex items-center justify-between text-xs text-[#BDBDBD]">
+              <span>Click any image to view in fullscreen high-resolution</span>
+              <button
+                onClick={() => setActiveCredentialsExp(null)}
+                className="px-4 py-1.5 bg-[#F0444B] hover:bg-[#FF6B6B] text-white font-bold rounded-lg transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* VIEW PROJECTS MODAL (Internship Projects with Images) */}
+      {activeProjectsExp && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md animate-fadeIn"
+          onClick={() => setActiveProjectsExp(null)}
+        >
+          <div 
+            className="relative max-w-5xl w-full bg-[#050505] border border-[#2A2A2A] rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="px-6 py-4 bg-[#000000] border-b border-[#2A2A2A] flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#27D6D9] font-bold">
+                  Internship Project Deliverables
+                </span>
+                <h3 className="text-lg font-bold text-white tracking-tight">
+                  Projects Developed @ {activeProjectsExp.company}
+                </h3>
+              </div>
+              <button
+                onClick={() => setActiveProjectsExp(null)}
+                className="p-2 text-[#BDBDBD] hover:text-white hover:bg-[#1B1B1B] rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-[#050505]">
+              {activeProjectsExp.internshipProjects && activeProjectsExp.internshipProjects.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  {activeProjectsExp.internshipProjects.map((proj) => (
+                    <div 
+                      key={proj.id}
+                      className="group/proj bg-[#000000] border border-[#2A2A2A] rounded-xl overflow-hidden hover:border-[#F0444B] transition-all duration-300 flex flex-col justify-between shadow-lg"
+                    >
+                      <div>
+                        {/* Image Container */}
+                        <div 
+                          onClick={() => setActiveImage({
+                            url: proj.imageUrl,
+                            title: proj.title,
+                            category: `Internship Project @ ${activeProjectsExp.company}`
+                          })}
+                          className="h-44 relative overflow-hidden bg-black/50 cursor-pointer border-b border-[#2A2A2A]"
+                        >
+                          <img 
+                            src={encodeURI(proj.imageUrl)} 
+                            alt={proj.title}
+                            className="w-full h-full object-cover group-hover/proj:scale-105 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-black/40 group-hover/proj:bg-black/20 transition-colors" />
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/proj:opacity-100 bg-black/60 transition-opacity">
+                            <span className="px-3 py-1.5 bg-[#F0444B] text-white text-xs font-bold rounded-lg flex items-center gap-1.5 shadow-lg">
+                              <Maximize2 className="w-3.5 h-3.5" />
+                              <span>View Image</span>
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Text Info */}
+                        <div className="p-4 space-y-2">
+                          <h5 className="text-base font-bold text-white group-hover/proj:text-[#F0444B] transition-colors leading-snug font-['Plus_Jakarta_Sans']">
+                            {proj.title}
+                          </h5>
+                          <p className="text-xs text-[#BDBDBD] leading-relaxed">
+                            {proj.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Tags */}
+                      {proj.tags && (
+                        <div className="p-4 pt-0 flex flex-wrap gap-1.5">
+                          {proj.tags.map((tag) => (
+                            <span key={tag} className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#050505] text-[#27D6D9] border border-[#2A2A2A]">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-8 text-center text-xs text-[#BDBDBD]">
+                  No project details recorded for this internship entry.
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 py-3 bg-[#000000] border-t border-[#2A2A2A] flex items-center justify-between text-xs text-[#BDBDBD]">
+              <span>Click project image to view in high resolution</span>
+              <button
+                onClick={() => setActiveProjectsExp(null)}
+                className="px-4 py-1.5 bg-[#F0444B] hover:bg-[#FF6B6B] text-white font-bold rounded-lg transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* FULLSCREEN LIGHTBOX / PREVIEW MODAL */}
       {activeImage && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md animate-fadeIn"
+          className="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/95 backdrop-blur-md animate-fadeIn"
           onClick={() => setActiveImage(null)}
         >
           <div 
-            className="relative max-w-4xl w-full bg-[#050505] border border-[#2A2A2A] rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
+            className="relative max-w-5xl w-full bg-[#050505] border border-[#2A2A2A] rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -320,4 +425,3 @@ export const ExperienceSection: React.FC = () => {
     </section>
   );
 };
-

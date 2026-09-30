@@ -123,14 +123,16 @@ export const ProjectsSection: React.FC = () => {
               <div className="p-4 pt-0 space-y-2">
                 <div className="pt-3 border-t border-[#2A2A2A] grid grid-cols-2 gap-2">
                   
-                  {/* View Project Button */}
-                  <button
-                    onClick={() => setActiveCaseStudy(project)}
+                  {/* View Project Button (Direct to GitHub) */}
+                  <a
+                    href={project.githubUrl || '#'}
+                    target="_blank"
+                    rel="noreferrer"
                     className="w-full py-1.5 bg-[#000000] hover:bg-[#1B1B1B] text-[#BDBDBD] hover:text-[#F0444B] text-[11px] font-bold rounded-lg border border-[#2A2A2A] transition-colors flex items-center justify-center gap-1"
                   >
                     <span>View Project</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </button>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
 
                   {/* View Certificate Button */}
                   <button
