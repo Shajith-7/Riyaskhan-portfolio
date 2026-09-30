@@ -28,7 +28,7 @@ export const ProjectsSection: React.FC = () => {
             </div>
           </div>
           <p className="text-base font-regular text-[#BDBDBD]">
-            Verified certificates, competitive hackathon awards, and technical case studies
+            Competitive hackathon awards, project showcases, and technical case studies
           </p>
         </div>
 
@@ -43,15 +43,11 @@ export const ProjectsSection: React.FC = () => {
                 {/* Interactive Cover Image Container */}
                 <div 
                   onClick={() => {
-                    if (project.certificateUrl) {
-                      setActiveCertificate({
-                        url: project.certificateUrl,
-                        title: project.title,
-                        award: project.award || project.impactMetric,
-                      });
-                    } else {
-                      setActiveCaseStudy(project);
-                    }
+                    setActiveCertificate({
+                      url: project.coverImage,
+                      title: project.title,
+                      award: project.award || project.impactMetric,
+                    });
                   }}
                   className="relative h-44 w-full overflow-hidden bg-black/40 cursor-pointer border-b border-[#2A2A2A]"
                 >
@@ -79,7 +75,7 @@ export const ProjectsSection: React.FC = () => {
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/60 transition-opacity duration-300 p-3">
                     <span className="px-3 py-1.5 rounded-lg bg-[#F0444B] hover:bg-[#FF6B6B] text-white font-bold text-xs shadow-lg flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
                       <Maximize2 className="w-3.5 h-3.5" />
-                      <span>{project.certificateUrl ? 'View Certificate' : 'View Details'}</span>
+                      <span>View Image</span>
                     </span>
                   </div>
                 </div>
@@ -142,28 +138,18 @@ export const ProjectsSection: React.FC = () => {
                     <ArrowRight className="w-3 h-3" />
                   </button>
 
-                  {/* Certificate Button */}
-                  {project.certificateUrl ? (
-                    <button
-                      onClick={() => setActiveCertificate({
-                        url: project.certificateUrl!,
-                        title: project.title,
-                        award: project.award || project.impactMetric,
-                      })}
-                      className="w-full py-1.5 bg-[#F0444B] hover:bg-[#FF6B6B] text-white text-[11px] font-bold rounded-lg transition-colors flex items-center justify-center gap-1 shadow-sm"
-                    >
-                      <Award className="w-3 h-3" />
-                      <span>Certificate</span>
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => setActiveCaseStudy(project)}
-                      className="w-full py-1.5 bg-[#000000] hover:bg-[#F0444B] text-[#F0444B] hover:text-[#FFFFFF] text-[11px] font-bold rounded-lg border border-[#2A2A2A] transition-colors flex items-center justify-center gap-1"
-                    >
-                      <span>Explore</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </button>
-                  )}
+                  {/* View Image Button */}
+                  <button
+                    onClick={() => setActiveCertificate({
+                      url: project.coverImage,
+                      title: project.title,
+                      award: project.award || project.impactMetric,
+                    })}
+                    className="w-full py-1.5 bg-[#F0444B] hover:bg-[#FF6B6B] text-white text-[11px] font-bold rounded-lg transition-colors flex items-center justify-center gap-1 shadow-sm"
+                  >
+                    <Maximize2 className="w-3 h-3" />
+                    <span>View Image</span>
+                  </button>
 
                 </div>
               </div>
@@ -179,7 +165,7 @@ export const ProjectsSection: React.FC = () => {
         onClose={() => setActiveCaseStudy(null)}
       />
 
-      {/* Standalone Certificate Lightbox Modal */}
+      {/* Standalone Project Image Lightbox Modal */}
       {activeCertificate && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md animate-fadeIn"
@@ -193,7 +179,7 @@ export const ProjectsSection: React.FC = () => {
             <div className="px-5 py-4 bg-[#000000] border-b border-[#2A2A2A] flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-mono uppercase tracking-widest text-[#27D6D9] font-bold">
-                  Official Hackathon Certificate
+                  Project Image Showcase
                 </span>
                 <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
                   {activeCertificate.title}
@@ -235,4 +221,5 @@ export const ProjectsSection: React.FC = () => {
     </section>
   );
 };
+
 

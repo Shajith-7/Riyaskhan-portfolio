@@ -72,14 +72,14 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
           {/* Modal Body */}
           <div className="p-6 sm:p-10 space-y-6 overflow-y-auto flex-1">
             
-            {/* Hackathon Certificate Preview Card */}
-            {project.certificateUrl && (
+            {/* Project Image Showcase Card */}
+            {(project.coverImage || project.certificateUrl) && (
               <div className="p-4 rounded-2xl bg-[#000000] border border-[#2A2A2A] space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Award className="w-5 h-5 text-[#F0444B]" />
+                    <Maximize2 className="w-5 h-5 text-[#F0444B]" />
                     <h4 className="text-sm font-bold text-white uppercase tracking-wider font-['Plus_Jakarta_Sans']">
-                      Official Hackathon Certificate
+                      Project Image Showcase
                     </h4>
                   </div>
                   <button
@@ -87,7 +87,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                     className="px-3 py-1 bg-[#F0444B] hover:bg-[#FF6B6B] text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1"
                   >
                     <Maximize2 className="w-3.5 h-3.5" />
-                    <span>View Certificate</span>
+                    <span>View Image</span>
                   </button>
                 </div>
 
@@ -96,14 +96,14 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   className="relative h-48 sm:h-56 rounded-xl overflow-hidden cursor-pointer border border-[#2A2A2A] bg-black/40 group"
                 >
                   <img
-                    src={encodeURI(project.certificateUrl)}
-                    alt={`${project.title} Certificate`}
+                    src={encodeURI(project.coverImage)}
+                    alt={`${project.title} Showcase`}
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <span className="px-4 py-2 bg-[#F0444B] text-white text-xs font-extrabold rounded-lg shadow-lg flex items-center gap-2">
                       <Maximize2 className="w-4 h-4" />
-                      Click to View High-Res Certificate
+                      Click to View High-Res Image
                     </span>
                   </div>
                 </div>
@@ -171,8 +171,8 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
         </div>
       </div>
 
-      {/* FULLSCREEN CERTIFICATE ZOOM MODAL */}
-      {showCertificateZoom && project.certificateUrl && (
+      {/* FULLSCREEN PROJECT IMAGE ZOOM MODAL */}
+      {showCertificateZoom && (
         <div 
           className="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/95 backdrop-blur-lg"
           onClick={() => setShowCertificateZoom(false)}
@@ -184,10 +184,10 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
             <div className="px-5 py-4 bg-[#000000] border-b border-[#2A2A2A] flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-mono uppercase tracking-widest text-[#27D6D9] font-bold">
-                  Official Certificate Verification
+                  Project Image Preview
                 </span>
                 <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                  {project.award || project.title}
+                  {project.title}
                 </h3>
               </div>
               <button
@@ -200,8 +200,8 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
 
             <div className="p-4 overflow-auto flex items-center justify-center bg-black/70 flex-1 min-h-[300px]">
               <img 
-                src={encodeURI(project.certificateUrl)} 
-                alt={`${project.title} Certificate`}
+                src={encodeURI(project.coverImage)} 
+                alt={`${project.title} Image`}
                 className="max-h-[78vh] w-auto object-contain rounded-lg shadow-2xl border border-[#2A2A2A]"
               />
             </div>
@@ -209,7 +209,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
             <div className="px-5 py-3 bg-[#000000] border-t border-[#2A2A2A] flex items-center justify-between text-xs text-[#BDBDBD]">
               <span>Press ESC or click anywhere outside to close</span>
               <a 
-                href={project.certificateUrl} 
+                href={project.coverImage} 
                 target="_blank" 
                 rel="noreferrer"
                 className="px-3 py-1.5 bg-[#F0444B] hover:bg-[#FF6B6B] text-white font-bold rounded-md transition-colors"
