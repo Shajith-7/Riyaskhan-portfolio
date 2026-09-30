@@ -569,13 +569,13 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       case 'indigo':
       default:
         return {
-          text: 'text-indigo-400',
-          bg: 'bg-indigo-600',
-          border: 'border-indigo-500/40',
-          glow: 'shadow-indigo-500/20',
-          hoverBg: 'hover:bg-indigo-600',
-          hoverText: 'hover:text-indigo-300',
-          badgeBg: 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20',
+          text: 'text-[#F0444B]',
+          bg: 'bg-[#F0444B]',
+          border: 'border-[#F0444B]/40',
+          glow: 'shadow-[#F0444B]/20',
+          hoverBg: 'hover:bg-[#FF6B6B]',
+          hoverText: 'hover:text-[#FF6B6B]',
+          badgeBg: 'bg-[#F0444B]/10 text-[#FF6B6B] border-[#F0444B]/20',
         };
     }
   };

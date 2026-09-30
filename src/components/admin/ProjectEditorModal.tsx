@@ -128,13 +128,13 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto">
       <div 
-        className="relative w-full max-w-3xl rounded-2xl bg-neutral-900 border border-neutral-800 shadow-2xl overflow-hidden my-6 flex flex-col max-h-[90vh]"
+        className="relative w-full max-w-3xl rounded-2xl bg-[#050505] border border-[#2A2A2A] shadow-2xl overflow-hidden my-6 flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Top Header */}
-        <div className="px-6 py-4 border-b border-neutral-800 flex items-center justify-between bg-neutral-950/80">
+        <div className="px-6 py-4 border-b border-[#2A2A2A] flex items-center justify-between bg-[#000000]">
           <div className="space-y-0.5">
-            <span className="text-xs font-mono text-neutral-400 uppercase tracking-wider">
+            <span className="text-xs font-mono text-[#27D6D9] uppercase tracking-wider font-bold">
               {projectToEdit ? 'Edit Case Study' : 'Create New Project'}
             </span>
             <h3 className="text-lg font-bold text-white tracking-tight">
@@ -143,39 +143,39 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-neutral-400 hover:text-white rounded-lg transition-colors"
+            className="p-2 text-[#BDBDBD] hover:text-white rounded-lg transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Scrollable Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-6 text-sm text-neutral-300">
+        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-6 text-sm text-[#BDBDBD]">
           {/* Main Info */}
           <div className="space-y-4">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-neutral-400 border-b border-neutral-800 pb-1">
+            <h4 className="text-xs font-mono uppercase tracking-wider text-[#F0444B] border-b border-[#2A2A2A] pb-1 font-bold">
               Primary Metadata
             </h4>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-neutral-300">Project Title *</label>
+                <label className="text-xs font-medium text-[#BDBDBD]">Project Title *</label>
                 <input
                   type="text"
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. Aura Cloud Telemetry"
-                  className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                  className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-neutral-300">Category</label>
+                <label className="text-xs font-medium text-[#BDBDBD]">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value as any)}
-                  className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                  className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
                 >
                   <option value="cloud">Cloud &amp; Systems</option>
                   <option value="frontend">Frontend &amp; UI</option>
@@ -186,37 +186,37 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-neutral-300">Short Tagline (1-2 sentences) *</label>
+              <label className="text-xs font-medium text-[#BDBDBD]">Short Tagline (1-2 sentences) *</label>
               <input
                 type="text"
                 required
                 value={tagline}
                 onChange={(e) => setTagline(e.target.value)}
                 placeholder="High-throughput distributed event streaming platform..."
-                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-neutral-300">Impact Metric</label>
+                <label className="text-xs font-medium text-[#BDBDBD]">Impact Metric</label>
                 <input
                   type="text"
                   value={impactMetric}
                   onChange={(e) => setImpactMetric(e.target.value)}
                   placeholder="4.2M events/sec · 99.9% SLA"
-                  className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                  className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-neutral-300">Year</label>
+                <label className="text-xs font-medium text-[#BDBDBD]">Year</label>
                 <input
                   type="text"
                   value={year}
                   onChange={(e) => setYear(e.target.value)}
                   placeholder="2025"
-                  className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                  className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
                 />
               </div>
 
@@ -226,21 +226,21 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
                     type="checkbox"
                     checked={featured}
                     onChange={(e) => setFeatured(e.target.checked)}
-                    className="rounded border-neutral-800 bg-neutral-950 text-indigo-600 h-4 w-4"
+                    className="rounded border-[#2A2A2A] bg-[#000000] text-[#F0444B] h-4 w-4"
                   />
-                  <span className="text-xs text-neutral-300 font-medium">Feature on Homepage</span>
+                  <span className="text-xs text-[#BDBDBD] font-medium">Feature on Homepage</span>
                 </label>
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-neutral-300">Tech Stack Tags (comma-separated)</label>
+              <label className="text-xs font-medium text-[#BDBDBD]">Tech Stack Tags (comma-separated)</label>
               <input
                 type="text"
                 value={tagsString}
                 onChange={(e) => setTagsString(e.target.value)}
                 placeholder="TypeScript, React, Node.js, ClickHouse, Docker"
-                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
               />
             </div>
 
@@ -256,93 +256,93 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
             {/* Links */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-neutral-300">Live Demo URL</label>
+                <label className="text-xs font-medium text-[#BDBDBD]">Live Demo URL</label>
                 <input
                   type="url"
                   value={liveUrl}
                   onChange={(e) => setLiveUrl(e.target.value)}
                   placeholder="https://myproject.com"
-                  className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                  className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-neutral-300">GitHub Repository URL</label>
+                <label className="text-xs font-medium text-[#BDBDBD]">GitHub Repository URL</label>
                 <input
                   type="url"
                   value={githubUrl}
                   onChange={(e) => setGithubUrl(e.target.value)}
                   placeholder="https://github.com/..."
-                  className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none"
+                  className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
                 />
               </div>
             </div>
           </div>
 
           {/* Deep Case Study Fields */}
-          <div className="space-y-4 pt-4 border-t border-neutral-800">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-neutral-400 border-b border-neutral-800 pb-1">
+          <div className="space-y-4 pt-4 border-t border-[#2A2A2A]">
+            <h4 className="text-xs font-mono uppercase tracking-wider text-[#F0444B] border-b border-[#2A2A2A] pb-1 font-bold">
               Deep Case Study Details (Shown in Reader Modal)
             </h4>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-neutral-300">The Problem Statement</label>
+              <label className="text-xs font-medium text-[#BDBDBD]">The Problem Statement</label>
               <textarea
                 rows={2}
                 value={problem}
                 onChange={(e) => setProblem(e.target.value)}
                 placeholder="What challenge or friction did the previous architecture face?"
-                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none resize-none"
+                className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none resize-none"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-neutral-300">The Architectural Solution</label>
+              <label className="text-xs font-medium text-[#BDBDBD]">The Architectural Solution</label>
               <textarea
                 rows={2}
                 value={solution}
                 onChange={(e) => setSolution(e.target.value)}
                 placeholder="How did you solve it technically?"
-                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none resize-none"
+                className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none resize-none"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-neutral-300">System Flow / Topology Notes</label>
+              <label className="text-xs font-medium text-[#BDBDBD]">System Flow / Topology Notes</label>
               <textarea
                 rows={2}
                 value={architecture}
                 onChange={(e) => setArchitecture(e.target.value)}
                 placeholder="Microservices, data pipeline flow, caching layers..."
-                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none resize-none font-mono text-xs"
+                className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none resize-none font-mono text-xs"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-neutral-300">Results &amp; Impact (One bullet per line)</label>
+              <label className="text-xs font-medium text-[#BDBDBD]">Results &amp; Impact (One bullet per line)</label>
               <textarea
                 rows={3}
                 value={resultsString}
                 onChange={(e) => setResultsString(e.target.value)}
                 placeholder="Decreased median incident response time from 22m to under 4m&#10;Reduced cloud infrastructure spend by 48%"
-                className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-sm text-white focus:border-neutral-600 focus:outline-none resize-none"
+                className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none resize-none"
               />
             </div>
           </div>
 
           {/* Form Actions */}
-          <div className="pt-4 border-t border-neutral-800 flex items-center justify-end gap-3">
+          <div className="pt-4 border-t border-[#2A2A2A] flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white rounded-lg transition-colors"
+              className="px-4 py-2 text-xs font-medium text-[#BDBDBD] hover:text-white rounded-lg transition-colors"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className={`px-5 py-2 rounded-lg text-xs font-semibold text-white ${accent.bg} hover:opacity-90 shadow-md ${accent.glow} transition-all flex items-center gap-1.5`}
+              className="px-5 py-2 rounded-lg text-xs font-semibold text-white bg-[#F0444B] hover:bg-[#FF6B6B] shadow-md transition-all flex items-center gap-1.5"
             >
               <Save className="w-4 h-4" />
               <span>{projectToEdit ? 'Save Changes' : 'Create Project'}</span>
@@ -353,3 +353,4 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
     </div>
   );
 };
+

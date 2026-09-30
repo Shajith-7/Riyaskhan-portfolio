@@ -113,18 +113,18 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   return (
     <div className={`space-y-2 ${className}`}>
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#e1b382]">
+        <label className="block text-xs font-bold uppercase tracking-wider text-[#27D6D9]">
           {label}
         </label>
 
         {/* Tab Toggle */}
-        <div className="flex bg-[#12343b] p-0.5 rounded-lg border border-[#e1b382]/30 text-xs">
+        <div className="flex bg-[#000000] p-0.5 rounded-lg border border-[#2A2A2A] text-xs">
           <button
             type="button"
             onClick={() => setActiveTab('upload')}
             className={`px-2.5 py-1 rounded-md transition-all font-semibold flex items-center gap-1 ${activeTab === 'upload'
-                ? 'bg-[#e1b382] text-[#12343b] shadow'
-                : 'text-[#cbd5e1] hover:text-[#ffffff]'
+                ? 'bg-[#F0444B] text-white shadow'
+                : 'text-[#BDBDBD] hover:text-[#FFFFFF]'
               }`}
           >
             <Upload className="w-3 h-3" />
@@ -134,8 +134,8 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
             type="button"
             onClick={() => setActiveTab('url')}
             className={`px-2.5 py-1 rounded-md transition-all font-semibold flex items-center gap-1 ${activeTab === 'url'
-                ? 'bg-[#e1b382] text-[#12343b] shadow'
-                : 'text-[#cbd5e1] hover:text-[#ffffff]'
+                ? 'bg-[#F0444B] text-white shadow'
+                : 'text-[#BDBDBD] hover:text-[#FFFFFF]'
               }`}
           >
             <LinkIcon className="w-3 h-3" />
@@ -145,7 +145,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       </div>
 
       {/* Main Container */}
-      <div className="bg-[#12343b]/90 border border-[#2d545e] rounded-xl p-3 space-y-3">
+      <div className="bg-[#050505] border border-[#2A2A2A] rounded-xl p-3 space-y-3">
         {/* Upload Mode */}
         {activeTab === 'upload' ? (
           <div>
@@ -156,8 +156,8 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
               className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all ${dragActive
-                  ? 'border-[#e1b382] bg-[#2d545e]/50'
-                  : 'border-[#2d545e] hover:border-[#e1b382]/60 bg-[#12343b]'
+                  ? 'border-[#F0444B] bg-[#1B1B1B]'
+                  : 'border-[#2A2A2A] hover:border-[#F0444B] bg-[#000000]'
                 }`}
             >
               <input
@@ -167,14 +167,14 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
                 onChange={handleFileChange}
                 className="hidden"
               />
-              <div className="flex flex-col items-center gap-1.5 text-xs text-[#cbd5e1]">
-                <div className="w-9 h-9 rounded-full bg-[#2d545e] flex items-center justify-center text-[#e1b382] mb-1">
+              <div className="flex flex-col items-center gap-1.5 text-xs text-[#BDBDBD]">
+                <div className="w-9 h-9 rounded-full bg-[#050505] flex items-center justify-center text-[#F0444B] mb-1 border border-[#2A2A2A]">
                   <Upload className="w-4 h-4" />
                 </div>
                 <p className="font-semibold text-white">
                   Click to choose file or drag & drop here
                 </p>
-                <p className="text-[11px] text-gray-400">
+                <p className="text-[11px] text-[#777777]">
                   PNG, JPG, WEBP, or SVG (Up to 5MB)
                 </p>
               </div>
@@ -189,20 +189,20 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
-                className="w-full bg-[#12343b] border border-[#2d545e] focus:border-[#e1b382] text-white text-xs rounded-lg px-3 py-2.5 focus:outline-none transition-colors"
+                className="w-full bg-[#000000] border border-[#2A2A2A] focus:border-[#F0444B] text-white text-xs rounded-lg px-3 py-2.5 focus:outline-none transition-colors"
               />
               {value && (
                 <button
                   type="button"
                   onClick={() => onChange('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#777777] hover:text-white"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
               )}
             </div>
-            <p className="text-[11px] text-gray-400">
-              💡 Tip: Put image files in <code className="text-[#e1b382]">public/images/</code> and enter path as <code className="text-[#e1b382]">/images/filename.jpg</code>
+            <p className="text-[11px] text-[#777777]">
+              💡 Tip: Put image files in <code className="text-[#27D6D9]">public/images/</code> and enter path as <code className="text-[#27D6D9]">/images/filename.jpg</code>
             </p>
           </div>
         )}
@@ -218,7 +218,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         {/* Presets if provided */}
         {presetImages.length > 0 && (
           <div>
-            <span className="block text-[11px] font-semibold text-[#e1b382]/80 mb-1.5">
+            <span className="block text-[11px] font-semibold text-[#27D6D9] mb-1.5">
               Or Choose Preset:
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -228,8 +228,8 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
                   type="button"
                   onClick={() => onChange(preset.url)}
                   className={`text-[11px] px-2.5 py-1 rounded-md border transition-all flex items-center gap-1 ${value === preset.url
-                      ? 'bg-[#e1b382] text-[#12343b] font-bold border-[#e1b382]'
-                      : 'bg-[#2d545e]/40 border-[#2d545e] text-gray-300 hover:border-[#e1b382]/50'
+                      ? 'bg-[#F0444B] text-white font-bold border-[#F0444B]'
+                      : 'bg-[#000000] border-[#2A2A2A] text-[#BDBDBD] hover:border-[#F0444B]'
                     }`}
                 >
                   {value === preset.url && <Check className="w-3 h-3" />}
@@ -242,9 +242,9 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
 
         {/* Preview Section */}
         {value && (
-          <div className="pt-2 border-t border-[#2d545e]/50 flex items-center justify-between gap-3">
+          <div className="pt-2 border-t border-[#2A2A2A] flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-12 h-12 rounded-lg bg-[#2d545e] overflow-hidden border border-[#e1b382]/40 shrink-0 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-lg bg-[#000000] overflow-hidden border border-[#2A2A2A] shrink-0 flex items-center justify-center">
                 <img
                   src={value}
                   alt="Preview"
@@ -257,7 +257,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
               </div>
               <div className="min-w-0 text-xs">
                 <span className="font-semibold text-white block truncate">Image Selected</span>
-                <span className="text-[10px] text-gray-400 block truncate max-w-[200px]">
+                <span className="text-[10px] text-[#777777] block truncate max-w-[200px]">
                   {value.startsWith('data:') ? 'Base64 Uploaded File' : value}
                 </span>
               </div>
@@ -275,3 +275,4 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     </div>
   );
 };
+

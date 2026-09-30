@@ -38,26 +38,26 @@ export const AdminAuthModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#12343b]/80 backdrop-blur-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
       <div 
-        className="relative w-full max-w-[400px] rounded-[24px] bg-[#12343b] border-2 border-[#e1b382] p-[40px] shadow-sand-glow-lg space-y-6 animate-float"
+        className="relative w-full max-w-[400px] rounded-[24px] bg-[#050505] border border-[#2A2A2A] p-[40px] shadow-2xl space-y-6 animate-float"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={() => setOpenAdminModal(false)}
-          className="absolute top-4 right-4 p-2 text-[#e1b382] hover:text-[#ffffff] rounded-lg transition-colors"
+          className="absolute top-4 right-4 p-2 text-[#BDBDBD] hover:text-[#FFFFFF] rounded-lg transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
 
         <div className="text-center space-y-2">
-          <div className="mx-auto w-12 h-12 rounded-xl bg-[#e1b382] text-[#12343b] flex items-center justify-center shadow-sand-glow">
+          <div className="mx-auto w-12 h-12 rounded-xl bg-[#F0444B] text-white flex items-center justify-center shadow-lg border border-[#F0444B]">
             <ShieldCheck className="w-6 h-6" />
           </div>
-          <h3 className="text-xl font-bold text-[#ffffff] font-['Plus_Jakarta_Sans']">
+          <h3 className="text-xl font-bold text-[#FFFFFF] font-['Plus_Jakarta_Sans']">
             Admin Dashboard
           </h3>
-          <p className="text-xs text-[#e1b382]">
+          <p className="text-xs text-[#27D6D9]">
             Manage portfolio content and view inquiries
           </p>
         </div>
@@ -70,7 +70,7 @@ export const AdminAuthModal: React.FC = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-[#e1b382]">Admin PIN</label>
+            <label className="text-xs font-bold text-[#27D6D9]">Admin PIN</label>
             <input
               type="password"
               required
@@ -80,25 +80,25 @@ export const AdminAuthModal: React.FC = () => {
                 setError('');
               }}
               placeholder="••••••"
-              className="w-full rounded-[12px] border-2 border-[#c89666] focus:border-[#e1b382] bg-[#2d545e] p-[16px] text-2xl font-mono text-center tracking-[12px] text-[#ffffff] focus:outline-none transition-all"
+              className="w-full rounded-[12px] border border-[#2A2A2A] focus:border-[#F0444B] bg-[#000000] p-[16px] text-2xl font-mono text-center tracking-[12px] text-[#FFFFFF] focus:outline-none transition-all"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-[14px] rounded-[12px] text-base font-extrabold text-[#12343b] bg-[#e1b382] hover:bg-[#ffffff] border-2 border-[#c89666] shadow-sand-glow transition-all hover:scale-[1.02]"
+            className="w-full py-[14px] rounded-[12px] text-base font-extrabold text-white bg-[#F0444B] hover:bg-[#FF6B6B] border border-[#F0444B] shadow-lg transition-all hover:scale-[1.02]"
           >
             Unlock Dashboard
           </button>
         </form>
 
-        <div className="pt-2 border-t border-[#c89666]/60">
+        <div className="pt-2 border-t border-[#2A2A2A]">
           <button
             type="button"
             onClick={handleQuickUnlock}
-            className="w-full py-2.5 text-xs font-bold text-[#e1b382] hover:bg-[#2d545e] border border-[#e1b382]/60 rounded-xl transition-colors flex items-center justify-center gap-1.5"
+            className="w-full py-2.5 text-xs font-bold text-[#27D6D9] hover:bg-[#1B1B1B] border border-[#2A2A2A] rounded-xl transition-colors flex items-center justify-center gap-1.5"
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#e1b382]" />
+            <Sparkles className="w-3.5 h-3.5 text-[#27D6D9]" />
             <span>1-Click Demo Unlock (admin123)</span>
           </button>
         </div>
@@ -106,3 +106,4 @@ export const AdminAuthModal: React.FC = () => {
     </div>
   );
 };
+

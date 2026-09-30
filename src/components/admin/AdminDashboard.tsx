@@ -225,25 +225,25 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
   };
 
   return (
-    <div id="admin-dashboard" className="min-h-screen bg-[#12343b] text-[#ffffff] py-8 px-4 sm:px-6 lg:px-8">
+    <div id="admin-dashboard" className="min-h-screen bg-[#000000] text-[#FFFFFF] py-8 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         
         {/* Top CMS Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#c89666]/60">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#2A2A2A]">
           <div className="flex items-center gap-3">
-            <div className="p-3 rounded-xl bg-[#e1b382] text-[#12343b] shadow-sand-glow border-2 border-[#c89666]">
+            <div className="p-3 rounded-xl bg-[#F0444B] text-[#FFFFFF] shadow-lg border border-[#F0444B]/50">
               <LayoutDashboard className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-2xl font-extrabold text-[#ffffff] tracking-tight font-['Plus_Jakarta_Sans']">
+                <h2 className="text-2xl font-extrabold text-[#FFFFFF] tracking-tight font-['Plus_Jakarta_Sans']">
                   {data.profile.name} — CMS Admin Studio
                 </h2>
-                <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#e1b382] text-[#12343b] border border-[#c89666] font-extrabold">
+                <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#27D6D9]/10 text-[#27D6D9] border border-[#27D6D9]/30 font-extrabold">
                   Live CMS Active
                 </span>
               </div>
-              <p className="text-xs text-[#f3e8d6] mt-0.5">
+              <p className="text-xs text-[#BDBDBD] mt-0.5">
                 Manage your resume details, hackathons, education, certifications, and inquiries.
               </p>
             </div>
@@ -253,7 +253,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
             {onBackToPublic && (
               <button
                 onClick={onBackToPublic}
-                className="px-4 py-2 text-xs font-bold text-[#12343b] bg-[#e1b382] hover:bg-[#ffffff] border-2 border-[#c89666] rounded-xl transition-all shadow-sand-glow flex items-center gap-1.5 hover:scale-105"
+                className="px-4 py-2 text-xs font-bold text-[#FFFFFF] bg-[#F0444B] hover:bg-[#FF6B6B] border border-[#F0444B] rounded-xl transition-all shadow-md flex items-center gap-1.5 hover:scale-105"
               >
                 <Eye className="w-3.5 h-3.5" />
                 <span>Return to Public Site</span>
@@ -262,7 +262,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
 
             <button
               onClick={handleExport}
-              className="px-3.5 py-2 text-xs font-bold text-[#e1b382] border-2 border-[#e1b382] hover:bg-[#e1b382] hover:text-[#12343b] rounded-xl transition-colors flex items-center gap-1.5 shadow-sand-glow"
+              className="px-3.5 py-2 text-xs font-bold text-[#27D6D9] border border-[#27D6D9]/40 hover:bg-[#27D6D9]/10 hover:text-[#FFFFFF] rounded-xl transition-colors flex items-center gap-1.5"
               title="Download full JSON backup of portfolio"
             >
               <Download className="w-3.5 h-3.5" />
@@ -274,7 +274,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
                 logoutAdmin();
                 if (onBackToPublic) onBackToPublic();
               }}
-              className="px-3.5 py-2 text-xs font-bold text-red-300 bg-red-950/80 hover:bg-red-900 border border-red-700 rounded-xl transition-colors flex items-center gap-1.5"
+              className="px-3.5 py-2 text-xs font-bold text-[#FF6B6B] bg-[#F0444B]/10 hover:bg-[#F0444B]/20 border border-[#F0444B]/30 rounded-xl transition-colors flex items-center gap-1.5"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Exit Admin</span>
@@ -287,7 +287,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
           
           {/* Navigation Sidebar */}
           <div className="lg:col-span-3 space-y-1">
-            <div className="text-[11px] font-mono uppercase tracking-wider text-[#e1b382] px-3 pb-2 font-bold">
+            <div className="text-[11px] font-mono uppercase tracking-wider text-[#27D6D9] px-3 pb-2 font-bold">
               Resume Modules
             </div>
 
@@ -310,8 +310,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
                     active
-                      ? 'bg-[#e1b382] text-[#12343b] shadow-sand-glow border-2 border-[#c89666]'
-                      : 'text-[#f3e8d6] hover:text-[#e1b382] hover:bg-[#2d545e]'
+                      ? 'bg-[#F0444B] text-[#FFFFFF] shadow-md border border-[#F0444B]'
+                      : 'text-[#BDBDBD] hover:text-[#FFFFFF] hover:bg-[#1B1B1B]'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
@@ -323,10 +323,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
                     <span
                       className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                         tab.highlightBadge
-                          ? 'bg-amber-500 text-neutral-950 font-bold'
+                          ? 'bg-[#FF8A65] text-[#000000] font-bold'
                           : active
                           ? 'bg-white/20 text-white'
-                          : 'bg-neutral-800 text-neutral-400'
+                          : 'bg-[#1B1B1B] text-[#777777]'
                       }`}
                     >
                       {tab.badge}
@@ -338,7 +338,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
           </div>
 
           {/* Tab Content Panel */}
-          <div className="lg:col-span-9 bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6 sm:p-8 min-h-[500px]">
+          <div className="lg:col-span-9 bg-[#050505] border border-[#2A2A2A] rounded-2xl p-6 sm:p-8 min-h-[500px]">
             
             {/* TAB: OVERVIEW */}
             {activeTab === 'overview' && (
