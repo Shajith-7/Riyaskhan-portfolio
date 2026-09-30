@@ -72,8 +72,8 @@ export const SkillsSection: React.FC = () => {
       name: 'Web Development',
       category: 'Frontend & UI',
       level: 'Proficient',
-      icon: <Globe className="w-8 h-8 text-[#00E5FF]" />,
-      color: '#00E5FF',
+      icon: <Globe className="w-8 h-8 text-[#38bdf8]" />,
+      color: '#38bdf8',
       tag: 'Fullstack UI',
       rating: 88,
       desc: 'HTML5, CSS3, JavaScript, React & Modern Web Design'
@@ -152,33 +152,33 @@ export const SkillsSection: React.FC = () => {
   const allSoftSkills = [...softSkillsRow1, ...softSkillsRow2];
 
   return (
-    <section id="skills" className="py-[60px] md:py-[80px] bg-[#12343b] border-b-2 border-[#e1b382]/40 relative overflow-hidden">
+    <section id="skills" className="py-[60px] md:py-[80px] bg-[#0b0d17] border-b border-[#38bdf8]/20 relative overflow-hidden">
       
       {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#e1b382]/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-0 w-80 h-80 bg-[#2d545e]/50 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#38bdf8]/10 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-10 right-0 w-80 h-80 bg-[#ef4444]/10 rounded-full blur-[130px] pointer-events-none" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 space-y-10">
         
-        {/* Section Header */}
+        {/* Section Header matching Sajid Yaqub Screenshot */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-block animate-float-subtle group cursor-default transition-all duration-300">
-            <div className="px-6 py-2.5 rounded-2xl bg-[#2d545e]/50 border border-[#c89666]/40 shadow-xl group-hover:border-[#e1b382] group-hover:shadow-sand-glow group-hover:-translate-y-1.5 transition-all duration-300 backdrop-blur-sm">
+            <div className="px-6 py-2.5 rounded-2xl bg-[#161a2e] border border-[#38bdf8]/40 shadow-xl group-hover:border-[#ef4444] group-hover:shadow-[0_0_20px_rgba(239,68,68,0.4)] group-hover:-translate-y-1.5 transition-all duration-300 backdrop-blur-sm">
               <h2 className="text-3xl sm:text-[36px] font-bold text-[#ffffff] font-['Plus_Jakarta_Sans'] tracking-tight">
-                Skills & <span className="text-[#e1b382] group-hover:drop-shadow-[0_0_12px_rgba(225,179,130,0.8)] transition-all">Competencies</span>
+                Skills & <span className="bg-gradient-to-r from-[#38bdf8] via-[#60a5fa] to-[#ef4444] bg-clip-text text-transparent">Technologies</span>
               </h2>
             </div>
           </div>
 
           {/* Interactive Dual Option Switcher */}
           <div className="flex items-center justify-center gap-2 pt-2">
-            <div className="inline-flex p-1.5 rounded-2xl bg-[#12343b] border border-[#c89666]/40 shadow-inner">
+            <div className="inline-flex p-1.5 rounded-2xl bg-[#161a2e] border border-[#38bdf8]/30 shadow-inner">
               <button
                 onClick={() => setActiveTab('all')}
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 ${
                   activeTab === 'all'
-                    ? 'bg-[#e1b382] text-[#12343b] shadow-sand-glow'
-                    : 'text-[#f3e8d6] hover:text-[#e1b382]'
+                    ? 'bg-gradient-to-r from-[#38bdf8] to-[#ef4444] text-white shadow-[0_0_15px_rgba(56,189,248,0.4)]'
+                    : 'text-[#cbd5e1] hover:text-[#38bdf8]'
                 }`}
               >
                 All Competencies
@@ -187,8 +187,8 @@ export const SkillsSection: React.FC = () => {
                 onClick={() => setActiveTab('technical')}
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 flex items-center gap-1.5 ${
                   activeTab === 'technical'
-                    ? 'bg-[#e1b382] text-[#12343b] shadow-sand-glow'
-                    : 'text-[#f3e8d6] hover:text-[#e1b382]'
+                    ? 'bg-gradient-to-r from-[#38bdf8] to-[#ef4444] text-white shadow-[0_0_15px_rgba(56,189,248,0.4)]'
+                    : 'text-[#cbd5e1] hover:text-[#38bdf8]'
                 }`}
               >
                 <Code2 className="w-4 h-4" />
@@ -198,8 +198,8 @@ export const SkillsSection: React.FC = () => {
                 onClick={() => setActiveTab('soft')}
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 flex items-center gap-1.5 ${
                   activeTab === 'soft'
-                    ? 'bg-[#e1b382] text-[#12343b] shadow-sand-glow'
-                    : 'text-[#f3e8d6] hover:text-[#e1b382]'
+                    ? 'bg-gradient-to-r from-[#38bdf8] to-[#ef4444] text-white shadow-[0_0_15px_rgba(56,189,248,0.4)]'
+                    : 'text-[#cbd5e1] hover:text-[#38bdf8]'
                 }`}
               >
                 <Award className="w-4 h-4" />
@@ -214,9 +214,9 @@ export const SkillsSection: React.FC = () => {
           <div className="space-y-8 animate-fadeIn">
             
             {/* Sub-header */}
-            <div className="flex items-center justify-between border-b border-[#c89666]/40 pb-3">
+            <div className="flex items-center justify-between border-b border-[#1e2238] pb-3">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-[#2d545e] border border-[#c89666] text-[#e1b382] shadow-sand-glow">
+                <div className="p-2.5 rounded-xl bg-[#161a2e] border border-[#38bdf8]/40 text-[#38bdf8] shadow-[0_0_12px_rgba(56,189,248,0.3)]">
                   <Code2 className="w-5 h-5" />
                 </div>
                 <div>
@@ -228,24 +228,24 @@ export const SkillsSection: React.FC = () => {
             </div>
 
             {/* Infinite Horizontal Running Marquee Icon Ticker */}
-            <div className="relative w-full overflow-hidden py-4 rounded-2xl bg-[#12343b]/80 border border-[#c89666]/30 shadow-night-md">
-              <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#12343b] to-transparent z-10 pointer-events-none" />
-              <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#12343b] to-transparent z-10 pointer-events-none" />
+            <div className="relative w-full overflow-hidden py-4 rounded-2xl bg-[#161a2e]/90 border border-[#38bdf8]/30 shadow-night-md">
+              <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#161a2e] to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#161a2e] to-transparent z-10 pointer-events-none" />
 
               <div className="animate-marquee gap-6 items-center">
                 {[...technicalSkills, ...technicalSkills, ...technicalSkills].map((skill, idx) => (
                   <div
                     key={`marquee-${skill.id}-${idx}`}
-                    className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-[#2d545e] border border-[#c89666]/40 hover:border-[#e1b382] hover:shadow-sand-glow transition-all duration-300 shrink-0 group cursor-default"
+                    className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-[#0b0d17] border border-[#38bdf8]/30 hover:border-[#ef4444] hover:shadow-[0_0_15px_rgba(239,68,68,0.4)] transition-all duration-300 shrink-0 group cursor-default"
                   >
-                    <div className="p-2 rounded-xl bg-[#12343b] border border-[#c89666]/30 group-hover:scale-110 transition-transform">
+                    <div className="p-2 rounded-xl bg-[#161a2e] border border-[#38bdf8]/30 group-hover:scale-110 transition-transform">
                       {skill.icon}
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-white group-hover:text-[#e1b382] transition-colors">
+                      <h4 className="text-sm font-bold text-white group-hover:text-[#38bdf8] transition-colors">
                         {skill.name}
                       </h4>
-                      <span className="text-[10px] font-mono text-[#e1b382]">
+                      <span className="text-[10px] font-mono text-[#38bdf8]">
                         {skill.tag}
                       </span>
                     </div>
@@ -254,7 +254,7 @@ export const SkillsSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Interactive Floating Technical Icon Cards Grid */}
+            {/* Interactive Floating Technical Icon Cards Grid matching Sajid Yaqub Screenshot */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {technicalSkills.map((skill, idx) => {
                 const floatClass = idx % 3 === 0 
@@ -266,39 +266,39 @@ export const SkillsSection: React.FC = () => {
                 return (
                   <div
                     key={skill.id}
-                    className={`bg-[#2d545e] glow-card-running rounded-2xl p-5 hover:-translate-y-2 transition-all duration-300 space-y-4 group border border-[#c89666]/30 hover:border-[#e1b382] shadow-xl ${floatClass}`}
+                    className={`bg-[#161a2e] glow-card-running rounded-2xl p-5 hover:-translate-y-2 transition-all duration-300 space-y-4 group border border-[#38bdf8]/30 hover:border-[#ef4444] shadow-xl ${floatClass}`}
                   >
                     <div className="flex items-center justify-between">
-                      <div className="p-3 rounded-2xl bg-[#12343b] border border-[#c89666] group-hover:border-[#e1b382] group-hover:scale-110 transition-all duration-300 shadow-sand-glow">
+                      <div className="p-3 rounded-2xl bg-[#0b0d17] border border-[#38bdf8]/40 group-hover:border-[#ef4444] group-hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(56,189,248,0.3)]">
                         {skill.icon}
                       </div>
-                      <span className="text-[10px] font-mono text-[#e1b382] bg-[#12343b] px-2.5 py-1 rounded-full border border-[#c89666]/40 font-bold">
+                      <span className="text-[10px] font-mono text-[#38bdf8] bg-[#0b0d17] px-2.5 py-1 rounded-full border border-[#38bdf8]/30 font-bold">
                         {skill.tag}
                       </span>
                     </div>
 
                     <div>
-                      <h4 className="text-lg font-bold text-white group-hover:text-[#e1b382] transition-colors font-['Plus_Jakarta_Sans']">
+                      <h4 className="text-lg font-bold text-white group-hover:text-[#38bdf8] transition-colors font-['Plus_Jakarta_Sans']">
                         {skill.name}
                       </h4>
-                      <p className="text-xs font-mono text-[#e1b382] mt-0.5">
+                      <p className="text-xs font-mono text-[#38bdf8] mt-0.5">
                         {skill.category}
                       </p>
                     </div>
 
-                    <p className="text-xs text-[#f3e8d6] leading-relaxed">
+                    <p className="text-xs text-[#cbd5e1] leading-relaxed">
                       {skill.desc}
                     </p>
 
                     {/* Progress indicator bar */}
                     <div className="space-y-1 pt-1">
                       <div className="flex justify-between text-[11px]">
-                        <span className="text-[#f3e8d6] font-medium">{skill.level}</span>
-                        <span className="font-mono text-[#e1b382] font-bold">{skill.rating}%</span>
+                        <span className="text-[#cbd5e1] font-medium">{skill.level}</span>
+                        <span className="font-mono text-[#38bdf8] font-bold">{skill.rating}%</span>
                       </div>
-                      <div className="w-full bg-[#12343b] h-1.5 rounded-full overflow-hidden">
+                      <div className="w-full bg-[#0b0d17] h-1.5 rounded-full overflow-hidden">
                         <div
-                          className="bg-gradient-to-r from-[#c89666] to-[#e1b382] h-full rounded-full transition-all duration-1000 group-hover:shadow-[0_0_10px_#e1b382]"
+                          className="bg-gradient-to-r from-[#38bdf8] via-[#60a5fa] to-[#ef4444] h-full rounded-full transition-all duration-1000 group-hover:shadow-[0_0_10px_#ef4444]"
                           style={{ width: `${skill.rating}%` }}
                         />
                       </div>
@@ -316,9 +316,9 @@ export const SkillsSection: React.FC = () => {
           <div className="space-y-8 animate-fadeIn pt-4">
             
             {/* Sub-header */}
-            <div className="flex items-center justify-between border-b border-[#c89666]/40 pb-3">
+            <div className="flex items-center justify-between border-b border-[#1e2238] pb-3">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-[#2d545e] border border-[#c89666] text-[#e1b382] shadow-sand-glow">
+                <div className="p-2.5 rounded-xl bg-[#161a2e] border border-[#38bdf8]/40 text-[#38bdf8] shadow-[0_0_12px_rgba(56,189,248,0.3)]">
                   <Award className="w-5 h-5" />
                 </div>
                 <div>
@@ -329,9 +329,9 @@ export const SkillsSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Modern Bullet Strengths Box as requested */}
-            <div className="bg-[#2d545e] glow-card-beam rounded-3xl p-6 sm:p-8 space-y-6 border border-[#c89666]/40 text-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 text-[#e1b382]/10 pointer-events-none">
+            {/* Modern Bullet Strengths Box */}
+            <div className="bg-[#161a2e] glow-card-beam rounded-3xl p-6 sm:p-8 space-y-6 border border-[#38bdf8]/30 text-center relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 text-[#38bdf8]/10 pointer-events-none">
                 <Sparkles className="w-32 h-32" />
               </div>
 
@@ -341,12 +341,12 @@ export const SkillsSection: React.FC = () => {
                 <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-sm sm:text-base font-bold text-[#ffffff]">
                   {softSkillsRow1.map((item, index) => (
                     <React.Fragment key={item}>
-                      <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#12343b] border border-[#c89666]/50 hover:border-[#e1b382] hover:text-[#e1b382] hover:shadow-sand-glow transition-all duration-300 cursor-default">
-                        <span className="text-[#e1b382] text-lg">•</span>
+                      <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0b0d17] border border-[#38bdf8]/40 hover:border-[#ef4444] hover:text-[#38bdf8] hover:shadow-[0_0_15px_rgba(56,189,248,0.4)] transition-all duration-300 cursor-default">
+                        <span className="text-[#38bdf8] text-lg">•</span>
                         {item}
                       </span>
                       {index < softSkillsRow1.length - 1 && (
-                        <span className="text-[#e1b382]/40 hidden sm:inline">•</span>
+                        <span className="text-[#38bdf8]/40 hidden sm:inline">•</span>
                       )}
                     </React.Fragment>
                   ))}
@@ -356,12 +356,12 @@ export const SkillsSection: React.FC = () => {
                 <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-sm sm:text-base font-bold text-[#ffffff]">
                   {softSkillsRow2.map((item, index) => (
                     <React.Fragment key={item}>
-                      <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#12343b] border border-[#c89666]/50 hover:border-[#e1b382] hover:text-[#e1b382] hover:shadow-sand-glow transition-all duration-300 cursor-default">
-                        <span className="text-[#e1b382] text-lg">•</span>
+                      <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0b0d17] border border-[#38bdf8]/40 hover:border-[#ef4444] hover:text-[#38bdf8] hover:shadow-[0_0_15px_rgba(56,189,248,0.4)] transition-all duration-300 cursor-default">
+                        <span className="text-[#38bdf8] text-lg">•</span>
                         {item}
                       </span>
                       {index < softSkillsRow2.length - 1 && (
-                        <span className="text-[#e1b382]/40 hidden sm:inline">•</span>
+                        <span className="text-[#38bdf8]/40 hidden sm:inline">•</span>
                       )}
                     </React.Fragment>
                   ))}
@@ -370,14 +370,14 @@ export const SkillsSection: React.FC = () => {
               </div>
 
               {/* Running Marquee Banner for Soft Skills */}
-              <div className="relative w-full overflow-hidden py-3 rounded-xl bg-[#12343b]/90 border border-[#c89666]/30 mt-4">
+              <div className="relative w-full overflow-hidden py-3 rounded-xl bg-[#0b0d17]/90 border border-[#38bdf8]/30 mt-4">
                 <div className="animate-marquee-reverse gap-4 items-center">
                   {[...allSoftSkills, ...allSoftSkills, ...allSoftSkills].map((skill, idx) => (
                     <div 
                       key={`soft-marquee-${idx}`}
-                      className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-[#2d545e] border border-[#c89666]/30 text-xs font-bold text-[#e1b382] shrink-0"
+                      className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-[#161a2e] border border-[#38bdf8]/30 text-xs font-bold text-[#38bdf8] shrink-0"
                     >
-                      <Star className="w-3 h-3 text-[#e1b382]" />
+                      <Star className="w-3 h-3 text-[#38bdf8]" />
                       <span>{skill}</span>
                     </div>
                   ))}
