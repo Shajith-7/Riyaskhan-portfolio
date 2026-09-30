@@ -14,7 +14,7 @@ export const initialPortfolioData: PortfolioData = {
     twitter: 'https://x.com',
     website: 'https://mohamedriyaskhan.dev',
     resumeUrl: '/images/Riyaskhan_Final_Resume_123.docx',
-    avatarUrl: '/images/profile.png',
+    avatarUrl: '/images/final profile.jpg',
     status: 'available',
     heroTags: [
       'B.Tech IT (2nd Year)',

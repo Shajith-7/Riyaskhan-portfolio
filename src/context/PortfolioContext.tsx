@@ -97,8 +97,8 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.profile?.name?.includes('Riyaskhan') && parsed.education) {
-          // Force new suit profile avatar photo
-          parsed.profile.avatarUrl = '/images/profile.png';
+          // Force new final profile avatar photo
+          parsed.profile.avatarUrl = '/images/final profile.jpg';
           // Migration for project cover images, certificates, and GitHub links
           if (parsed.projects && parsed.projects.length > 0) {
             const projectDataMap: { [id: string]: { cover: string; cert: string; github: string; title?: string } } = {
@@ -143,8 +143,8 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             });
           }
           // Ensure male avatar image is applied
-          if (!parsed.profile.avatarUrl || parsed.profile.avatarUrl.includes('unsplash')) {
-            parsed.profile.avatarUrl = '/images/profile.png';
+          if (!parsed.profile.avatarUrl || parsed.profile.avatarUrl.includes('unsplash') || parsed.profile.avatarUrl.includes('profile.png')) {
+            parsed.profile.avatarUrl = '/images/final profile.jpg';
           }
           // Ensure valid resume URL path
           if (!parsed.profile.resumeUrl || parsed.profile.resumeUrl === '#' || parsed.profile.resumeUrl.trim() === '') {
