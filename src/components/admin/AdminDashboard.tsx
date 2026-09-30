@@ -102,11 +102,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
   const [newCertTitle, setNewCertTitle] = useState('');
   const [newCertIssuer, setNewCertIssuer] = useState('');
   const [newCertDate, setNewCertDate] = useState('');
+  const [newCertUrl, setNewCertUrl] = useState('');
 
   // Workshop inline form state
   const [newWsTitle, setNewWsTitle] = useState('');
   const [newWsOrg, setNewWsOrg] = useState('');
   const [newWsDate, setNewWsDate] = useState('');
+  const [newWsUrl, setNewWsUrl] = useState('');
 
   // Currently learning text
   const [learningText, setLearningText] = useState(data.currentlyLearning.join('\n'));
@@ -187,11 +189,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
       title: newCertTitle.trim(),
       issuer: newCertIssuer.trim(),
       date: newCertDate.trim() || 'Oct 2025',
+      certificateUrl: newCertUrl.trim() || undefined,
       details: 'Credential completed and verified.',
     });
     setNewCertTitle('');
     setNewCertIssuer('');
     setNewCertDate('');
+    setNewCertUrl('');
   };
 
   const handleAddWorkshop = (e: React.FormEvent) => {
@@ -201,11 +205,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
       title: newWsTitle.trim(),
       organizer: newWsOrg.trim(),
       dateOrDuration: newWsDate.trim() || 'Hands-on Bootcamp',
+      certificateUrl: newWsUrl.trim() || undefined,
       type: 'workshop',
     });
     setNewWsTitle('');
     setNewWsOrg('');
     setNewWsDate('');
+    setNewWsUrl('');
   };
 
   const handleSaveLearningAndSoftSkills = () => {
@@ -947,6 +953,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
                         className="rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-xs text-white focus:outline-none"
                       />
                     </div>
+                    <div>
+                      <label className="block text-[11px] font-medium text-neutral-400 mb-1">Certificate Image / Document URL</label>
+                      <ImageUploader
+                        value={newCertUrl}
+                        onChange={setNewCertUrl}
+                        placeholder="Upload certificate image or paste image URL"
+                      />
+                    </div>
                     <button
                       type="submit"
                       className={`px-4 py-2 rounded-lg text-xs font-semibold text-white ${accent.bg} hover:opacity-90 flex items-center gap-1.5`}
@@ -959,9 +973,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
                   <div className="space-y-2">
                     {data.certifications.map((cert) => (
                       <div key={cert.id} className="p-3 rounded-lg border border-neutral-800 bg-neutral-950/50 flex items-center justify-between">
-                        <div>
-                          <div className="text-xs font-bold text-white">{cert.title}</div>
-                          <div className="text-[11px] text-indigo-400">{cert.issuer} · {cert.date}</div>
+                        <div className="flex items-center gap-3">
+                          {cert.certificateUrl && (
+                            <img src={encodeURI(cert.certificateUrl)} alt={cert.title} className="w-10 h-8 object-cover rounded border border-neutral-800 bg-black" />
+                          )}
+                          <div>
+                            <div className="text-xs font-bold text-white">{cert.title}</div>
+                            <div className="text-[11px] text-cyan-400">{cert.issuer} · {cert.date}</div>
+                          </div>
                         </div>
                         <button
                           onClick={() => deleteCertification(cert.id)}
@@ -1005,6 +1024,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
                         className="rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-xs text-white focus:outline-none"
                       />
                     </div>
+                    <div>
+                      <label className="block text-[11px] font-medium text-neutral-400 mb-1">Training Certificate Image URL</label>
+                      <ImageUploader
+                        value={newWsUrl}
+                        onChange={setNewWsUrl}
+                        placeholder="Upload training certificate image or paste image URL"
+                      />
+                    </div>
                     <button
                       type="submit"
                       className={`px-4 py-2 rounded-lg text-xs font-semibold text-white ${accent.bg} hover:opacity-90 flex items-center gap-1.5`}
@@ -1017,9 +1044,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {data.workshops.map((ws) => (
                       <div key={ws.id} className="p-3 rounded-lg border border-neutral-850 bg-neutral-950/50 flex items-center justify-between">
-                        <div className="pr-2">
-                          <div className="text-xs font-semibold text-white line-clamp-1">{ws.title}</div>
-                          <div className="text-[11px] text-neutral-400 line-clamp-1">{ws.organizer}</div>
+                        <div className="flex items-center gap-3 pr-2">
+                          {ws.certificateUrl && (
+                            <img src={encodeURI(ws.certificateUrl)} alt={ws.title} className="w-10 h-8 object-cover rounded border border-neutral-800 bg-black shrink-0" />
+                          )}
+                          <div>
+                            <div className="text-xs font-semibold text-white line-clamp-1">{ws.title}</div>
+                            <div className="text-[11px] text-neutral-400 line-clamp-1">{ws.organizer}</div>
+                          </div>
                         </div>
                         <button
                           onClick={() => deleteWorkshop(ws.id)}
