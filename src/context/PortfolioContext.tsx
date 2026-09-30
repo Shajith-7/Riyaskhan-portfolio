@@ -85,7 +85,7 @@ interface PortfolioContextType {
   };
 }
 
-const STORAGE_KEY = 'portfolio_cms_riyaskhan_v7';
+const STORAGE_KEY = 'portfolio_cms_riyaskhan_v8';
 const AUTH_STORAGE_KEY = 'portfolio_admin_auth_v1';
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
@@ -97,18 +97,45 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.profile?.name?.includes('Riyaskhan') && parsed.education) {
-          // Migration for project cover images to software UI screenshots
+          // Migration for project cover images, certificates, and GitHub links
           if (parsed.projects && parsed.projects.length > 0) {
-            const projectImageMap: { [id: string]: string } = {
-              'proj-1': '/images/project-showcase/selavu-sherlock-ui.png',
-              'proj-2': '/images/project-showcase/bio-arbitrage-ui.png',
-              'proj-3': '/images/project-showcase/smartq-ai-ui.png',
-              'proj-4': '/images/project-showcase/cih-2k26-ui.png',
+            const projectDataMap: { [id: string]: { cover: string; cert: string; github: string; title?: string } } = {
+              'proj-1': {
+                cover: '/images/project-showcase/selavu-sherlock-ui.png',
+                cert: '/images/hackathon-certificates/selavu-sherlock.png',
+                github: 'https://github.com/Riyaskhan2010/SELAVU-SHERLOCK-AI',
+              },
+              'proj-2': {
+                cover: '/images/project-showcase/bio-arbitrage-ui.png',
+                cert: '/images/hackathon-certificates/bio-arbitrage.png',
+                github: 'https://github.com/Riyaskhan2010/Real-Time-Biotech-Arbitrage-Engine-for-Drug-Repurposing-Signals',
+              },
+              'proj-3': {
+                cover: '/images/project-showcase/smartq-ai-ui.png',
+                cert: '/images/hackathon-certificates/smartq-ai.png',
+                github: 'https://github.com/Riyaskhan2010/SMARTQ-AI',
+              },
+              'proj-4': {
+                title: 'TribalScholar One (CIH 2k26)',
+                cover: '/images/project-showcase/cih-2k26-ui.png',
+                cert: '/images/hackathon-certificates/cih-2k26.png',
+                github: 'https://github.com/Riyaskhan2010/TRIBALSCHOLAR-ONE',
+              },
             };
-            parsed.projects = parsed.projects.map((p: any) => ({
-              ...p,
-              coverImage: projectImageMap[p.id] || (p.coverImage?.includes('hackathon-certificates') ? '/images/project-showcase/selavu-sherlock-ui.png' : p.coverImage),
-            }));
+            parsed.projects = parsed.projects.map((p: any) => {
+              const mapped = projectDataMap[p.id];
+              if (mapped) {
+                return {
+                  ...p,
+                  title: mapped.title || p.title,
+                  coverImage: mapped.cover,
+                  certificateUrl: mapped.cert,
+                  githubUrl: mapped.github,
+                  liveUrl: mapped.github,
+                };
+              }
+              return p;
+            });
           }
           // Ensure male avatar image is applied
           if (!parsed.profile.avatarUrl || parsed.profile.avatarUrl.includes('unsplash')) {

@@ -40,15 +40,9 @@ export const ProjectsSection: React.FC = () => {
               className="bg-[#050505] rounded-[20px] overflow-hidden border border-[#2A2A2A] hover:border-[#F0444B] transition-all duration-300 flex flex-col justify-between group shadow-lg hover:-translate-y-1.5"
             >
               <div>
-                {/* Interactive Cover Image Container */}
+                {/* Interactive Cover Image Container - Click to open project details/description modal */}
                 <div 
-                  onClick={() => {
-                    setActiveCertificate({
-                      url: project.coverImage,
-                      title: project.title,
-                      award: project.award || project.impactMetric,
-                    });
-                  }}
+                  onClick={() => setActiveCaseStudy(project)}
                   className="relative h-44 w-full overflow-hidden bg-black/40 cursor-pointer border-b border-[#2A2A2A]"
                 >
                   <img
@@ -74,8 +68,8 @@ export const ProjectsSection: React.FC = () => {
                   {/* Hover Overlay Button */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/60 transition-opacity duration-300 p-3">
                     <span className="px-3 py-1.5 rounded-lg bg-[#F0444B] hover:bg-[#FF6B6B] text-white font-bold text-xs shadow-lg flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
-                      <Maximize2 className="w-3.5 h-3.5" />
-                      <span>View Image</span>
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>View Project</span>
                     </span>
                   </div>
                 </div>
@@ -129,26 +123,26 @@ export const ProjectsSection: React.FC = () => {
               <div className="p-4 pt-0 space-y-2">
                 <div className="pt-3 border-t border-[#2A2A2A] grid grid-cols-2 gap-2">
                   
-                  {/* Case Study Button */}
+                  {/* View Project Button */}
                   <button
                     onClick={() => setActiveCaseStudy(project)}
                     className="w-full py-1.5 bg-[#000000] hover:bg-[#1B1B1B] text-[#BDBDBD] hover:text-[#F0444B] text-[11px] font-bold rounded-lg border border-[#2A2A2A] transition-colors flex items-center justify-center gap-1"
                   >
-                    <span>Case Study</span>
+                    <span>View Project</span>
                     <ArrowRight className="w-3 h-3" />
                   </button>
 
-                  {/* View Image Button */}
+                  {/* View Certificate Button */}
                   <button
                     onClick={() => setActiveCertificate({
-                      url: project.coverImage,
+                      url: project.certificateUrl || project.coverImage,
                       title: project.title,
                       award: project.award || project.impactMetric,
                     })}
                     className="w-full py-1.5 bg-[#F0444B] hover:bg-[#FF6B6B] text-white text-[11px] font-bold rounded-lg transition-colors flex items-center justify-center gap-1 shadow-sm"
                   >
-                    <Maximize2 className="w-3 h-3" />
-                    <span>View Image</span>
+                    <Award className="w-3 h-3" />
+                    <span>View Certificate</span>
                   </button>
 
                 </div>
@@ -165,7 +159,7 @@ export const ProjectsSection: React.FC = () => {
         onClose={() => setActiveCaseStudy(null)}
       />
 
-      {/* Standalone Project Image Lightbox Modal */}
+      {/* Standalone Certificate Lightbox Modal */}
       {activeCertificate && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md animate-fadeIn"
@@ -179,7 +173,7 @@ export const ProjectsSection: React.FC = () => {
             <div className="px-5 py-4 bg-[#000000] border-b border-[#2A2A2A] flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-mono uppercase tracking-widest text-[#27D6D9] font-bold">
-                  Project Image Showcase
+                  Official Hackathon Certificate
                 </span>
                 <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
                   {activeCertificate.title}
@@ -217,9 +211,9 @@ export const ProjectsSection: React.FC = () => {
           </div>
         </div>
       )}
-
     </section>
   );
 };
+
 
 
