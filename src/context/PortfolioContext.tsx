@@ -85,7 +85,7 @@ interface PortfolioContextType {
   };
 }
 
-const STORAGE_KEY = 'portfolio_cms_riyaskhan_v9';
+const STORAGE_KEY = 'portfolio_cms_riyaskhan_v10';
 const AUTH_STORAGE_KEY = 'portfolio_admin_auth_v1';
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
@@ -97,6 +97,8 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.profile?.name?.includes('Riyaskhan') && parsed.education) {
+          // Force new suit profile avatar photo
+          parsed.profile.avatarUrl = '/images/profile.png';
           // Migration for project cover images, certificates, and GitHub links
           if (parsed.projects && parsed.projects.length > 0) {
             const projectDataMap: { [id: string]: { cover: string; cert: string; github: string; title?: string } } = {
