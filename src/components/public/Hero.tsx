@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { usePortfolio } from '../../context/PortfolioContext';
-import { Download, ArrowRight, Sparkles, Terminal, Code2, ShieldCheck, Brain, Globe, FileSpreadsheet } from 'lucide-react';
+import { Download, ArrowRight, Volume2, VolumeX } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   const { data } = usePortfolio();
   const { profile } = data;
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
 
   // Running Typewriter animation for Tagline Roles
   const roles = [
@@ -43,6 +45,17 @@ export const Hero: React.FC = () => {
 
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, roleIndex]);
+
+  const toggleSound = () => {
+    if (videoRef.current) {
+      const newMutedState = !isMuted;
+      videoRef.current.muted = newMutedState;
+      setIsMuted(newMutedState);
+      if (!newMutedState) {
+        videoRef.current.play().catch(() => {});
+      }
+    }
+  };
 
   const resumePath = profile.resumeUrl && profile.resumeUrl !== '#' && profile.resumeUrl.trim() !== ''
     ? profile.resumeUrl 
@@ -132,74 +145,49 @@ export const Hero: React.FC = () => {
 
           </div>
 
-          {/* Right Column: Circular Profile Portrait with Floating Tech Skill Badges */}
+          {/* Right Column: Clean Modern Rectangular Video Player (No circular frames or round badges) */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative">
-              
-              {/* Outer Glowing Circle Container */}
-              <div className="w-[280px] h-[280px] sm:w-[370px] sm:h-[370px] rounded-full p-3 relative flex items-center justify-center bg-[#050505] border border-[#2A2A2A] shadow-[0_0_50px_rgba(39,214,217,0.2)]">
+            <div className="w-full max-w-md bg-[#050505] border border-[#2A2A2A] rounded-2xl p-2.5 shadow-[0_0_40px_rgba(240,68,75,0.15)] relative">
+              <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-black border border-[#1B1B1B]">
+                <video
+                  ref={videoRef}
+                  src="/profile video.mp4"
+                  autoPlay
+                  loop
+                  muted={isMuted}
+                  playsInline
+                  controls
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const parent = (e.target as HTMLElement).parentElement;
+                    if (parent) {
+                      const img = document.createElement('img');
+                      img.src = profile.avatarUrl || '/images/profile.png';
+                      img.className = 'w-full h-full object-cover rounded-xl';
+                      parent.replaceChild(img, e.target as HTMLElement);
+                    }
+                  }}
+                />
                 
-                {/* Outer Spinning Orbit Ring */}
-                <div className="absolute -inset-4 rounded-full border border-dashed border-[#27D6D9]/40 animate-spin-slow pointer-events-none" />
-
-                {/* Circular Profile Video Frame */}
-                <div className="w-full h-full rounded-full overflow-hidden border-4 border-[#000000] bg-[#000000] shadow-2xl relative group">
-                  <video
-                    src="/profile video.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    controls={false}
-                    className="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-700"
-                    onError={(e) => {
-                      // Fallback to avatar photo if video cannot be played
-                      const parent = (e.target as HTMLElement).parentElement;
-                      if (parent) {
-                        const img = document.createElement('img');
-                        img.src = profile.avatarUrl || '/images/profile.png';
-                        img.className = 'w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-700';
-                        parent.replaceChild(img, e.target as HTMLElement);
-                      }
-                    }}
-                  />
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-[#000000]/60 via-transparent to-transparent pointer-events-none" />
-                </div>
-
-                {/* Floating Skill Badges Orbiting Around Profile */}
-                
-                {/* 1. Python Badge */}
-                <div className="absolute -top-3 left-4 p-2.5 rounded-2xl bg-[#050505] border border-[#27D6D9] text-[#27D6D9] shadow-[0_0_15px_rgba(39,214,217,0.4)] animate-float-icon-1">
-                  <Terminal className="w-5 h-5 text-[#3776AB]" />
-                </div>
-
-                {/* 2. AI Brain Badge */}
-                <div className="absolute -top-3 right-6 p-2.5 rounded-2xl bg-[#050505] border border-[#F0444B] text-[#F0444B] shadow-[0_0_15px_rgba(240,68,75,0.4)] animate-float-icon-2">
-                  <Brain className="w-5 h-5 text-[#FF8A65]" />
-                </div>
-
-                {/* 3. Cybersecurity Shield Badge */}
-                <div className="absolute top-1/2 -left-6 -translate-y-1/2 p-2.5 rounded-2xl bg-[#050505] border border-[#00E676] text-[#00E676] shadow-[0_0_15px_rgba(0,230,118,0.4)] animate-float-icon-3">
-                  <ShieldCheck className="w-5 h-5 text-[#00E676]" />
-                </div>
-
-                {/* 4. Web Dev React Badge */}
-                <div className="absolute top-1/2 -right-6 -translate-y-1/2 p-2.5 rounded-2xl bg-[#050505] border border-[#27D6D9] text-[#27D6D9] shadow-[0_0_15px_rgba(39,214,217,0.4)] animate-float-icon-1">
-                  <Globe className="w-5 h-5 text-[#27D6D9]" />
-                </div>
-
-                {/* 5. C Code Badge */}
-                <div className="absolute -bottom-2 left-6 p-2.5 rounded-2xl bg-[#050505] border border-[#2A2A2A] text-[#BDBDBD] shadow-sm animate-float-icon-2">
-                  <Code2 className="w-5 h-5 text-[#5C6BC0]" />
-                </div>
-
-                {/* 6. Vibe Coding Sparkles Badge */}
-                <div className="absolute -bottom-2 right-8 p-2.5 rounded-2xl bg-[#050505] border border-[#FF8A65] text-[#FF8A65] shadow-[0_0_15px_rgba(255,138,101,0.4)] animate-float-icon-3">
-                  <Sparkles className="w-5 h-5 text-[#FF8A65]" />
-                </div>
-
+                {/* Interactive Sound Unmute Button */}
+                <button
+                  onClick={toggleSound}
+                  className="absolute bottom-16 right-4 z-20 px-3.5 py-2 rounded-xl bg-black/80 hover:bg-[#F0444B] text-white border border-[#2A2A2A] hover:border-[#F0444B] backdrop-blur-md transition-all duration-300 flex items-center gap-2 text-xs font-bold shadow-lg"
+                  title={isMuted ? "Click to Unmute Audio" : "Click to Mute Audio"}
+                >
+                  {isMuted ? (
+                    <>
+                      <VolumeX className="w-4 h-4 text-[#F0444B]" />
+                      <span>Click to Unmute Voice</span>
+                    </>
+                  ) : (
+                    <>
+                      <Volume2 className="w-4 h-4 text-[#27D6D9]" />
+                      <span>Voice Sound Active</span>
+                    </>
+                  )}
+                </button>
               </div>
-
             </div>
           </div>
 
@@ -208,3 +196,4 @@ export const Hero: React.FC = () => {
     </section>
   );
 };
+
