@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Experience } from '../../types/portfolio';
+import { Experience, InternshipProject } from '../../types/portfolio';
 import { usePortfolio } from '../../context/PortfolioContext';
-import { X, Save } from 'lucide-react';
+import { X, Save, Plus, Trash2 } from 'lucide-react';
+import { ImageUploader } from './ImageUploader';
 
 interface ExperienceEditorModalProps {
   isOpen: boolean;
@@ -14,8 +15,7 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
   expToEdit,
   onClose,
 }) => {
-  const { addExperience, updateExperience, getAccentClasses } = usePortfolio();
-  const accent = getAccentClasses();
+  const { addExperience, updateExperience } = usePortfolio();
 
   const [role, setRole] = useState('');
   const [company, setCompany] = useState('');
@@ -26,6 +26,12 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
   const [techString, setTechString] = useState('');
   const [offerLetterUrl, setOfferLetterUrl] = useState('');
   const [completionCertificateUrl, setCompletionCertificateUrl] = useState('');
+  const [internshipProjects, setInternshipProjects] = useState<InternshipProject[]>([]);
+
+  // Inline state for adding internship project
+  const [newProjTitle, setNewProjTitle] = useState('');
+  const [newProjDesc, setNewProjDesc] = useState('');
+  const [newProjImg, setNewProjImg] = useState('');
 
   useEffect(() => {
     if (expToEdit) {
@@ -38,20 +44,47 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
       setTechString(expToEdit.tech.join(', '));
       setOfferLetterUrl(expToEdit.offerLetterUrl || '');
       setCompletionCertificateUrl(expToEdit.completionCertificateUrl || '');
+      setInternshipProjects(expToEdit.internshipProjects || []);
     } else {
       setRole('');
       setCompany('');
       setLocation('Virtual / Coimbatore');
       setPeriod('2026');
       setCurrent(false);
-      setAchievementsString('Successfully completed internship deliverables\nDemonstrated technical proficiency in cyber security');
-      setTechString('Cyber Security, Ethical Hacking, Linux');
+      setAchievementsString('Successfully completed intensive internship focused on cyber security\nAnalyzed web vulnerabilities (OWASP Top 10) and practiced packet capture');
+      setTechString('Cyber Security, Ethical Hacking, Linux, Network Protocols');
       setOfferLetterUrl('/images/internship-certificates/intern offer letter.PNG');
       setCompletionCertificateUrl('/images/internship-certificates/intern certificate.PNG');
+      setInternshipProjects([
+        {
+          id: 'iproj-1',
+          title: 'Vulnerability Assessment & Network Lab',
+          description: 'Conducted OWASP Top 10 penetration testing and analyzed packet captures in lab simulations.',
+          imageUrl: '/images/project-showcase/selavu-sherlock-ui.png',
+        },
+      ]);
     }
   }, [expToEdit, isOpen]);
 
   if (!isOpen) return null;
+
+  const handleAddProject = () => {
+    if (!newProjTitle.trim()) return;
+    const newProject: InternshipProject = {
+      id: `iproj-${Date.now()}`,
+      title: newProjTitle.trim(),
+      description: newProjDesc.trim() || 'Key deliverable completed during internship.',
+      imageUrl: newProjImg.trim() || '/images/project-showcase/selavu-sherlock-ui.png',
+    };
+    setInternshipProjects([...internshipProjects, newProject]);
+    setNewProjTitle('');
+    setNewProjDesc('');
+    setNewProjImg('');
+  };
+
+  const handleDeleteProject = (id: string) => {
+    setInternshipProjects(internshipProjects.filter((p) => p.id !== id));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,10 +107,10 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
       period: period.trim(),
       current,
       achievements: parsedAchievements.length > 0 ? parsedAchievements : ['Key deliverables completed'],
-      tech: parsedTech.length > 0 ? parsedTech : ['TypeScript', 'React'],
+      tech: parsedTech.length > 0 ? parsedTech : ['Cyber Security', 'Linux'],
       offerLetterUrl: offerLetterUrl.trim() || undefined,
       completionCertificateUrl: completionCertificateUrl.trim() || undefined,
-      internshipProjects: expToEdit?.internshipProjects,
+      internshipProjects,
     };
 
     if (expToEdit) {
@@ -92,7 +125,7 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto">
       <div 
-        className="relative w-full max-w-2xl rounded-2xl bg-[#050505] border border-[#2A2A2A] shadow-2xl overflow-hidden my-6 flex flex-col max-h-[90vh]"
+        className="relative w-full max-w-3xl rounded-2xl bg-[#050505] border border-[#2A2A2A] shadow-2xl overflow-hidden my-6 flex flex-col max-h-[92vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-6 py-4 border-b border-[#2A2A2A] flex items-center justify-between bg-[#000000]">
@@ -112,7 +145,8 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-4 text-sm text-[#BDBDBD]">
+        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-6 text-sm text-[#BDBDBD]">
+          {/* Main Info */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-xs font-medium text-[#BDBDBD]">Job Title / Role *</label>
@@ -121,7 +155,7 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
                 required
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                placeholder="Senior Full Stack Engineer"
+                placeholder="Cyber Security Intern"
                 className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
               />
             </div>
@@ -133,7 +167,7 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
                 required
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
-                placeholder="Acme Labs"
+                placeholder="CodTech IT Solutions"
                 className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
               />
             </div>
@@ -147,7 +181,7 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
                 required
                 value={period}
                 onChange={(e) => setPeriod(e.target.value)}
-                placeholder="2022 - Present"
+                placeholder="09 Aug 2026 – 20 Sep 2026 (6 Weeks)"
                 className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
               />
             </div>
@@ -158,13 +192,13 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
                 type="text"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                placeholder="San Francisco, CA (or Remote)"
+                placeholder="Virtual / Coimbatore"
                 className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
               />
             </div>
           </div>
 
-          <div className="pt-1">
+          <div>
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -177,48 +211,121 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#BDBDBD]">Key Achievements (One per line)</label>
+            <label className="text-xs font-medium text-[#BDBDBD]">Key Highlights & Responsibilities (One per line)</label>
             <textarea
               rows={4}
               value={achievementsString}
               onChange={(e) => setAchievementsString(e.target.value)}
-              placeholder="Architected edge caching layer&#10;Decreased build times by 50%"
+              placeholder="Successfully completed intensive 6-week internship&#10;Analyzed web vulnerabilities (OWASP Top 10)"
               className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none resize-none"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#BDBDBD]">Technologies Used (comma-separated)</label>
+            <label className="text-xs font-medium text-[#BDBDBD]">Skills & Tools (comma-separated)</label>
             <input
               type="text"
               value={techString}
               onChange={(e) => setTechString(e.target.value)}
-              placeholder="React, TypeScript, GraphQL, Node.js, Kubernetes"
+              placeholder="Cyber Security, Ethical Hacking, Network Protocols, Linux"
               className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none"
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#2A2A2A]">
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#BDBDBD]">Intern Offer Letter Image Path / URL</label>
-              <input
-                type="text"
-                value={offerLetterUrl}
-                onChange={(e) => setOfferLetterUrl(e.target.value)}
-                placeholder="/images/internship-certificates/intern offer letter.PNG"
-                className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none text-xs font-mono"
-              />
+          {/* Certificates Section */}
+          <div className="space-y-4 pt-4 border-t border-[#2A2A2A]">
+            <h4 className="text-xs font-bold text-[#F0444B] uppercase tracking-wider">
+              Offer Letter & Internship Completion Certificate Uploads
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-white">Offer Letter Image</label>
+                <ImageUploader
+                  value={offerLetterUrl}
+                  onChange={setOfferLetterUrl}
+                  placeholder="Upload offer letter image or paste image URL"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-white">Completion Certificate Image</label>
+                <ImageUploader
+                  value={completionCertificateUrl}
+                  onChange={setCompletionCertificateUrl}
+                  placeholder="Upload completion certificate image or paste image URL"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Internship Projects Section */}
+          <div className="space-y-4 pt-4 border-t border-[#2A2A2A]">
+            <h4 className="text-xs font-bold text-[#27D6D9] uppercase tracking-wider">
+              Internship Projects & Deliverables
+            </h4>
+
+            {/* List of existing projects */}
+            <div className="space-y-2">
+              {internshipProjects.map((p) => (
+                <div key={p.id} className="p-3 rounded-xl bg-[#000000] border border-[#2A2A2A] flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    {p.imageUrl && (
+                      <img src={encodeURI(p.imageUrl)} alt={p.title} className="w-12 h-10 object-cover rounded-lg border border-[#2A2A2A] bg-black" />
+                    )}
+                    <div>
+                      <div className="text-xs font-bold text-white">{p.title}</div>
+                      <div className="text-[11px] text-[#BDBDBD] line-clamp-1">{p.description}</div>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteProject(p.id)}
+                    className="p-1.5 text-neutral-500 hover:text-red-400 shrink-0"
+                    title="Delete Project"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#BDBDBD]">Completion Certificate Image Path / URL</label>
-              <input
-                type="text"
-                value={completionCertificateUrl}
-                onChange={(e) => setCompletionCertificateUrl(e.target.value)}
-                placeholder="/images/internship-certificates/intern certificate.PNG"
-                className="w-full rounded-lg border border-[#2A2A2A] bg-[#000000] px-3.5 py-2 text-sm text-white focus:border-[#F0444B] focus:outline-none text-xs font-mono"
-              />
+            {/* Add Project Form */}
+            <div className="p-4 rounded-xl border border-[#2A2A2A] bg-[#000000] space-y-3">
+              <span className="text-xs font-bold text-white">Add New Internship Project</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input
+                  type="text"
+                  placeholder="Project Title"
+                  value={newProjTitle}
+                  onChange={(e) => setNewProjTitle(e.target.value)}
+                  className="rounded-lg border border-[#2A2A2A] bg-[#050505] px-3 py-2 text-xs text-white focus:outline-none"
+                />
+                <input
+                  type="text"
+                  placeholder="Project Description"
+                  value={newProjDesc}
+                  onChange={(e) => setNewProjDesc(e.target.value)}
+                  className="rounded-lg border border-[#2A2A2A] bg-[#050505] px-3 py-2 text-xs text-white focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-medium text-[#BDBDBD] mb-1">Project Showcase Image</label>
+                <ImageUploader
+                  value={newProjImg}
+                  onChange={setNewProjImg}
+                  placeholder="Upload internship project screenshot or paste image URL"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={handleAddProject}
+                className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-white bg-[#27D6D9]/20 hover:bg-[#27D6D9]/30 text-[#27D6D9] border border-[#27D6D9]/40 flex items-center gap-1.5"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add Internship Project</span>
+              </button>
             </div>
           </div>
 
@@ -244,4 +351,5 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
     </div>
   );
 };
+
 
