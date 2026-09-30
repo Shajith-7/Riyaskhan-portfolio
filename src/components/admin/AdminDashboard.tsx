@@ -291,16 +291,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
         {/* Main Tabbed Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-8">
           
-          {/* Navigation Sidebar */}
-          <div className="lg:col-span-3 space-y-1">
-            <div className="text-[11px] font-mono uppercase tracking-wider text-[#27D6D9] px-3 pb-2 font-bold">
+          {/* Navigation Sidebar (Scrollable Tab Strip on Mobile, Vertical Bar on Desktop) */}
+          <div className="lg:col-span-3 flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible gap-1.5 pb-2 lg:pb-0 no-scrollbar shrink-0">
+            <div className="hidden lg:block text-[11px] font-mono uppercase tracking-wider text-[#27D6D9] px-3 pb-2 font-bold">
               Resume Modules
             </div>
 
             {[
               { id: 'overview', label: 'Overview & Metrics', icon: LayoutDashboard },
               { id: 'profile', label: 'Profile & Contact', icon: User },
-              { id: 'education', label: 'Education & Academics', icon: GraduationCap, badge: data.education.length },
+              { id: 'education', label: 'Education', icon: GraduationCap, badge: data.education.length },
               { id: 'projects', label: 'Hackathons & Projects', icon: FolderGit2, badge: data.projects.length },
               { id: 'experience', label: 'Internships', icon: Briefcase, badge: data.experience.length },
               { id: 'workshops_certs', label: 'Workshops & Certs', icon: Award, badge: data.certifications.length + data.workshops.length },
@@ -314,10 +314,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                  className={`flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 lg:w-full ${
                     active
                       ? 'bg-[#F0444B] text-[#FFFFFF] shadow-md border border-[#F0444B]'
-                      : 'text-[#BDBDBD] hover:text-[#FFFFFF] hover:bg-[#1B1B1B]'
+                      : 'text-[#BDBDBD] hover:text-[#FFFFFF] hover:bg-[#1B1B1B] bg-[#050505] lg:bg-transparent border border-[#2A2A2A] lg:border-none'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
