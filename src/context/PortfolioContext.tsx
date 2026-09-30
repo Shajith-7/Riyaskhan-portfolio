@@ -85,7 +85,7 @@ interface PortfolioContextType {
   };
 }
 
-const STORAGE_KEY = 'portfolio_cms_riyaskhan_v6';
+const STORAGE_KEY = 'portfolio_cms_riyaskhan_v7';
 const AUTH_STORAGE_KEY = 'portfolio_admin_auth_v1';
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
@@ -97,6 +97,19 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.profile?.name?.includes('Riyaskhan') && parsed.education) {
+          // Migration for project cover images to software UI screenshots
+          if (parsed.projects && parsed.projects.length > 0) {
+            const projectImageMap: { [id: string]: string } = {
+              'proj-1': '/images/project-showcase/selavu-sherlock-ui.png',
+              'proj-2': '/images/project-showcase/bio-arbitrage-ui.png',
+              'proj-3': '/images/project-showcase/smartq-ai-ui.png',
+              'proj-4': '/images/project-showcase/cih-2k26-ui.png',
+            };
+            parsed.projects = parsed.projects.map((p: any) => ({
+              ...p,
+              coverImage: projectImageMap[p.id] || (p.coverImage?.includes('hackathon-certificates') ? '/images/project-showcase/selavu-sherlock-ui.png' : p.coverImage),
+            }));
+          }
           // Ensure male avatar image is applied
           if (!parsed.profile.avatarUrl || parsed.profile.avatarUrl.includes('unsplash')) {
             parsed.profile.avatarUrl = '/images/profile.png';
