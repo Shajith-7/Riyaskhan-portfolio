@@ -7,6 +7,7 @@ export const Hero: React.FC = () => {
   const { profile } = data;
   const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [, setIsAudioActive] = useState(false);
 
   // Running Typewriter animation for Tagline Roles
   const roles = [
@@ -46,6 +47,17 @@ export const Hero: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, roleIndex]);
 
+  const unmuteAndPlayAudio = () => {
+    const video = videoRef.current;
+    if (video) {
+      video.muted = false;
+      video.volume = 1.0;
+      video.play().then(() => {
+        setIsAudioActive(true);
+      }).catch(() => {});
+    }
+  };
+
   // Handle Autoplay Audio and Scroll Stop / Play Logic
   useEffect(() => {
     const video = videoRef.current;
@@ -53,19 +65,15 @@ export const Hero: React.FC = () => {
 
     video.volume = 1.0;
 
-    const playWithAudio = () => {
-      if (!video) return;
-      video.muted = false;
-      video.volume = 1.0;
-      video.play().catch(() => {
-        // If unmuted play is blocked by browser policy, play muted temporarily until user gesture
-        video.muted = true;
-        video.play().catch(() => {});
-      });
-    };
-
     // Attempt unmuted play on mount
-    playWithAudio();
+    video.muted = false;
+    video.play().then(() => {
+      setIsAudioActive(true);
+    }).catch(() => {
+      // Browser blocked unmuted autoplay, play muted temporarily until user gesture
+      video.muted = true;
+      video.play().catch(() => {});
+    });
 
     // User gesture handler to immediately unlock and play full audio
     const handleUserGesture = () => {
@@ -73,14 +81,15 @@ export const Hero: React.FC = () => {
         video.muted = false;
         video.volume = 1.0;
         video.play().then(() => {
-          // Remove gesture listeners once unmuted audio is actively playing
-          events.forEach((evt) => window.removeEventListener(evt, handleUserGesture, true));
+          setIsAudioActive(true);
         }).catch(() => {});
       }
     };
 
-    const events = ['pointerdown', 'click', 'touchstart', 'keydown', 'mousedown'];
-    events.forEach((evt) => window.addEventListener(evt, handleUserGesture, { capture: true, passive: true }));
+    window.addEventListener('click', handleUserGesture);
+    window.addEventListener('touchstart', handleUserGesture);
+    window.addEventListener('keydown', handleUserGesture);
+    window.addEventListener('pointerdown', handleUserGesture);
 
     // IntersectionObserver: Pause video when scrolled away, resume when on Hero screen
     const observer = new IntersectionObserver(
@@ -93,7 +102,7 @@ export const Hero: React.FC = () => {
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     );
 
     if (heroRef.current) {
@@ -102,7 +111,10 @@ export const Hero: React.FC = () => {
 
     return () => {
       observer.disconnect();
-      events.forEach((evt) => window.removeEventListener(evt, handleUserGesture, true));
+      window.removeEventListener('click', handleUserGesture);
+      window.removeEventListener('touchstart', handleUserGesture);
+      window.removeEventListener('keydown', handleUserGesture);
+      window.removeEventListener('pointerdown', handleUserGesture);
     };
   }, []);
 
@@ -121,7 +133,11 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section ref={heroRef} className="relative min-h-[90vh] flex flex-col justify-center py-16 md:py-24 bg-[#000000] border-b border-[#2A2A2A] overflow-hidden">
+    <section 
+      ref={heroRef} 
+      onClick={unmuteAndPlayAudio}
+      className="relative min-h-[90vh] flex flex-col justify-center py-16 md:py-24 bg-[#000000] border-b border-[#2A2A2A] overflow-hidden cursor-pointer"
+    >
       
       {/* Background Video (High Clarity, Face Clearly Visible, Seamless Edge Blend) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
@@ -132,7 +148,7 @@ export const Hero: React.FC = () => {
           loop
           playsInline
           controls={false}
-          className="w-full h-full object-cover lg:object-right opacity-80 sm:opacity-90 filter brightness-100 contrast-105"
+          className="w-full h-full object-cover lg:object-right opacity-85 sm:opacity-90 filter brightness-100 contrast-105"
         />
         
         {/* Soft Side & Bottom Gradient Overlay for Maximum Text Contrast without Obscuring Face */}
@@ -143,7 +159,7 @@ export const Hero: React.FC = () => {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
-          {/* Left Column Text Container (Glassmorphism backdrop for crisp readability) */}
+          {/* Left Column Text Container */}
           <div className="lg:col-span-8 bg-[#000000]/70 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none p-6 sm:p-8 rounded-3xl border border-[#2A2A2A]/40 lg:border-none space-y-6 text-center lg:text-left shadow-2xl lg:shadow-none">
             
             {/* Top Pill Badge */}
@@ -155,12 +171,12 @@ export const Hero: React.FC = () => {
               </div>
             </div>
 
-            {/* Headline Title */}
+            {/* Headline Title (Font size reduced by 2 points) */}
             <div className="space-y-2">
-              <p className="text-2xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-md">
+              <p className="text-2xl sm:text-3xl font-bold text-white tracking-tight drop-shadow-md">
                 Hi, I'm
               </p>
-              <h1 className="text-4xl sm:text-6xl lg:text-[66px] font-extrabold tracking-tight uppercase font-['Plus_Jakarta_Sans'] leading-tight text-[#F0444B] drop-shadow-[0_0_30px_rgba(240,68,75,0.45)]">
+              <h1 className="text-3xl sm:text-5xl lg:text-[62px] font-extrabold tracking-tight uppercase font-['Plus_Jakarta_Sans'] leading-tight text-[#F0444B] drop-shadow-[0_0_30px_rgba(240,68,75,0.45)]">
                 Mohamed Riyaskhan S
               </h1>
               
