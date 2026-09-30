@@ -12,7 +12,7 @@ interface ActiveCertModal {
 export const WorkshopsAndCertsSection: React.FC = () => {
   const { data } = usePortfolio();
   const [activeCert, setActiveCert] = useState<ActiveCertModal | null>(null);
-  const [activeTab, setActiveTab] = useState<'courses' | 'training'>('courses');
+  const [activeTab, setActiveTab] = useState<'training' | 'courses'>('training');
 
   if (
     (!data.settings.showWorkshops && !data.settings.showCertifications) ||
@@ -35,12 +35,12 @@ export const WorkshopsAndCertsSection: React.FC = () => {
           <div className="inline-block animate-float-subtle group cursor-default transition-all duration-300">
             <div className="px-6 py-2.5 rounded-2xl bg-[#050505] border border-[#2A2A2A] shadow-xl group-hover:border-[#F0444B] group-hover:shadow-[0_0_20px_rgba(240,68,75,0.2)] group-hover:-translate-y-1.5 transition-all duration-300 backdrop-blur-sm">
               <h2 className="text-3xl sm:text-[36px] font-bold text-[#FFFFFF] font-['Plus_Jakarta_Sans'] tracking-tight">
-                Certifications & <span className="text-[#F0444B]">Technical Training</span>
+                Technical Training & <span className="text-[#F0444B]">Certifications</span>
               </h2>
             </div>
           </div>
           <p className="text-base font-regular text-[#BDBDBD]">
-            Verified professional course certifications, hands-on workshops, and technical training credentials
+            Hands-on technical training credentials, workshops, and verified professional course certifications
           </p>
         </div>
 
@@ -50,19 +50,6 @@ export const WorkshopsAndCertsSection: React.FC = () => {
         <div className="flex justify-center">
           <div className="bg-[#050505] p-1.5 rounded-2xl border border-[#2A2A2A] shadow-xl inline-flex max-w-full overflow-x-auto gap-1.5 backdrop-blur-sm">
             
-            {/* Professional Courses Tab */}
-            <button
-              onClick={() => setActiveTab('courses')}
-              className={`flex items-center gap-2.5 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
-                activeTab === 'courses'
-                  ? 'bg-[#F0444B] text-white shadow-lg shadow-[#F0444B]/20 scale-[1.02]'
-                  : 'text-[#BDBDBD] hover:text-white hover:bg-[#1B1B1B]'
-              }`}
-            >
-              <Award className={`w-4 h-4 ${activeTab === 'courses' ? 'text-white' : 'text-[#F0444B]'}`} />
-              <span>Professional Courses</span>
-            </button>
-
             {/* Technical Training Tab */}
             <button
               onClick={() => setActiveTab('training')}
@@ -76,11 +63,121 @@ export const WorkshopsAndCertsSection: React.FC = () => {
               <span>Technical Training</span>
             </button>
 
+            {/* Professional Courses Tab */}
+            <button
+              onClick={() => setActiveTab('courses')}
+              className={`flex items-center gap-2.5 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
+                activeTab === 'courses'
+                  ? 'bg-[#F0444B] text-white shadow-lg shadow-[#F0444B]/20 scale-[1.02]'
+                  : 'text-[#BDBDBD] hover:text-white hover:bg-[#1B1B1B]'
+              }`}
+            >
+              <Award className={`w-4 h-4 ${activeTab === 'courses' ? 'text-white' : 'text-[#F0444B]'}`} />
+              <span>Professional Courses</span>
+            </button>
+
           </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* 1. PROFESSIONAL COURSES CONTENT */}
+        {/* 1. TECHNICAL TRAINING CONTENT */}
+        {/* ========================================================================= */}
+        {activeTab === 'training' && data.workshops.length > 0 && (
+          <div className="space-y-6 animate-fadeIn">
+            <div className="flex items-center justify-between border-b border-[#2A2A2A] pb-3">
+              <h3 className="text-xl font-bold text-white font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-[#F0444B]" />
+                <span>Workshops & Technical Training</span>
+              </h3>
+              <span className="text-xs font-mono text-[#27D6D9] bg-[#050505] px-3 py-1 rounded-full border border-[#2A2A2A] hidden sm:inline-block">
+                IIT Madras · Rathinam Tech · AIC RAISE · IIT Top Engineers
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {data.workshops.map((ws) => (
+                <div
+                  key={ws.id}
+                  className="bg-[#050505] rounded-[20px] overflow-hidden border border-[#2A2A2A] hover:border-[#F0444B] transition-all duration-300 flex flex-col justify-between group shadow-xl hover:-translate-y-1"
+                >
+                  <div>
+                    {/* Thumbnail Image Box */}
+                    {ws.certificateUrl ? (
+                      <div 
+                        onClick={() => setActiveCert({
+                          url: ws.certificateUrl!,
+                          title: ws.title,
+                          issuerOrOrganizer: ws.organizer,
+                          category: 'Workshop & Training Certificate'
+                        })}
+                        className="h-40 relative overflow-hidden bg-[#000000] cursor-pointer border-b border-[#2A2A2A]"
+                      >
+                        <img 
+                          src={encodeURI(ws.certificateUrl)} 
+                          alt={ws.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/70 backdrop-blur-xs transition-opacity">
+                          <span className="px-3 py-1.5 rounded-lg bg-[#F0444B] text-white font-bold text-xs shadow-lg flex items-center gap-1.5">
+                            <Maximize2 className="w-3.5 h-3.5" />
+                            View Certificate
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="h-20 bg-[#000000] flex items-center justify-center text-[#F0444B]">
+                        <BookOpen className="w-8 h-8" />
+                      </div>
+                    )}
+
+                    {/* Text Info */}
+                    <div className="p-4 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-mono text-[#27D6D9] bg-[#000000] px-2 py-0.5 rounded border border-[#2A2A2A]">
+                          {ws.dateOrDuration}
+                        </span>
+                        <span className="text-[10px] font-mono uppercase text-[#F0444B]">
+                          {ws.type}
+                        </span>
+                      </div>
+
+                      <h4 className="text-sm font-bold text-white font-['Plus_Jakarta_Sans'] leading-snug group-hover:text-[#F0444B] transition-colors line-clamp-2">
+                        {ws.title}
+                      </h4>
+
+                      <p className="text-[11px] text-[#BDBDBD] line-clamp-2 leading-relaxed">
+                        {ws.organizer}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Card Footer CTA */}
+                  {ws.certificateUrl && (
+                    <div className="p-4 pt-0">
+                      <button
+                        onClick={() => setActiveCert({
+                          url: ws.certificateUrl!,
+                          title: ws.title,
+                          issuerOrOrganizer: ws.organizer,
+                          category: 'Workshop & Training Certificate'
+                        })}
+                        className="w-full py-1.5 bg-[#000000] hover:bg-[#F0444B] text-[#F0444B] hover:text-white text-xs font-bold rounded-lg border border-[#2A2A2A] hover:border-[#F0444B] transition-colors flex items-center justify-center gap-1.5"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>View Training Certificate</span>
+                      </button>
+                    </div>
+                  )}
+
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* 2. PROFESSIONAL COURSES CONTENT */}
         {/* ========================================================================= */}
         {activeTab === 'courses' && data.certifications.length > 0 && (
           <div className="space-y-6 animate-fadeIn">
@@ -168,103 +265,6 @@ export const WorkshopsAndCertsSection: React.FC = () => {
                       >
                         <Eye className="w-3.5 h-3.5" />
                         <span>View Certificate Image</span>
-                      </button>
-                    </div>
-                  )}
-
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* 2. TECHNICAL TRAINING CONTENT */}
-        {/* ========================================================================= */}
-        {activeTab === 'training' && data.workshops.length > 0 && (
-          <div className="space-y-6 animate-fadeIn">
-            <div className="flex items-center justify-between border-b border-[#2A2A2A] pb-3">
-              <h3 className="text-xl font-bold text-white font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-[#F0444B]" />
-                <span>Workshops & Technical Training</span>
-              </h3>
-              <span className="text-xs font-mono text-[#27D6D9] bg-[#050505] px-3 py-1 rounded-full border border-[#2A2A2A] hidden sm:inline-block">
-                IIT Madras · Rathinam Tech · AIC RAISE · IIT Top Engineers
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {data.workshops.map((ws) => (
-                <div
-                  key={ws.id}
-                  className="bg-[#050505] rounded-[20px] overflow-hidden border border-[#2A2A2A] hover:border-[#F0444B] transition-all duration-300 flex flex-col justify-between group shadow-xl hover:-translate-y-1"
-                >
-                  <div>
-                    {/* Thumbnail Image Box */}
-                    {ws.certificateUrl ? (
-                      <div 
-                        onClick={() => setActiveCert({
-                          url: ws.certificateUrl!,
-                          title: ws.title,
-                          issuerOrOrganizer: ws.organizer,
-                          category: 'Workshop & Training Certificate'
-                        })}
-                        className="h-40 relative overflow-hidden bg-[#000000] cursor-pointer border-b border-[#2A2A2A]"
-                      >
-                        <img 
-                          src={encodeURI(ws.certificateUrl)} 
-                          alt={ws.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/70 backdrop-blur-xs transition-opacity">
-                          <span className="px-3 py-1.5 rounded-lg bg-[#F0444B] text-white font-bold text-xs shadow-lg flex items-center gap-1.5">
-                            <Maximize2 className="w-3.5 h-3.5" />
-                            View Certificate
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="h-20 bg-[#000000] flex items-center justify-center text-[#F0444B]">
-                        <BookOpen className="w-8 h-8" />
-                      </div>
-                    )}
-
-                    {/* Text Info */}
-                    <div className="p-4 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono text-[#27D6D9] bg-[#000000] px-2 py-0.5 rounded border border-[#2A2A2A]">
-                          {ws.dateOrDuration}
-                        </span>
-                        <span className="text-[10px] font-mono uppercase text-[#F0444B]">
-                          {ws.type}
-                        </span>
-                      </div>
-
-                      <h4 className="text-sm font-bold text-white font-['Plus_Jakarta_Sans'] leading-snug group-hover:text-[#F0444B] transition-colors line-clamp-2">
-                        {ws.title}
-                      </h4>
-
-                      <p className="text-[11px] text-[#BDBDBD] line-clamp-2 leading-relaxed">
-                        {ws.organizer}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Card Footer CTA */}
-                  {ws.certificateUrl && (
-                    <div className="p-4 pt-0">
-                      <button
-                        onClick={() => setActiveCert({
-                          url: ws.certificateUrl!,
-                          title: ws.title,
-                          issuerOrOrganizer: ws.organizer,
-                          category: 'Workshop & Training Certificate'
-                        })}
-                        className="w-full py-1.5 bg-[#000000] hover:bg-[#F0444B] text-[#F0444B] hover:text-white text-xs font-bold rounded-lg border border-[#2A2A2A] hover:border-[#F0444B] transition-colors flex items-center justify-center gap-1.5"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                        <span>View Training Certificate</span>
                       </button>
                     </div>
                   )}

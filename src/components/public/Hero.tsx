@@ -142,14 +142,25 @@ export const Hero: React.FC = () => {
                 {/* Outer Spinning Orbit Ring */}
                 <div className="absolute -inset-4 rounded-full border border-dashed border-[#27D6D9]/40 animate-spin-slow pointer-events-none" />
 
-                {/* Circular Profile Photo Frame */}
+                {/* Circular Profile Video Frame */}
                 <div className="w-full h-full rounded-full overflow-hidden border-4 border-[#000000] bg-[#000000] shadow-2xl relative group">
-                  <img
-                    src={profile.avatarUrl}
-                    alt={profile.name}
+                  <video
+                    src="/profile video.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls={false}
                     className="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-700"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = '/images/profile.png';
+                      // Fallback to avatar photo if video cannot be played
+                      const parent = (e.target as HTMLElement).parentElement;
+                      if (parent) {
+                        const img = document.createElement('img');
+                        img.src = profile.avatarUrl || '/images/profile.png';
+                        img.className = 'w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-700';
+                        parent.replaceChild(img, e.target as HTMLElement);
+                      }
                     }}
                   />
                   <div className="absolute inset-0 rounded-full bg-gradient-to-t from-[#000000]/60 via-transparent to-transparent pointer-events-none" />
