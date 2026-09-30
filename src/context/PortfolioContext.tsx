@@ -105,6 +105,13 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           if (!parsed.profile.resumeUrl || parsed.profile.resumeUrl === '#' || parsed.profile.resumeUrl.trim() === '') {
             parsed.profile.resumeUrl = '/images/Riyaskhan_Final_Resume_123.docx';
           }
+          // Ensure real GitHub & LinkedIn URLs
+          if (!parsed.profile.github || parsed.profile.github === 'https://github.com') {
+            parsed.profile.github = 'https://github.com/Riyaskhan2010';
+          }
+          if (!parsed.profile.linkedin || parsed.profile.linkedin === 'https://linkedin.com') {
+            parsed.profile.linkedin = 'https://www.linkedin.com/in/mohamed-riyaskhan-s-9a5247386';
+          }
           // Migration for Education period 2024-2028, Mark percentages and highlights
           parsed.education = parsed.education.map((edu: any) => {
             if (edu.id === 'edu-1' || edu.degree.includes('B.Tech')) {

@@ -2,54 +2,71 @@
 
 @layer base {
   html {
-    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     scroll-behavior: smooth;
-    background-color: #0b0d17;
-    color: #ffffff;
+    background-color: #000000;
+    color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   
   h1, h2, h3, h4, h5, h6, .font-heading {
-    font-family: 'Plus Jakarta Sans', 'Outfit', 'Poppins', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Outfit', 'Sora', sans-serif;
+    letter-spacing: -0.025em;
   }
 
   code, pre, kbd, .font-mono {
-    font-family: 'IBM Plex Mono', 'Courier Prime', monospace;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  p {
+    line-height: 1.65;
   }
 }
 
-/* Custom scrollbar in Electric Cyan & Coral Red */
+.font-display {
+  font-family: 'Plus Jakarta Sans', 'Outfit', 'Space Grotesk', sans-serif;
+}
+
+.font-body {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+
+.font-mono-tech {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom scrollbar in Coral Red & Electric Cyan */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0d17;
+  background: #000000;
 }
 ::-webkit-scrollbar-thumb {
-  background: #38bdf8;
+  background: #F0444B;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #ef4444;
+  background: #FF6B6B;
 }
 
-/* Electric Cyan & Coral Red Custom Glows & Shadows */
+/* Coral Red & Electric Cyan Glows & Shadows */
 .shadow-sand-glow {
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 15px rgba(240, 68, 75, 0.4);
 }
 .shadow-sand-glow-lg {
-  box-shadow: 0 0 25px rgba(239, 68, 68, 0.45);
+  box-shadow: 0 0 25px rgba(39, 214, 217, 0.45);
 }
 .shadow-night-md {
-  box-shadow: 0 8px 24px rgba(11, 13, 23, 0.8);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9);
 }
 
-/* Subtle Midnight Blue Grid Pattern */
+/* Smooth Pure Black Background */
 .bg-night-grid {
-  background-size: 36px 36px;
-  background-image: 
-    linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+  background-color: #000000;
 }
 
 @keyframes float {
@@ -76,12 +93,12 @@
 
 @keyframes glowPulse {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
-    border-color: #38bdf8;
+    box-shadow: 0 0 15px rgba(240, 68, 75, 0.4);
+    border-color: #F0444B;
   }
   50% {
-    box-shadow: 0 0 28px rgba(239, 68, 68, 0.6);
-    border-color: #ef4444;
+    box-shadow: 0 0 28px rgba(39, 214, 217, 0.6);
+    border-color: #27D6D9;
   }
 }
 
@@ -122,7 +139,7 @@
 }
 
 .text-sand-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #ef4444 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #F0444B 50%, #27D6D9 100%);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -143,16 +160,16 @@
   border-radius: inherit;
   background: linear-gradient(
     90deg,
-    #38bdf8 0%,
-    #818cf8 25%,
-    #ef4444 50%,
-    #38bdf8 75%,
-    #ffffff 100%
+    #F0444B 0%,
+    #FF8A65 25%,
+    #27D6D9 50%,
+    #FF6B6B 75%,
+    #FFFFFF 100%
   );
   background-size: 300% 300%;
   animation: borderGlowRun 3.5s ease infinite;
   z-index: -2;
-  box-shadow: 0 0 18px rgba(56, 189, 248, 0.45);
+  box-shadow: 0 0 18px rgba(240, 68, 75, 0.35);
 }
 
 .glow-card-running::after {
@@ -166,7 +183,7 @@
 
 .glow-card-running:hover::before {
   animation-duration: 1.5s;
-  box-shadow: 0 0 30px rgba(239, 68, 68, 0.75);
+  box-shadow: 0 0 30px rgba(39, 214, 217, 0.65);
 }
 
 /* Conic Spinning Light-beam Card Border Utility */
