@@ -59,13 +59,14 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-[90vh] flex flex-col justify-center py-16 md:py-24 bg-[#0b0d17] bg-night-grid border-b border-[#38bdf8]/20 overflow-hidden">
+    <section className="relative min-h-[90vh] flex flex-col justify-center py-16 md:py-24 bg-[#0b0d17] border-b border-[#38bdf8]/20 overflow-hidden">
       
-      {/* Background Ambient Glows & Purple/Cyan Lights matching Screenshot */}
+      {/* Background Smooth Ambient Glows & Radial Soft Lighting */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-10 w-[450px] h-[450px] bg-[#38bdf8]/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-[#818cf8]/15 rounded-full blur-[140px]" />
-        <div className="absolute bottom-10 left-1/3 w-[400px] h-[400px] bg-[#ef4444]/10 rounded-full blur-[130px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-radial from-[#38bdf8]/15 via-[#818cf8]/10 to-transparent blur-[140px]" />
+        <div className="absolute top-1/4 left-5 w-[450px] h-[450px] bg-[#38bdf8]/12 rounded-full blur-[130px] animate-pulse" />
+        <div className="absolute top-1/3 right-5 w-[500px] h-[500px] bg-[#818cf8]/18 rounded-full blur-[150px]" />
+        <div className="absolute bottom-5 left-1/3 w-[450px] h-[450px] bg-[#ef4444]/12 rounded-full blur-[140px]" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full z-10">

@@ -32,11 +32,11 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ onBackToPublic }
   };
 
   return (
-    <div className="min-h-screen bg-[#12343b] bg-night-grid text-[#ffffff] flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-[#0b0d17] text-[#ffffff] flex flex-col items-center justify-center p-4 relative overflow-hidden">
       
       {/* Background ambient lighting */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#e1b382]/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] bg-[#2d545e]/40 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#38bdf8]/10 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] bg-[#ef4444]/10 rounded-full blur-[130px] pointer-events-none" />
 
       {/* Top Header / Back Button */}
       <div className="absolute top-6 left-6 right-6 flex items-center justify-between max-w-7xl mx-auto z-20">
