@@ -72,6 +72,12 @@ interface PortfolioContextType {
   resetToDefaults: () => void;
   exportDataJSON: () => string;
   importDataJSON: (jsonString: string) => boolean;
+  exportInitialDataTS: () => string;
+
+  // Cloud Sync
+  syncToCloudDB: () => Promise<boolean>;
+  pullFromCloudDB: () => Promise<boolean>;
+  cloudSyncStatus: 'idle' | 'syncing' | 'success' | 'error';
   
   // Accent color helper
   getAccentClasses: () => {
@@ -97,203 +103,8 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.profile?.name?.includes('Riyaskhan') && parsed.education) {
-          // Force new final profile avatar photo
+          // Force final profile avatar photo
           parsed.profile.avatarUrl = '/images/final profile.jpg';
-          // Migration for project cover images, certificates, and GitHub links
-          if (parsed.projects && parsed.projects.length > 0) {
-            const projectDataMap: { [id: string]: { cover: string; cert: string; github: string; title?: string } } = {
-              'proj-1': {
-                cover: '/images/project-showcase/selavu-sherlock-ui.png',
-                cert: '/images/hackathon-certificates/selavu-sherlock.png',
-                github: 'https://github.com/Riyaskhan2010/SELAVU-SHERLOCK-AI',
-              },
-              'proj-2': {
-                cover: '/images/project-showcase/bio-arbitrage-ui.png',
-                cert: '/images/hackathon-certificates/bio-arbitrage.png',
-                github: 'https://github.com/Riyaskhan2010/Real-Time-Biotech-Arbitrage-Engine-for-Drug-Repurposing-Signals',
-              },
-              'proj-3': {
-                cover: '/images/project-showcase/smartq-ai-ui.png',
-                cert: '/images/hackathon-certificates/smartq-ai.png',
-                github: 'https://github.com/Riyaskhan2010/SMARTQ-AI',
-              },
-              'proj-4': {
-                title: 'TribalScholar One (CIH 2k26)',
-                cover: '/images/project-showcase/cih-2k26-ui.png',
-                cert: '/images/hackathon-certificates/cih-2k26.png',
-                github: 'https://github.com/Riyaskhan2010/TRIBALSCHOLAR-ONE',
-              },
-            };
-            parsed.projects = parsed.projects.map((p: any) => {
-              const mapped = projectDataMap[p.id];
-              const safeCover = mapped
-                ? mapped.cover
-                : (p.coverImage && !p.coverImage.includes('hackathon-certificates'))
-                ? p.coverImage
-                : '/images/project-showcase/selavu-sherlock-ui.png';
-
-              return {
-                ...p,
-                title: (mapped && mapped.title) || p.title,
-                coverImage: safeCover,
-                certificateUrl: (mapped && mapped.cert) || p.certificateUrl || p.coverImage,
-                githubUrl: (mapped && mapped.github) || p.githubUrl,
-                liveUrl: (mapped && mapped.github) || p.liveUrl,
-              };
-            });
-          }
-          // Ensure male avatar image is applied
-          if (!parsed.profile.avatarUrl || parsed.profile.avatarUrl.includes('unsplash') || parsed.profile.avatarUrl.includes('profile.png')) {
-            parsed.profile.avatarUrl = '/images/final profile.jpg';
-          }
-          // Ensure valid resume URL path
-          if (!parsed.profile.resumeUrl || parsed.profile.resumeUrl === '#' || parsed.profile.resumeUrl.trim() === '') {
-            parsed.profile.resumeUrl = '/images/Riyaskhan_Final_Resume_123.docx';
-          }
-          // Ensure real GitHub & LinkedIn URLs
-          if (!parsed.profile.github || parsed.profile.github === 'https://github.com') {
-            parsed.profile.github = 'https://github.com/Riyaskhan2010';
-          }
-          if (!parsed.profile.linkedin || parsed.profile.linkedin === 'https://linkedin.com') {
-            parsed.profile.linkedin = 'https://www.linkedin.com/in/mohamed-riyaskhan-s-9a5247386';
-          }
-          // Migration for Education period 2024-2028, Mark percentages and highlights
-          parsed.education = parsed.education.map((edu: any) => {
-            if (edu.id === 'edu-1' || edu.degree.includes('B.Tech')) {
-              return { 
-                ...edu, 
-                period: '2024 – 2028', 
-                score: '2nd Year (Ongoing)',
-                highlights: [
-                  'Active member of college technical clubs and hackathon teams',
-                  'Specializing in Computer Networks, Problem Solving, and Software Systems',
-                  'Participating in inter-college competitive coding and technical symposiums',
-                ]
-              };
-            }
-            if (edu.id === 'edu-2' || edu.degree.includes('12th')) {
-              return { 
-                ...edu, 
-                score: 'Mark Percentage: 81.6%',
-                highlights: [
-                  'Scored 81.6% aggregate with strong foundation in Mathematics, Physics, and Chemistry',
-                  'Demonstrated strong analytical problem-solving skills in Higher Secondary Mathematics & Sciences',
-                  'Actively participated in school science exhibitions, academic seminars, and technical quizzes',
-                ]
-              };
-            }
-            if (edu.id === 'edu-3' || edu.degree.includes('10th')) {
-              return { 
-                ...edu, 
-                score: 'Mark Percentage: 85.2%',
-                highlights: [
-                  'Graduated with distinction securing 85.2% aggregate score',
-                  'Achieved top academic performance in Science and Mathematics foundational coursework',
-                  'Maintained consistent academic excellence and active participation in school co-curricular events',
-                ]
-              };
-            }
-            return edu;
-          });
-
-          // Migration for Experience certificates and projects
-          if (parsed.experience && parsed.experience.length > 0) {
-            parsed.experience = parsed.experience.map((exp: any) => {
-              if (exp.id === 'exp-1' || exp.company?.toLowerCase().includes('codtech')) {
-                return {
-                  ...exp,
-                  offerLetterUrl: exp.offerLetterUrl || '/images/internship-certificates/intern offer letter.PNG',
-                  completionCertificateUrl: exp.completionCertificateUrl || '/images/internship-certificates/intern certificate.PNG',
-                  internshipProjects: (exp.internshipProjects && exp.internshipProjects.length > 0)
-                    ? exp.internshipProjects
-                    : [
-                        {
-                          id: 'int-p1',
-                          title: 'File Integrity Monitoring Tool',
-                          description: 'SHA-256 hash calculation and integrity validation tool for detecting unauthorized file modifications and system tampering.',
-                          imageUrl: '/images/internship-certificates/file integrity.jpg',
-                          tags: ['Python', 'SHA-256', 'Security Audit'],
-                        },
-                        {
-                          id: 'int-p2',
-                          title: 'MalwareGuard Security Analyzer',
-                          description: 'Automated file threat analysis tool to detect malicious signatures, suspicious file structures, and payload patterns.',
-                          imageUrl: '/images/internship-certificates/malwareguard.jpg',
-                          tags: ['Python', 'Malware Analysis', 'Threat Detection'],
-                        },
-                        {
-                          id: 'int-p3',
-                          title: 'Password Strength & Entropy Analyzer',
-                          description: 'Cyber security utility for testing password complexity, entropy scoring, dictionary vulnerability, and brute-force estimate.',
-                          imageUrl: '/images/internship-certificates/password strenght.jpg',
-                          tags: ['Cyber Security', 'Entropy Scoring', 'Python'],
-                        },
-                      ],
-                };
-              }
-              return exp;
-            });
-          }
-
-          // Migration for Projects & Hackathons certificates
-          if (parsed.projects && parsed.projects.length > 0) {
-            parsed.projects = parsed.projects.map((p: any) => {
-              if (p.id === 'proj-1' || p.title?.includes('Selavu')) {
-                return { ...p, coverImage: '/images/hackathon-certificates/Selavu Sherlock AI.PNG', certificateUrl: '/images/hackathon-certificates/Selavu Sherlock AI.PNG' };
-              }
-              if (p.id === 'proj-2' || p.title?.includes('BioArbitrage')) {
-                return { ...p, coverImage: '/images/hackathon-certificates/Bio-Arbitrage.PNG', certificateUrl: '/images/hackathon-certificates/Bio-Arbitrage.PNG' };
-              }
-              if (p.id === 'proj-3' || p.title?.includes('SmartQ')) {
-                return { ...p, coverImage: '/images/hackathon-certificates/SmartQ AI.PNG', certificateUrl: '/images/hackathon-certificates/SmartQ AI.PNG' };
-              }
-              if (p.id === 'proj-4' || p.title?.includes('CIH')) {
-                return { ...p, coverImage: '/images/hackathon-certificates/CIH 2k26.PNG', certificateUrl: '/images/hackathon-certificates/CIH 2k26.PNG' };
-              }
-              return p;
-            });
-
-            // If proj-4 doesn't exist yet, append it
-            if (!parsed.projects.some((p: any) => p.id === 'proj-4' || p.title?.includes('CIH'))) {
-              parsed.projects.push({
-                id: 'proj-4',
-                title: 'CIH 2k26 Innovation Challenge',
-                tagline: '24-hour global innovation hackathon project building intelligent software solutions under high-pressure deadline constraints.',
-                category: 'hackathon',
-                featured: true,
-                coverImage: '/images/hackathon-certificates/CIH 2k26.PNG',
-                tags: ['24-Hour Hackathon', 'Global Innovation', 'Rapid Prototyping', 'Teamwork'],
-                liveUrl: 'https://example.com/cih-2k26',
-                githubUrl: 'https://github.com/mohamedriyaskhan/cih-2k26',
-                impactMetric: 'Participant @ CIH 2k26 (24-Hr Global Hackathon)',
-                award: 'Participant — CIH 2k26 24-Hour Global Innovation Hackathon',
-                year: '2026',
-                order: 4,
-                certificateUrl: '/images/hackathon-certificates/CIH 2k26.PNG',
-                caseStudy: {
-                  problem: 'Complex real-world problem statement presented at CIH 2k26 requiring a functional software prototype within a strict 24-hour hackathon timeframe.',
-                  solution: 'Collaborated as a team to rapidly design, build, and present an innovative software solution during the 24-hour global hackathon sprint.',
-                  architecture: 'Modular architecture, responsive user interface, rapid data processing pipeline, and live interactive presentation layout.',
-                  results: [
-                    'Successfully built and pitched a complete functional prototype within 24 non-stop hackathon hours',
-                    'Earned official Certificate of Participation at CIH 2k26 24-Hour Global Innovation Hackathon',
-                    'Demonstrated real-time problem solving, agile development under pressure, and efficient teamwork',
-                  ],
-                },
-              });
-            }
-          }
-
-          // Migration for Certifications (8 course certificates)
-          if (!parsed.certifications || parsed.certifications.length < 8 || !parsed.certifications[0]?.certificateUrl) {
-            parsed.certifications = initialPortfolioData.certifications;
-          }
-
-          // Migration for Workshops & Trainings (8 training certificates)
-          if (!parsed.workshops || parsed.workshops.length < 8 || !parsed.workshops[0]?.certificateUrl) {
-            parsed.workshops = initialPortfolioData.workshops;
-          }
-
           return parsed;
         }
       }
@@ -313,11 +124,69 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const [isLivePreview, setIsLivePreview] = useState<boolean>(false);
   const [openAdminModal, setOpenAdminModal] = useState<boolean>(false);
+  const [cloudSyncStatus, setCloudSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error'>('idle');
 
-  // Sync state to LocalStorage
+  // Defensive safe data merging to prevent undefined crashes
+  const safeData: PortfolioData = {
+    ...initialPortfolioData,
+    ...data,
+    profile: { ...initialPortfolioData.profile, ...(data?.profile || {}) },
+    settings: { ...initialPortfolioData.settings, ...(data?.settings || {}) },
+    projects: (Array.isArray(data?.projects) && data.projects.length > 0) ? data.projects : initialPortfolioData.projects,
+    education: (Array.isArray(data?.education) && data.education.length > 0) ? data.education : initialPortfolioData.education,
+    experience: (Array.isArray(data?.experience) && data.experience.length > 0) ? data.experience : initialPortfolioData.experience,
+    workshops: (Array.isArray(data?.workshops) && data.workshops.length > 0) ? data.workshops : initialPortfolioData.workshops,
+    certifications: (Array.isArray(data?.certifications) && data.certifications.length > 0) ? data.certifications : initialPortfolioData.certifications,
+    skills: (Array.isArray(data?.skills) && data.skills.length > 0) ? data.skills : initialPortfolioData.skills,
+    currentlyLearning: (Array.isArray(data?.currentlyLearning) && data.currentlyLearning.length > 0) ? data.currentlyLearning : initialPortfolioData.currentlyLearning,
+    softSkills: (Array.isArray(data?.softSkills) && data.softSkills.length > 0) ? data.softSkills : initialPortfolioData.softSkills,
+    languages: Array.isArray(data?.languages) ? data.languages : initialPortfolioData.languages,
+    interests: Array.isArray(data?.interests) ? data.interests : initialPortfolioData.interests,
+    testimonials: Array.isArray(data?.testimonials) ? data.testimonials : initialPortfolioData.testimonials,
+    inquiries: Array.isArray(data?.inquiries) ? data.inquiries : initialPortfolioData.inquiries,
+  };
+
+  // Pull latest data from Cloud DB on app startup if Cloud DB URL is configured
+  useEffect(() => {
+    const cloudUrl = safeData.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
+    if (cloudUrl) {
+      fetch(cloudUrl)
+        .then((res) => res.json())
+        .then((cloudData) => {
+          const payload = cloudData?.record || cloudData;
+          if (payload && payload.profile && payload.projects) {
+            setData((prev) => ({
+              ...initialPortfolioData,
+              ...prev,
+              ...payload,
+              profile: { ...initialPortfolioData.profile, ...(prev?.profile || {}), ...(payload.profile || {}) },
+              settings: { ...initialPortfolioData.settings, ...(prev?.settings || {}), ...(payload.settings || {}) },
+              skills: (Array.isArray(payload.skills) && payload.skills.length > 0) ? payload.skills : (prev?.skills || initialPortfolioData.skills),
+              softSkills: (Array.isArray(payload.softSkills) && payload.softSkills.length > 0) ? payload.softSkills : (prev?.softSkills || initialPortfolioData.softSkills),
+              currentlyLearning: payload.currentlyLearning || prev?.currentlyLearning || initialPortfolioData.currentlyLearning,
+              projects: (Array.isArray(payload.projects) && payload.projects.length > 0) ? payload.projects : (prev?.projects || initialPortfolioData.projects),
+              education: (Array.isArray(payload.education) && payload.education.length > 0) ? payload.education : (prev?.education || initialPortfolioData.education),
+              experience: (Array.isArray(payload.experience) && payload.experience.length > 0) ? payload.experience : (prev?.experience || initialPortfolioData.experience),
+              certifications: (Array.isArray(payload.certifications) && payload.certifications.length > 0) ? payload.certifications : (prev?.certifications || initialPortfolioData.certifications),
+              workshops: (Array.isArray(payload.workshops) && payload.workshops.length > 0) ? payload.workshops : (prev?.workshops || initialPortfolioData.workshops),
+            }));
+          }
+        })
+        .catch((err) => {
+          console.warn('Cloud DB load skipped:', err);
+        });
+    }
+  }, []);
+
+  // Sync state to LocalStorage and Cloud DB
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      // If auto-cloud sync is enabled and Cloud URL exists, sync automatically on edit
+      const cloudUrl = safeData.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
+      if (safeData.settings?.enableCloudSync && cloudUrl && isAdmin) {
+        syncToCloudDB();
+      }
     } catch (e) {
       console.error('Failed to save to local storage', e);
     }
@@ -332,7 +201,8 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }, [isAdmin]);
 
   const loginAdmin = (pin: string): boolean => {
-    if (pin.trim() === data.settings.adminPin.trim() || pin === 'admin123') {
+    const currentPin = safeData.settings?.adminPin || 'admin123';
+    if (pin.trim() === currentPin.trim() || pin === 'admin123') {
       setIsAdmin(true);
       setOpenAdminModal(false);
       return true;
@@ -355,7 +225,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const newProject: Project = {
       ...projectData,
       id: `proj-${Date.now()}`,
-      order: data.projects.length + 1,
+      order: (safeData?.projects?.length || 0) + 1,
     };
     setData((prev) => ({
       ...prev,
@@ -545,6 +415,10 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return JSON.stringify(data, null, 2);
   };
 
+  const exportInitialDataTS = (): string => {
+    return `import { PortfolioData } from '../types/portfolio';\n\nexport const initialPortfolioData: PortfolioData = ${JSON.stringify(data, null, 2)};\n`;
+  };
+
   const importDataJSON = (jsonString: string): boolean => {
     try {
       const parsed = JSON.parse(jsonString);
@@ -558,8 +432,60 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return false;
   };
 
+  const syncToCloudDB = async (): Promise<boolean> => {
+    const cloudUrl = safeData.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
+    if (!cloudUrl) return false;
+    setCloudSyncStatus('syncing');
+    try {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (safeData.settings?.cloudDbSecret) {
+        headers['Authorization'] = `Bearer ${safeData.settings.cloudDbSecret}`;
+        headers['X-Master-Key'] = safeData.settings.cloudDbSecret;
+      }
+      const res = await fetch(cloudUrl, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        setCloudSyncStatus('success');
+        setTimeout(() => setCloudSyncStatus('idle'), 3000);
+        return true;
+      }
+    } catch (e) {
+      console.error('Failed to sync to Cloud DB', e);
+    }
+    setCloudSyncStatus('error');
+    setTimeout(() => setCloudSyncStatus('idle'), 3000);
+    return false;
+  };
+
+  const pullFromCloudDB = async (): Promise<boolean> => {
+    const cloudUrl = safeData.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
+    if (!cloudUrl) return false;
+    setCloudSyncStatus('syncing');
+    try {
+      const res = await fetch(cloudUrl);
+      if (res.ok) {
+        const cloudData = await res.json();
+        const payload = cloudData?.record || cloudData;
+        if (payload && payload.profile && payload.projects) {
+          setData(payload);
+          setCloudSyncStatus('success');
+          setTimeout(() => setCloudSyncStatus('idle'), 3000);
+          return true;
+        }
+      }
+    } catch (e) {
+      console.error('Failed to pull from Cloud DB', e);
+    }
+    setCloudSyncStatus('error');
+    setTimeout(() => setCloudSyncStatus('idle'), 3000);
+    return false;
+  };
+
   const getAccentClasses = () => {
-    const color: AccentColor = data.settings.accentColor || 'indigo';
+    const color: AccentColor = safeData.settings?.accentColor || 'indigo';
     switch (color) {
       case 'emerald':
         return {
@@ -628,7 +554,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   return (
     <PortfolioContext.Provider
       value={{
-        data,
+        data: safeData,
         isAdmin,
         isLivePreview,
         setIsLivePreview,
@@ -662,6 +588,10 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         resetToDefaults,
         exportDataJSON,
         importDataJSON,
+        exportInitialDataTS,
+        syncToCloudDB,
+        pullFromCloudDB,
+        cloudSyncStatus,
         getAccentClasses,
       }}
     >

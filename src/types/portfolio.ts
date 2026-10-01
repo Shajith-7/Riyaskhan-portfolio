@@ -137,6 +137,9 @@ export interface SiteSettings {
   showCertifications: boolean;
   showWorkshops: boolean;
   adminPin: string;
+  enableCloudSync?: boolean;
+  cloudDbUrl?: string;
+  cloudDbSecret?: string;
 }
 
 export interface PortfolioData {

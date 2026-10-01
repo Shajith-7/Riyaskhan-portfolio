@@ -60,6 +60,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
     resetToDefaults,
     exportDataJSON,
     importDataJSON,
+    exportInitialDataTS,
+    syncToCloudDB,
+    pullFromCloudDB,
+    cloudSyncStatus,
     logoutAdmin,
     getAccentClasses,
   } = usePortfolio();
@@ -1459,6 +1463,96 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
                     </button>
                   </div>
                 </form>
+
+                {/* Cloud Database Realtime Sync Settings (Client Delivery Mode) */}
+                <div className="p-5 rounded-xl border border-[#27D6D9]/40 bg-[#050505] space-y-4 shadow-xl">
+                  <div className="flex items-center justify-between border-b border-[#2A2A2A] pb-3">
+                    <div>
+                      <div className="text-xs font-extrabold text-[#27D6D9] uppercase tracking-wider flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-[#F0444B]" />
+                        <span>Realtime Cloud Database Sync (Zero-Code Client Delivery Mode)</span>
+                      </div>
+                      <p className="text-xs text-[#BDBDBD] mt-0.5">
+                        Allows your client to edit content in Admin Studio on their phone/laptop and automatically broadcast edits live to all devices worldwide without touching code!
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 font-mono text-xs">
+                      {cloudSyncStatus === 'syncing' && <span className="text-amber-400 font-bold animate-pulse">Syncing to Cloud...</span>}
+                      {cloudSyncStatus === 'success' && <span className="text-emerald-400 font-bold">Synced Live 🟢</span>}
+                      {cloudSyncStatus === 'error' && <span className="text-red-400 font-bold">Sync Idle / Local Only 🟡</span>}
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <label className="flex items-center gap-2 cursor-pointer text-xs text-white font-bold">
+                      <input
+                        type="checkbox"
+                        checked={data.settings?.enableCloudSync || false}
+                        onChange={(e) => updateSettings({ enableCloudSync: e.target.checked })}
+                        className="rounded border-[#2A2A2A] bg-black text-[#F0444B] h-4 w-4"
+                      />
+                      <span>Enable Automatic Live Cloud DB Sync on Every Admin Edit</span>
+                    </label>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-[#BDBDBD]">Cloud Database Endpoint URL (JSONBin / Supabase / Firebase / REST Bin)</label>
+                      <input
+                        type="url"
+                        value={data.settings?.cloudDbUrl || ''}
+                        onChange={(e) => updateSettings({ cloudDbUrl: e.target.value })}
+                        placeholder="e.g. https://api.jsonbin.io/v3/b/YOUR_BIN_ID or https://your-app.firebaseio.com/portfolio.json"
+                        className="w-full rounded-lg border border-[#2A2A2A] bg-black px-3.5 py-2 text-xs text-white font-mono focus:border-[#F0444B] focus:outline-none"
+                      />
+                      <p className="text-[11px] text-[#777777]">
+                        When configured, all visitor devices across the world fetch from this URL automatically on load without touching any code!
+                      </p>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-[#BDBDBD]">API Master Key / Secret Token (Optional)</label>
+                      <input
+                        type="password"
+                        value={data.settings?.cloudDbSecret || ''}
+                        onChange={(e) => updateSettings({ cloudDbSecret: e.target.value })}
+                        placeholder="Paste API Secret Key if required by provider"
+                        className="w-full rounded-lg border border-[#2A2A2A] bg-black px-3.5 py-2 text-xs text-white font-mono focus:border-[#F0444B] focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3 pt-2">
+                      <button
+                        type="button"
+                        onClick={syncToCloudDB}
+                        className="px-4 py-2 text-xs font-bold text-white bg-[#F0444B] hover:bg-[#FF6B6B] rounded-lg transition-all shadow-md flex items-center gap-1.5"
+                      >
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Sync Current Data to Cloud Now</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={pullFromCloudDB}
+                        className="px-4 py-2 text-xs font-bold text-[#27D6D9] bg-[#000000] hover:bg-[#1B1B1B] border border-[#2A2A2A] hover:border-[#27D6D9] rounded-lg transition-colors flex items-center gap-1.5"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        <span>Fetch Latest Data from Cloud DB</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const tsCode = exportInitialDataTS();
+                          navigator.clipboard.writeText(tsCode);
+                          alert('Copied complete initialData.ts code to clipboard! You can paste this directly into src/data/initialData.ts before delivering to the client.');
+                        }}
+                        className="px-4 py-2 text-xs font-bold text-amber-300 bg-amber-950/30 hover:bg-amber-900/50 border border-amber-800/50 rounded-lg transition-colors flex items-center gap-1.5"
+                      >
+                        <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                        <span>Copy initialData.ts Code for Delivery</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
                 {/* Backup & Import Data */}
                 <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-950/60 space-y-3">
