@@ -103,8 +103,9 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.profile?.name?.includes('Riyaskhan') && parsed.education) {
-          // Force final profile avatar photo
+          // Force final profile avatar photo and latest 8 skills
           parsed.profile.avatarUrl = '/images/final profile.jpg';
+          parsed.skills = initialPortfolioData.skills;
           return parsed;
         }
       }
