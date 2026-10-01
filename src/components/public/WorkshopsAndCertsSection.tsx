@@ -15,8 +15,8 @@ export const WorkshopsAndCertsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'training' | 'courses'>('training');
 
   if (
-    (!data.settings.showWorkshops && !data.settings.showCertifications) ||
-    (data.workshops.length === 0 && data.certifications.length === 0)
+    (!data?.settings?.showWorkshops && !data?.settings?.showCertifications) ||
+    ((!data?.workshops || data.workshops.length === 0) && (!data?.certifications || data.certifications.length === 0))
   ) {
     return null;
   }
