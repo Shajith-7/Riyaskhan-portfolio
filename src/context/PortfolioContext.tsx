@@ -381,7 +381,8 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }, [isAdmin]);
 
   const loginAdmin = (pin: string): boolean => {
-    if (pin.trim() === data.settings.adminPin.trim() || pin === 'admin123') {
+    const currentPin = safeData?.settings?.adminPin || 'admin123';
+    if (pin.trim() === currentPin.trim() || pin === 'admin123') {
       setIsAdmin(true);
       setOpenAdminModal(false);
       return true;
@@ -404,7 +405,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const newProject: Project = {
       ...projectData,
       id: `proj-${Date.now()}`,
-      order: data.projects.length + 1,
+      order: (safeData?.projects?.length || 0) + 1,
     };
     setData((prev) => ({
       ...prev,
@@ -599,14 +600,14 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   const syncToCloudDB = async (): Promise<boolean> => {
-    const cloudUrl = data.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
+    const cloudUrl = safeData.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
     if (!cloudUrl) return false;
     setCloudSyncStatus('syncing');
     try {
       const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-      if (data.settings?.cloudDbSecret) {
-        headers['Authorization'] = `Bearer ${data.settings.cloudDbSecret}`;
-        headers['X-Master-Key'] = data.settings.cloudDbSecret;
+      if (safeData.settings?.cloudDbSecret) {
+        headers['Authorization'] = `Bearer ${safeData.settings.cloudDbSecret}`;
+        headers['X-Master-Key'] = safeData.settings.cloudDbSecret;
       }
       const res = await fetch(cloudUrl, {
         method: 'PUT',
@@ -627,7 +628,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   const pullFromCloudDB = async (): Promise<boolean> => {
-    const cloudUrl = data.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
+    const cloudUrl = safeData.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
     if (!cloudUrl) return false;
     setCloudSyncStatus('syncing');
     try {
@@ -651,7 +652,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   const getAccentClasses = () => {
-    const color: AccentColor = data.settings.accentColor || 'indigo';
+    const color: AccentColor = safeData.settings?.accentColor || 'indigo';
     switch (color) {
       case 'emerald':
         return {
@@ -717,10 +718,29 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   };
 
+  const safeData: PortfolioData = {
+    ...initialPortfolioData,
+    ...data,
+    profile: { ...initialPortfolioData.profile, ...(data?.profile || {}) },
+    settings: { ...initialPortfolioData.settings, ...(data?.settings || {}) },
+    projects: (Array.isArray(data?.projects) && data.projects.length > 0) ? data.projects : initialPortfolioData.projects,
+    education: (Array.isArray(data?.education) && data.education.length > 0) ? data.education : initialPortfolioData.education,
+    experience: (Array.isArray(data?.experience) && data.experience.length > 0) ? data.experience : initialPortfolioData.experience,
+    workshops: (Array.isArray(data?.workshops) && data.workshops.length > 0) ? data.workshops : initialPortfolioData.workshops,
+    certifications: (Array.isArray(data?.certifications) && data.certifications.length > 0) ? data.certifications : initialPortfolioData.certifications,
+    skills: (Array.isArray(data?.skills) && data.skills.length > 0) ? data.skills : initialPortfolioData.skills,
+    currentlyLearning: (Array.isArray(data?.currentlyLearning) && data.currentlyLearning.length > 0) ? data.currentlyLearning : initialPortfolioData.currentlyLearning,
+    softSkills: (Array.isArray(data?.softSkills) && data.softSkills.length > 0) ? data.softSkills : initialPortfolioData.softSkills,
+    languages: Array.isArray(data?.languages) ? data.languages : initialPortfolioData.languages,
+    interests: Array.isArray(data?.interests) ? data.interests : initialPortfolioData.interests,
+    testimonials: Array.isArray(data?.testimonials) ? data.testimonials : initialPortfolioData.testimonials,
+    inquiries: Array.isArray(data?.inquiries) ? data.inquiries : initialPortfolioData.inquiries,
+  };
+
   return (
     <PortfolioContext.Provider
       value={{
-        data,
+        data: safeData,
         isAdmin,
         isLivePreview,
         setIsLivePreview,
