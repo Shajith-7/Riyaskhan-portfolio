@@ -117,13 +117,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return initialPortfolioData;
   });
 
-  const [isAdmin, setIsAdmin] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem(AUTH_STORAGE_KEY) === 'true';
-    } catch {
-      return false;
-    }
-  });
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const [isLivePreview, setIsLivePreview] = useState<boolean>(false);
   const [openAdminModal, setOpenAdminModal] = useState<boolean>(false);
