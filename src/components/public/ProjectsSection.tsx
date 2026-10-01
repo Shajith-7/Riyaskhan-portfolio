@@ -34,7 +34,7 @@ export const ProjectsSection: React.FC = () => {
 
         {/* Compact & Interactive Project Card Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-7xl mx-auto">
-          {data.projects.map((project) => {
+          {(data?.projects || []).map((project) => {
             const defaultShowcaseMap: { [id: string]: string } = {
               'proj-1': '/images/project-showcase/selavu-sherlock-ui.png',
               'proj-2': '/images/project-showcase/bio-arbitrage-ui.png',
@@ -43,6 +43,7 @@ export const ProjectsSection: React.FC = () => {
             };
 
             const projectCover = project.coverImage || defaultShowcaseMap[project.id] || '/images/project-showcase/selavu-sherlock-ui.png';
+            const projectTags = Array.isArray(project.tags) ? project.tags : ['TypeScript', 'React'];
 
             return (
               <article
@@ -111,7 +112,7 @@ export const ProjectsSection: React.FC = () => {
 
                   {/* Tech Tags */}
                   <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                    {project.tags.slice(0, 3).map((tag) => (
+                    {projectTags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
                         className="bg-[#000000] text-[#27D6D9] px-2 py-0.5 rounded text-[10px] font-mono border border-[#2A2A2A]"
@@ -119,9 +120,9 @@ export const ProjectsSection: React.FC = () => {
                         {tag}
                       </span>
                     ))}
-                    {project.tags.length > 3 && (
+                    {projectTags.length > 3 && (
                       <span className="text-[10px] font-mono text-[#777777]">
-                        +{project.tags.length - 3}
+                        +{projectTags.length - 3}
                       </span>
                     )}
                   </div>
