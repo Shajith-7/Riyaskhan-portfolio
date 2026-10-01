@@ -301,6 +301,46 @@
   }
 }
 
+/* Floating Admin Card & Big Spiders Peeking Keyframes */
+@keyframes cardFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(0.6deg);
+  }
+}
+
+@keyframes bigSpiderPeek1 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(-28deg) scale(1);
+  }
+  50% {
+    transform: translate(-16px, -12px) rotate(-18deg) scale(1.08);
+  }
+}
+
+@keyframes bigSpiderPeek2 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(152deg) scale(1);
+  }
+  50% {
+    transform: translate(18px, 14px) rotate(142deg) scale(1.08);
+  }
+}
+
+.animate-card-float {
+  animation: cardFloat 5.5s ease-in-out infinite;
+}
+
+.animate-big-spider-peek-1 {
+  animation: bigSpiderPeek1 4.5s ease-in-out infinite;
+}
+
+.animate-big-spider-peek-2 {
+  animation: bigSpiderPeek2 5s ease-in-out infinite 0.8s;
+}
+
 /* Spiders Wandering & Orbiting around the Big Spider Emblem */
 @keyframes orbitSpider1 {
   0% { transform: translate(20vw, 12vh) rotate(90deg); }

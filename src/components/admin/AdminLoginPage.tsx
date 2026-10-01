@@ -35,6 +35,39 @@ const WanderingSpider = ({ className = '', size = 26 }: { className?: string; si
   </div>
 );
 
+// Large Realistic Spider Lurking/Peeking behind Card
+const BigSpiderBehindCard = ({ className = '', size = 95 }: { className?: string; size?: number }) => (
+  <div className={`pointer-events-none absolute ${className}`}>
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" className="filter drop-shadow-[0_0_20px_rgba(240,68,75,0.95)]">
+      {/* Head & Abdomen */}
+      <ellipse cx="50" cy="38" rx="10" ry="13" fill="#F0444B" />
+      <circle cx="50" cy="62" r="17" fill="#54080B" stroke="#F0444B" strokeWidth="2.5" />
+      
+      {/* Spider Glowing Eyes & Fangs */}
+      <circle cx="44" cy="32" r="3" fill="#FFFFFF" className="animate-pulse" />
+      <circle cx="56" cy="32" r="3" fill="#FFFFFF" className="animate-pulse" />
+      <path d="M 44 24 Q 40 16 36 20" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M 56 24 Q 60 16 64 20" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" />
+
+      {/* Left 4 Legs */}
+      <g className="animate-leg-wiggle-left">
+        <path d="M 44 40 Q 18 12 2 8" stroke="#F0444B" strokeWidth="4.5" strokeLinecap="round" />
+        <path d="M 42 48 Q 12 32 0 34" stroke="#F0444B" strokeWidth="4.5" strokeLinecap="round" />
+        <path d="M 42 56 Q 10 58 2 72" stroke="#F0444B" strokeWidth="4.5" strokeLinecap="round" />
+        <path d="M 44 66 Q 14 82 4 98" stroke="#F0444B" strokeWidth="4.5" strokeLinecap="round" />
+      </g>
+
+      {/* Right 4 Legs */}
+      <g className="animate-leg-wiggle-right">
+        <path d="M 56 40 Q 82 12 98 8" stroke="#F0444B" strokeWidth="4.5" strokeLinecap="round" />
+        <path d="M 58 48 Q 88 32 100 34" stroke="#F0444B" strokeWidth="4.5" strokeLinecap="round" />
+        <path d="M 58 56 Q 90 58 98 72" stroke="#F0444B" strokeWidth="4.5" strokeLinecap="round" />
+        <path d="M 56 66 Q 86 82 96 98" stroke="#F0444B" strokeWidth="4.5" strokeLinecap="round" />
+      </g>
+    </svg>
+  </div>
+);
+
 // Realistic Hanging Spider Component for Login Card
 const HangingSpiderOnCard = ({ silkLength = 65, className = '' }: { silkLength?: number; className?: string }) => (
   <div className={`absolute z-40 pointer-events-none flex flex-col items-center ${className}`}>
@@ -139,15 +172,24 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ onBackToPublic }
 
       {/* Admin Login Detail Card (Positioned on the RIGHT Side) */}
       <div className="relative z-30 max-w-7xl w-full mx-auto my-auto py-8 flex items-center justify-end">
-        <div className="w-full max-w-md mr-0 sm:mr-6 lg:mr-12 relative">
+        
+        {/* Floating Container for Admin Login Card */}
+        <div className="w-full max-w-md mr-0 sm:mr-6 lg:mr-12 relative animate-card-float">
           
+          {/* TWO BIG SPIDERS LURKING BEHIND THE FLOATING LOGIN CARD */}
+          {/* Big Spider 1: Top-Left Behind Card */}
+          <BigSpiderBehindCard size={105} className="-top-14 -left-16 z-10 animate-big-spider-peek-1" />
+
+          {/* Big Spider 2: Bottom-Right Behind Card */}
+          <BigSpiderBehindCard size={100} className="-bottom-12 -right-16 z-10 animate-big-spider-peek-2" />
+
           {/* REALISTIC SPIDERS HANGING FROM THE LOGIN CARD */}
           <HangingSpiderOnCard silkLength={75} className="-top-16 left-8 animate-spider-hang-1" />
           <HangingSpiderOnCard silkLength={90} className="-top-20 right-12 animate-spider-hang-2" />
           <HangingSpiderOnCard silkLength={50} className="top-1/3 -right-6 animate-spider-hang-1" />
 
-          {/* Login Card Body */}
-          <div className="relative rounded-3xl bg-[#0d0307]/90 border border-[#F0444B]/50 p-7 sm:p-9 shadow-[0_0_60px_rgba(240,68,75,0.4)] backdrop-blur-2xl space-y-6 overflow-hidden">
+          {/* Login Card Body (Higher Z-Index z-20 so card floats over the two big spiders) */}
+          <div className="relative z-20 rounded-3xl bg-[#0d0307]/90 border border-[#F0444B]/50 p-7 sm:p-9 shadow-[0_0_60px_rgba(240,68,75,0.45)] backdrop-blur-2xl space-y-6 overflow-hidden">
             
             {/* Corner Decorative Web Accents inside Card */}
             <svg className="absolute top-0 right-0 w-24 h-24 text-[#F0444B]/25 pointer-events-none" viewBox="0 0 100 100">
