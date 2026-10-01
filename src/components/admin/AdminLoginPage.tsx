@@ -30,20 +30,19 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ onBackToPublic }
   return (
     <div className="min-h-screen bg-[#040103] text-[#FFFFFF] flex flex-col justify-between p-4 sm:p-8 relative overflow-hidden font-sans select-none">
       
-      {/* 1. Fullscreen Animated Spider Web Background Image (Flipped to Right side with Red Glow) */}
+      {/* Fullscreen Animated Spider Web Background Image (Flipped to Right side with Red Glow) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <img
           src="/images/spiderman-bg.png"
           alt="Spider Web Background"
-          className="w-full h-full object-cover object-right opacity-25 lg:opacity-35 scale-x-[-1] filter brightness-110 contrast-125 transition-opacity duration-1000"
+          className="w-full h-full object-cover object-right opacity-65 lg:opacity-85 scale-x-[-1] filter brightness-110 contrast-125 transition-opacity duration-1000 animate-spider-glow"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#040103] via-[#040103]/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#040103] via-[#040103]/60 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#040103] via-transparent to-[#040103]" />
       </div>
 
       {/* Ambient Glowing Orbs behind Spider Logo on the Right */}
-      <div className="absolute top-1/2 right-10 -translate-y-1/2 w-[550px] h-[550px] bg-[#F0444B]/20 rounded-full blur-[150px] pointer-events-none animate-pulse" />
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-[#27D6D9]/10 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/2 right-10 -translate-y-1/2 w-[550px] h-[550px] bg-[#F0444B]/25 rounded-full blur-[150px] pointer-events-none animate-pulse" />
 
       {/* Top Header Navigation */}
       <div className="relative z-20 flex items-center justify-between max-w-7xl w-full mx-auto pb-4 border-b border-[#2A2A2A]/60">
@@ -61,12 +60,10 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ onBackToPublic }
         </div>
       </div>
 
-      {/* Split Grid: Left Admin Password Detail Card, Right Glowing Animated Spider Emblem */}
-      <div className="relative z-10 max-w-7xl w-full mx-auto my-auto py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        
-        {/* LEFT SIDE: Admin Login Detail Card */}
-        <div className="lg:col-span-5 w-full max-w-md mx-auto lg:mx-0">
-          <div className="relative rounded-3xl bg-[#0d0307]/90 border border-[#F0444B]/40 p-7 sm:p-9 shadow-[0_0_50px_rgba(240,68,75,0.3)] backdrop-blur-2xl space-y-6">
+      {/* Admin Login Detail Card (Positioned on the Left Side) */}
+      <div className="relative z-10 max-w-7xl w-full mx-auto my-auto py-8 flex items-center justify-start">
+        <div className="w-full max-w-md ml-0 sm:ml-6 lg:ml-12">
+          <div className="relative rounded-3xl bg-[#0d0307]/90 border border-[#F0444B]/40 p-7 sm:p-9 shadow-[0_0_50px_rgba(240,68,75,0.35)] backdrop-blur-2xl space-y-6">
             
             {/* Top Red Glow Accent Header */}
             <div className="space-y-3 border-b border-[#F0444B]/30 pb-5">
@@ -137,33 +134,6 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ onBackToPublic }
 
           </div>
         </div>
-
-        {/* RIGHT SIDE: Animated Glowing Spider-Man Emblem */}
-        <div className="lg:col-span-7 flex flex-col items-center justify-center text-center">
-          <div className="relative w-full max-w-lg aspect-square flex items-center justify-center">
-            
-            {/* Glowing Spider Aura background ring */}
-            <div className="absolute inset-0 rounded-full bg-[#F0444B]/10 blur-[90px] animate-pulse pointer-events-none" />
-
-            {/* Glowing Spider-Man Emblem Image with breathing animation */}
-            <img
-              src="/images/spiderman-bg.png"
-              alt="Spider-Man Emblem"
-              className="relative z-10 w-full h-full object-contain filter drop-shadow-[0_0_45px_rgba(240,68,75,0.9)] animate-spider-glow transition-transform duration-700 hover:scale-105"
-            />
-          </div>
-
-          <div className="space-y-1.5 mt-4 relative z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-[#F0444B]/15 border border-[#F0444B]/50 text-[#F0444B] text-[11px] font-mono font-extrabold uppercase tracking-widest shadow-[0_0_20px_rgba(240,68,75,0.4)]">
-              <span className="w-2 h-2 rounded-full bg-[#F0444B] animate-ping" />
-              <span>SPIDER HERO CMS STUDIO</span>
-            </div>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight uppercase font-['Plus_Jakarta_Sans'] drop-shadow-md">
-              MOHAMED RIYASKHAN S · ADMIN PORTAL
-            </h3>
-          </div>
-        </div>
-
       </div>
 
       {/* Footer */}
@@ -174,5 +144,6 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ onBackToPublic }
     </div>
   );
 };
+
 
 
