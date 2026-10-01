@@ -68,10 +68,16 @@ interface PortfolioContextType {
   // Settings
   updateSettings: (settings: Partial<SiteSettings>) => void;
   
-  // Backup & Restore
+  // Backup & Restore & Code Export
   resetToDefaults: () => void;
   exportDataJSON: () => string;
   importDataJSON: (jsonString: string) => boolean;
+  exportInitialDataTS: () => string;
+
+  // Cloud Database Sync
+  syncToCloudDB: () => Promise<boolean>;
+  pullFromCloudDB: () => Promise<boolean>;
+  cloudSyncStatus: 'idle' | 'syncing' | 'success' | 'error';
   
   // Accent color helper
   getAccentClasses: () => {
@@ -314,10 +320,35 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [isLivePreview, setIsLivePreview] = useState<boolean>(false);
   const [openAdminModal, setOpenAdminModal] = useState<boolean>(false);
 
+  const [cloudSyncStatus, setCloudSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error'>('idle');
+
+  // Auto-fetch latest portfolio state from Cloud Database for all visitors on load if configured
+  useEffect(() => {
+    const cloudUrl = data.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
+    if (cloudUrl) {
+      fetch(cloudUrl)
+        .then((res) => (res.ok ? res.json() : null))
+        .then((cloudData) => {
+          const payload = cloudData?.record || cloudData;
+          if (payload && payload.profile && payload.projects) {
+            setData(payload);
+          }
+        })
+        .catch((err) => {
+          console.warn('Cloud DB load skipped:', err);
+        });
+    }
+  }, []);
+
   // Sync state to LocalStorage
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      // If auto-cloud sync is enabled and Cloud URL exists, sync automatically on edit
+      const cloudUrl = data.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
+      if (data.settings?.enableCloudSync && cloudUrl && isAdmin) {
+        syncToCloudDB();
+      }
     } catch (e) {
       console.error('Failed to save to local storage', e);
     }
@@ -545,16 +576,59 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return JSON.stringify(data, null, 2);
   };
 
-  const importDataJSON = (jsonString: string): boolean => {
+  const exportInitialDataTS = (): string => {
+    return `import { PortfolioData } from '../types/portfolio';\n\nexport const initialPortfolioData: PortfolioData = ${JSON.stringify(data, null, 2)};\n`;
+  };
+
+  const syncToCloudDB = async (): Promise<boolean> => {
+    const cloudUrl = data.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
+    if (!cloudUrl) return false;
+    setCloudSyncStatus('syncing');
     try {
-      const parsed = JSON.parse(jsonString);
-      if (parsed.profile && parsed.projects) {
-        setData(parsed);
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (data.settings?.cloudDbSecret) {
+        headers['Authorization'] = `Bearer ${data.settings.cloudDbSecret}`;
+        headers['X-Master-Key'] = data.settings.cloudDbSecret;
+      }
+      const res = await fetch(cloudUrl, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        setCloudSyncStatus('success');
+        setTimeout(() => setCloudSyncStatus('idle'), 3000);
         return true;
       }
     } catch (e) {
-      console.error('Invalid JSON file', e);
+      console.error('Failed to sync to Cloud DB', e);
     }
+    setCloudSyncStatus('error');
+    setTimeout(() => setCloudSyncStatus('idle'), 3000);
+    return false;
+  };
+
+  const pullFromCloudDB = async (): Promise<boolean> => {
+    const cloudUrl = data.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
+    if (!cloudUrl) return false;
+    setCloudSyncStatus('syncing');
+    try {
+      const res = await fetch(cloudUrl);
+      if (res.ok) {
+        const cloudData = await res.json();
+        const payload = cloudData?.record || cloudData;
+        if (payload && payload.profile && payload.projects) {
+          setData(payload);
+          setCloudSyncStatus('success');
+          setTimeout(() => setCloudSyncStatus('idle'), 3000);
+          return true;
+        }
+      }
+    } catch (e) {
+      console.error('Failed to pull from Cloud DB', e);
+    }
+    setCloudSyncStatus('error');
+    setTimeout(() => setCloudSyncStatus('idle'), 3000);
     return false;
   };
 
@@ -662,6 +736,10 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         resetToDefaults,
         exportDataJSON,
         importDataJSON,
+        exportInitialDataTS,
+        syncToCloudDB,
+        pullFromCloudDB,
+        cloudSyncStatus,
         getAccentClasses,
       }}
     >

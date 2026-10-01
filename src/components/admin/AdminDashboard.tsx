@@ -60,6 +60,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
     resetToDefaults,
     exportDataJSON,
     importDataJSON,
+    exportInitialDataTS,
+    syncToCloudDB,
+    pullFromCloudDB,
+    cloudSyncStatus,
     logoutAdmin,
     getAccentClasses,
   } = usePortfolio();
@@ -119,9 +123,44 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
   const [newPin, setNewPin] = useState(data.settings.adminPin);
   const [settingsSaved, setSettingsSaved] = useState(false);
 
+  // Cloud DB Sync State
+  const [cloudUrl, setCloudUrl] = useState(data.settings.cloudDbUrl || '');
+  const [cloudSecret, setCloudSecret] = useState(data.settings.cloudDbSecret || '');
+  const [autoSync, setAutoSync] = useState(data.settings.enableCloudSync || false);
+  const [tsCopied, setTsCopied] = useState(false);
+
   // Import JSON state
   const [jsonImportText, setJsonImportText] = useState('');
   const [importStatus, setImportStatus] = useState<string | null>(null);
+
+  const handleSaveCloudSettings = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateSettings({
+      cloudDbUrl: cloudUrl.trim(),
+      cloudDbSecret: cloudSecret.trim(),
+      enableCloudSync: autoSync,
+    });
+    setSettingsSaved(true);
+    setTimeout(() => setSettingsSaved(false), 2500);
+  };
+
+  const handleDownloadInitialDataTS = () => {
+    const code = exportInitialDataTS();
+    const blob = new Blob([code], { type: 'text/typescript' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'initialData.ts';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleCopyInitialDataTS = () => {
+    const code = exportInitialDataTS();
+    navigator.clipboard.writeText(code);
+    setTsCopied(true);
+    setTimeout(() => setTsCopied(false), 2500);
+  };
 
   const unreadInquiries = data.inquiries.filter((i) => i.status === 'unread');
 
@@ -1459,6 +1498,126 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToPublic }
                     </button>
                   </div>
                 </form>
+
+                {/* 1. Real-Time Cloud DB Sync (Multi-Device Visibility) */}
+                <form onSubmit={handleSaveCloudSettings} className="p-5 rounded-xl border border-[#27D6D9]/30 bg-[#000000] space-y-4 shadow-lg">
+                  <div className="flex items-center justify-between border-b border-neutral-800 pb-2">
+                    <div>
+                      <div className="text-xs font-bold text-[#27D6D9] uppercase tracking-wider font-mono">
+                        Real-Time Cloud Database Sync (Multi-Device Live Sync)
+                      </div>
+                      <p className="text-xs text-neutral-400 mt-0.5">
+                        Connect a free Cloud Database (Firebase Realtime DB or JSONBin) so edits on your device instantly show for all visitors worldwide on any phone/laptop.
+                      </p>
+                    </div>
+                    {cloudSyncStatus !== 'idle' && (
+                      <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${
+                        cloudSyncStatus === 'syncing' ? 'bg-amber-500/20 text-amber-300' :
+                        cloudSyncStatus === 'success' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'
+                      }`}>
+                        {cloudSyncStatus === 'syncing' ? 'Syncing...' : cloudSyncStatus === 'success' ? 'Synced to Cloud!' : 'Sync Failed'}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="space-y-3 text-xs">
+                    <div>
+                      <label className="block text-[#BDBDBD] font-medium mb-1">Cloud DB REST Endpoint URL (Firebase / JSONBin)</label>
+                      <input
+                        type="url"
+                        value={cloudUrl}
+                        onChange={(e) => setCloudUrl(e.target.value)}
+                        placeholder="https://your-project-id-default-rtdb.firebaseio.com/portfolio.json"
+                        className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-xs text-white focus:outline-none font-mono"
+                      />
+                      <p className="text-[11px] text-neutral-500 mt-1">
+                        Free setup: Create a Firebase Realtime Database or JSONBin.io bin and paste the JSON URL here.
+                      </p>
+                    </div>
+
+                    <div>
+                      <label className="block text-[#BDBDBD] font-medium mb-1">API Key / Secret Token (Optional)</label>
+                      <input
+                        type="password"
+                        value={cloudSecret}
+                        onChange={(e) => setCloudSecret(e.target.value)}
+                        placeholder="Bearer token or X-Master-Key if private"
+                        className="w-full rounded-lg border border-neutral-800 bg-neutral-950 px-3.5 py-2 text-xs text-white focus:outline-none font-mono"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between pt-1">
+                      <label className="flex items-center gap-2 cursor-pointer text-xs text-neutral-300">
+                        <input
+                          type="checkbox"
+                          checked={autoSync}
+                          onChange={(e) => setAutoSync(e.target.checked)}
+                          className="rounded border-neutral-800 bg-neutral-950 text-[#F0444B] h-4 w-4"
+                        />
+                        <span>Automatically sync to Cloud DB whenever I make edits</span>
+                      </label>
+
+                      <button
+                        type="submit"
+                        className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-white bg-neutral-800 hover:bg-neutral-700 transition-colors"
+                      >
+                        Save Cloud Config
+                      </button>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2.5 pt-2 border-t border-neutral-850">
+                      <button
+                        type="button"
+                        onClick={() => syncToCloudDB()}
+                        className="px-3.5 py-2 rounded-lg text-xs font-bold text-white bg-[#F0444B] hover:bg-[#FF6B6B] transition-colors flex items-center gap-1.5 shadow-sm"
+                      >
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Push Local Data to Cloud DB</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => pullFromCloudDB()}
+                        className="px-3.5 py-2 rounded-lg text-xs font-bold text-[#27D6D9] border border-[#27D6D9]/40 hover:bg-[#27D6D9]/10 transition-colors flex items-center gap-1.5"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        <span>Pull Latest Data from Cloud DB</span>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+
+                {/* 2. Update Source Code Baseline (initialData.ts) */}
+                <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-950/60 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-xs font-bold text-white">Update Source Code Baseline (<code className="text-[#27D6D9]">initialData.ts</code>)</div>
+                      <p className="text-xs text-neutral-400 mt-0.5">
+                        Embed your current CMS edits into your GitHub codebase so every visitor automatically sees your updated portfolio on fresh visits.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={handleDownloadInitialDataTS}
+                      className="px-4 py-2 rounded-lg text-xs font-bold text-white bg-[#F0444B] hover:bg-[#FF6B6B] transition-colors flex items-center gap-1.5 shadow-sm"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Download Updated initialData.ts</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleCopyInitialDataTS}
+                      className="px-4 py-2 rounded-lg text-xs font-bold text-neutral-200 bg-neutral-800 hover:text-white transition-colors flex items-center gap-1.5"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-[#27D6D9]" />
+                      <span>{tsCopied ? 'Code Copied to Clipboard!' : 'Copy initialData.ts Code'}</span>
+                    </button>
+                  </div>
+                </div>
 
                 {/* Backup & Import Data */}
                 <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-950/60 space-y-3">
