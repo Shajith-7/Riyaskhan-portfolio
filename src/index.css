@@ -301,68 +301,83 @@
   }
 }
 
+/* Spider Web Pulse & Glowing Animations */
+@keyframes webPulse {
+  0%, 100% {
+    stroke: #F0444B;
+    stroke-opacity: 0.85;
+    filter: drop-shadow(0 0 12px rgba(240, 68, 75, 0.9));
+  }
+  50% {
+    stroke: #FF6B6B;
+    stroke-opacity: 1;
+    filter: drop-shadow(0 0 22px rgba(240, 68, 75, 1));
+  }
+}
+
+/* Spider Web Sway & Hanging Droop Animation */
+@keyframes webHangSway {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(6px) rotate(1.2deg);
+  }
+}
+
+.animate-web-hang-sway {
+  animation: webHangSway 3.5s ease-in-out infinite;
+}
+
 .animate-web-pulse {
-  animation: webPulse 3s ease-in-out infinite;
+  animation: webPulse 2.5s ease-in-out infinite;
 }
 
-.animate-spider-glow {
-  animation: spiderGlowBreathing 4s ease-in-out infinite;
+/* Hanging Spider Swinging & Dangling Keyframes */
+@keyframes spiderHangSwing1 {
+  0%, 100% {
+    transform: translateY(0px) rotate(-6deg);
+  }
+  50% {
+    transform: translateY(14px) rotate(6deg);
+  }
 }
 
-/* Realistically Crawling Spiders across the Screen */
-@keyframes crawlSpider1 {
-  0% { transform: translate(8vw, 12vh) rotate(35deg); }
-  25% { transform: translate(32vw, 28vh) rotate(70deg); }
-  50% { transform: translate(55vw, 15vh) rotate(150deg); }
-  75% { transform: translate(40vw, 68vh) rotate(240deg); }
-  100% { transform: translate(8vw, 12vh) rotate(395deg); }
+@keyframes spiderHangSwing2 {
+  0%, 100% {
+    transform: translateY(0px) rotate(8deg);
+  }
+  50% {
+    transform: translateY(18px) rotate(-8deg);
+  }
 }
 
-@keyframes crawlSpider2 {
-  0% { transform: translate(75vw, 72vh) rotate(210deg); }
-  30% { transform: translate(45vw, 82vh) rotate(275deg); }
-  60% { transform: translate(22vw, 55vh) rotate(340deg); }
-  85% { transform: translate(58vw, 38vh) rotate(120deg); }
-  100% { transform: translate(75vw, 72vh) rotate(570deg); }
+.animate-spider-hang-1 {
+  animation: spiderHangSwing1 4s ease-in-out infinite;
 }
 
-@keyframes crawlSpider3 {
-  0% { transform: translate(18vw, 78vh) rotate(10deg); }
-  35% { transform: translate(38vw, 45vh) rotate(90deg); }
-  70% { transform: translate(72vw, 25vh) rotate(175deg); }
-  100% { transform: translate(18vw, 78vh) rotate(370deg); }
-}
-
-@keyframes spiderLegWiggleLeft {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(18deg); }
-}
-
-@keyframes spiderLegWiggleRight {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-18deg); }
-}
-
-.animate-spider-crawl-1 {
-  animation: crawlSpider1 26s ease-in-out infinite;
-}
-
-.animate-spider-crawl-2 {
-  animation: crawlSpider2 32s ease-in-out infinite;
-}
-
-.animate-spider-crawl-3 {
-  animation: crawlSpider3 20s ease-in-out infinite;
+.animate-spider-hang-2 {
+  animation: spiderHangSwing2 5s ease-in-out infinite 0.7s;
 }
 
 .animate-leg-wiggle-left {
   transform-origin: right center;
-  animation: spiderLegWiggleLeft 0.25s ease-in-out infinite;
+  animation: spiderLegWiggleLeft 0.22s ease-in-out infinite;
 }
 
 .animate-leg-wiggle-right {
   transform-origin: left center;
-  animation: spiderLegWiggleRight 0.25s ease-in-out infinite 0.12s;
+  animation: spiderLegWiggleRight 0.22s ease-in-out infinite 0.11s;
+}
+
+@keyframes spiderLegWiggleLeft {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(20deg); }
+}
+
+@keyframes spiderLegWiggleRight {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-20deg); }
 }
 
 
