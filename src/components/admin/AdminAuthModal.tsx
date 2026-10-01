@@ -55,32 +55,27 @@ export const AdminAuthModal: React.FC = () => {
         {/* Modal Body: Grid layout (Spider Animation Left, Admin Password Right) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 items-center p-6 sm:p-10 gap-6">
           
-          {/* Left Column: Spider-Man Emblem */}
+          {/* Left Column: Spider-Man Emblem Image & Web Overlay */}
           <div className="lg:col-span-6 flex flex-col items-center justify-center text-center p-4">
-            <div className="relative w-48 h-48 sm:w-64 sm:h-64 flex items-center justify-center">
+            <div className="relative w-56 h-64 sm:w-72 sm:h-80 flex items-center justify-center">
               
-              {/* Web SVG */}
-              <svg className="absolute inset-0 w-full h-full text-[#F0444B]/30 animate-spin-slow opacity-80" viewBox="0 0 400 400" fill="none">
-                <polygon points="200,40 313,86 360,200 313,314 200,360 87,314 40,200 87,86" stroke="currentColor" strokeWidth="1.2" strokeDasharray="4 4" />
-                <polygon points="200,80 285,115 320,200 285,285 200,320 115,285 80,200 115,115" stroke="currentColor" strokeWidth="1" />
-                <line x1="200" y1="10" x2="200" y2="390" stroke="currentColor" strokeWidth="1" />
-                <line x1="10" y1="200" x2="390" y2="200" stroke="currentColor" strokeWidth="1" />
+              {/* Web SVG radiating from spider legs */}
+              <svg className="absolute inset-0 w-full h-full text-[#F0444B]/35 overflow-visible" viewBox="0 0 300 350" fill="none">
+                <path d="M 30 40 Q 150 -10 270 40 Q 310 175 270 310 Q 150 360 30 310 Q -10 175 30 40 Z" stroke="currentColor" strokeWidth="1" strokeDasharray="4 4" />
+                <line x1="60" y1="60" x2="-30" y2="-30" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="240" y1="60" x2="330" y2="-30" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="50" y1="240" x2="-40" y2="280" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="250" y1="240" x2="340" y2="280" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="60" cy="60" r="3" fill="#F0444B" className="animate-ping" />
+                <circle cx="240" cy="60" r="3" fill="#F0444B" className="animate-ping" />
               </svg>
 
-              {/* Spider Emblem SVG */}
-              <svg className="w-40 h-40 sm:w-52 sm:h-52 relative z-10 filter drop-shadow-[0_0_30px_rgba(240,68,75,0.9)] animate-float-subtle" viewBox="0 0 100 100" fill="none">
-                <path d="M50 34 L46 44 L50 47 L54 44 Z" fill="#F0444B" />
-                <path d="M50 47 C42 55 42 72 50 80 C58 72 58 55 50 47 Z" fill="#F0444B" />
-                <circle cx="50" cy="32" r="3.5" fill="#F0444B" />
-                <path d="M48 43 Q32 22 18 25 Q30 36 46 46" stroke="#F0444B" strokeWidth="2.8" strokeLinecap="round" />
-                <path d="M47 49 Q28 36 12 43 Q26 51 46 53" stroke="#F0444B" strokeWidth="2.8" strokeLinecap="round" />
-                <path d="M47 57 Q26 64 10 76 Q26 71 46 62" stroke="#F0444B" strokeWidth="2.8" strokeLinecap="round" />
-                <path d="M48 65 Q33 82 22 96 Q36 86 48 72" stroke="#F0444B" strokeWidth="2.8" strokeLinecap="round" />
-                <path d="M52 43 Q68 22 82 25 Q70 36 54 46" stroke="#F0444B" strokeWidth="2.8" strokeLinecap="round" />
-                <path d="M53 49 Q72 36 88 43 Q74 51 54 53" stroke="#F0444B" strokeWidth="2.8" strokeLinecap="round" />
-                <path d="M53 57 Q74 64 90 76 Q74 71 54 62" stroke="#F0444B" strokeWidth="2.8" strokeLinecap="round" />
-                <path d="M52 65 Q67 82 78 96 Q64 86 52 72" stroke="#F0444B" strokeWidth="2.8" strokeLinecap="round" />
-              </svg>
+              {/* Uploaded Spider-Man Emblem Image */}
+              <img
+                src="/images/spiderman-emblem.png"
+                alt="Spider-Man Emblem"
+                className="relative z-10 w-full h-full object-contain filter drop-shadow-[0_0_30px_rgba(240,68,75,0.9)] animate-float-subtle"
+              />
             </div>
 
             <div className="space-y-1 mt-2">

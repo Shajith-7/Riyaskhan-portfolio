@@ -1,81 +1,81 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '../../context/PortfolioContext';
-import { ShieldCheck, Sparkles, ArrowLeft, KeyRound, Lock, Eye, EyeOff } from 'lucide-react';
+import { Sparkles, ArrowLeft, KeyRound, Lock, Eye, EyeOff } from 'lucide-react';
 
-interface AdminLoginPageProps {
-  onBackToPublic: () => void;
-}
-
-// Glowing Animated Spider-Man Web & Emblem Component
+// Glowing Animated Spider-Man Web & Emblem Component using user uploaded image
 const SpiderHeroAnimation = () => (
-  <div className="relative w-full flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden">
+  <div className="relative w-full flex flex-col items-center justify-center p-4 sm:p-6 text-center select-none overflow-hidden min-h-[480px]">
     
     {/* Ambient Glow Orbs */}
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#F0444B]/20 rounded-full blur-[100px] pointer-events-none" />
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#27D6D9]/10 rounded-full blur-[120px] pointer-events-none" />
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#F0444B]/25 rounded-full blur-[130px] pointer-events-none" />
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] bg-[#27D6D9]/10 rounded-full blur-[150px] pointer-events-none" />
 
-    {/* Spider Web Canvas SVG Container */}
-    <div className="relative w-72 h-72 sm:w-96 sm:h-96 flex items-center justify-center">
+    {/* Center Spider Container with Spreading Web SVG */}
+    <div className="relative w-80 h-96 sm:w-[420px] sm:h-[500px] flex items-center justify-center">
       
-      {/* Animated Web Rings */}
-      <svg className="absolute inset-0 w-full h-full text-[#F0444B]/25 animate-spin-slow opacity-80" viewBox="0 0 400 400" fill="none">
-        <polygon points="200,40 313,86 360,200 313,314 200,360 87,314 40,200 87,86" stroke="currentColor" strokeWidth="1.2" strokeDasharray="4 4" />
-        <polygon points="200,75 288,111 325,200 288,289 200,325 112,289 75,200 112,111" stroke="currentColor" strokeWidth="1" />
-        <polygon points="200,110 263,136 290,200 263,264 200,290 137,264 110,200 137,136" stroke="currentColor" strokeWidth="1.2" strokeDasharray="3 3" />
-        <polygon points="200,145 238,161 255,200 238,239 200,255 162,239 145,200 162,161" stroke="currentColor" strokeWidth="1" />
-        <polygon points="200,175 217,182 225,200 217,218 200,225 183,218 175,200 183,182" stroke="currentColor" strokeWidth="1" />
+      {/* Spider Web Spreading directly from Spider Legs (SVG Overlay) */}
+      <svg className="absolute inset-0 w-full h-full text-[#F0444B]/40 overflow-visible" viewBox="0 0 400 500" fill="none">
         
-        {/* Radial Web Spokes */}
-        <line x1="200" y1="10" x2="200" y2="390" stroke="currentColor" strokeWidth="1" />
-        <line x1="10" y1="200" x2="390" y2="200" stroke="currentColor" strokeWidth="1" />
-        <line x1="65" y1="65" x2="335" y2="335" stroke="currentColor" strokeWidth="1" />
-        <line x1="335" y1="65" x2="65" y2="335" stroke="currentColor" strokeWidth="1" />
+        {/* Outer Connecting Web Concentric Arcs spreading out */}
+        <path d="M 40 60 Q 200 -20 360 60 Q 420 250 360 440 Q 200 520 40 440 Q -20 250 40 60 Z" stroke="currentColor" strokeWidth="1.2" strokeDasharray="6 4" className="animate-pulse" />
+        <path d="M 70 90 Q 200 20 330 90 Q 380 250 330 410 Q 200 470 70 410 Q 20 250 70 90 Z" stroke="currentColor" strokeWidth="1" />
+        <path d="M 100 120 Q 200 50 300 120 Q 340 250 300 380 Q 200 430 100 380 Q 60 250 100 120 Z" stroke="currentColor" strokeWidth="1.2" strokeDasharray="4 4" />
+        <path d="M 125 150 Q 200 90 275 150 Q 310 250 275 350 Q 200 390 125 350 Q 90 250 125 150 Z" stroke="currentColor" strokeWidth="1" />
+
+        {/* Web Strands radiating directly from Top-Left Legs */}
+        <line x1="90" y1="90" x2="-50" y2="-50" stroke="currentColor" strokeWidth="1.5" />
+        <line x1="110" y1="130" x2="-60" y2="100" stroke="currentColor" strokeWidth="1.5" />
+        <line x1="75" y1="70" x2="-20" y2="-30" stroke="currentColor" strokeWidth="1.2" />
+
+        {/* Web Strands radiating directly from Top-Right Legs */}
+        <line x1="310" y1="90" x2="450" y2="-50" stroke="currentColor" strokeWidth="1.5" />
+        <line x1="290" y1="130" x2="460" y2="100" stroke="currentColor" strokeWidth="1.5" />
+        <line x1="325" y1="70" x2="420" y2="-30" stroke="currentColor" strokeWidth="1.2" />
+
+        {/* Web Strands radiating directly from Bottom-Left Legs */}
+        <line x1="70" y1="330" x2="-60" y2="360" stroke="currentColor" strokeWidth="1.5" />
+        <line x1="120" y1="430" x2="-40" y2="550" stroke="currentColor" strokeWidth="1.5" />
+        <line x1="140" y1="450" x2="60" y2="560" stroke="currentColor" strokeWidth="1.2" />
+
+        {/* Web Strands radiating directly from Bottom-Right Legs */}
+        <line x1="330" y1="330" x2="460" y2="360" stroke="currentColor" strokeWidth="1.5" />
+        <line x1="280" y1="430" x2="440" y2="550" stroke="currentColor" strokeWidth="1.5" />
+        <line x1="260" y1="450" x2="340" y2="560" stroke="currentColor" strokeWidth="1.2" />
+
+        {/* Intersecting Cross Threads Connecting Leg Tips */}
+        <path d="M 90 90 L 310 90 M 110 130 L 290 130 M 70 330 L 330 330 M 120 430 L 280 430" stroke="currentColor" strokeWidth="1" strokeDasharray="5 5" opacity="0.6" />
+
+        {/* Glowing Node Dots at Leg Tip Connection Points */}
+        <circle cx="90" cy="90" r="3.5" fill="#F0444B" className="animate-ping" />
+        <circle cx="310" cy="90" r="3.5" fill="#F0444B" className="animate-ping" />
+        <circle cx="110" cy="130" r="3" fill="#27D6D9" />
+        <circle cx="290" cy="130" r="3" fill="#27D6D9" />
+        <circle cx="70" cy="330" r="3.5" fill="#F0444B" />
+        <circle cx="330" cy="330" r="3.5" fill="#F0444B" />
+        <circle cx="120" cy="430" r="4" fill="#F0444B" className="animate-ping" />
+        <circle cx="280" cy="430" r="4" fill="#F0444B" className="animate-ping" />
       </svg>
 
-      {/* Cyber Glowing Red Spider Emblem */}
-      <svg className="w-56 h-56 sm:w-72 sm:h-72 relative z-10 filter drop-shadow-[0_0_35px_rgba(240,68,75,0.95)] animate-float-subtle" viewBox="0 0 100 100" fill="none">
-        <defs>
-          <linearGradient id="spiderRedGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#F0444B" />
-            <stop offset="50%" stopColor="#FF6B6B" />
-            <stop offset="100%" stopColor="#27D6D9" />
-          </linearGradient>
-        </defs>
+      {/* User's Uploaded Metallic Spider-Man Emblem Image */}
+      <img
+        src="/images/spiderman-emblem.png"
+        alt="Spider-Man Emblem"
+        className="relative z-10 w-full h-full object-contain filter drop-shadow-[0_0_40px_rgba(240,68,75,0.95)] hover:scale-105 transition-transform duration-500 animate-float-subtle"
+      />
 
-        {/* Spider Eyes & Head */}
-        <path d="M50 34 L46 44 L50 47 L54 44 Z" fill="url(#spiderRedGlow)" />
-        <path d="M50 47 C42 55 42 72 50 80 C58 72 58 55 50 47 Z" fill="url(#spiderRedGlow)" />
-        <circle cx="50" cy="32" r="3.5" fill="url(#spiderRedGlow)" />
-
-        {/* Top Left Legs */}
-        <path d="M48 43 Q32 22 18 25 Q30 36 46 46" stroke="url(#spiderRedGlow)" strokeWidth="2.8" strokeLinecap="round" />
-        <path d="M47 49 Q28 36 12 43 Q26 51 46 53" stroke="url(#spiderRedGlow)" strokeWidth="2.8" strokeLinecap="round" />
-
-        {/* Bottom Left Legs */}
-        <path d="M47 57 Q26 64 10 76 Q26 71 46 62" stroke="url(#spiderRedGlow)" strokeWidth="2.8" strokeLinecap="round" />
-        <path d="M48 65 Q33 82 22 96 Q36 86 48 72" stroke="url(#spiderRedGlow)" strokeWidth="2.8" strokeLinecap="round" />
-
-        {/* Top Right Legs */}
-        <path d="M52 43 Q68 22 82 25 Q70 36 54 46" stroke="url(#spiderRedGlow)" strokeWidth="2.8" strokeLinecap="round" />
-        <path d="M53 49 Q72 36 88 43 Q74 51 54 53" stroke="url(#spiderRedGlow)" strokeWidth="2.8" strokeLinecap="round" />
-
-        {/* Bottom Right Legs */}
-        <path d="M53 57 Q74 64 90 76 Q74 71 54 62" stroke="url(#spiderRedGlow)" strokeWidth="2.8" strokeLinecap="round" />
-        <path d="M52 65 Q67 82 78 96 Q64 86 52 72" stroke="url(#spiderRedGlow)" strokeWidth="2.8" strokeLinecap="round" />
-      </svg>
     </div>
 
     {/* Header Titles under Spider */}
-    <div className="space-y-1 mt-4">
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F0444B]/10 border border-[#F0444B]/40 text-[#F0444B] text-[10px] font-mono font-extrabold uppercase tracking-widest">
+    <div className="space-y-1 mt-4 relative z-10">
+      <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#F0444B]/15 border border-[#F0444B]/50 text-[#F0444B] text-[10px] font-mono font-extrabold uppercase tracking-widest shadow-[0_0_15px_rgba(240,68,75,0.4)]">
         <span className="w-2 h-2 rounded-full bg-[#F0444B] animate-ping" />
-        WELCOME HERO
+        SPIDER HERO CMS STUDIO
       </div>
       <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight uppercase font-['Plus_Jakarta_Sans'] drop-shadow-md">
         SPIDER HERO AUTHENTICATION
       </h2>
-      <p className="text-xs font-mono text-[#27D6D9] tracking-wider">
-        MOHAMED RIYASKHAN S · CMS ADMIN STUDIO
+      <p className="text-xs font-mono text-[#27D6D9] tracking-wider font-bold">
+        MOHAMED RIYASKHAN S · ADMIN PORTAL
       </p>
     </div>
 
@@ -133,12 +133,12 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ onBackToPublic }
       {/* Main Split Grid: Left Spider-Man Animation, Right Password Box */}
       <div className="relative z-10 max-w-7xl w-full mx-auto my-auto py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         
-        {/* Left Side: Spider-Man Animation */}
+        {/* Left Side: Spider-Man Image & Spreading Web Animation */}
         <div className="lg:col-span-7 flex flex-col items-center justify-center">
           <SpiderHeroAnimation />
         </div>
 
-        {/* Right Side: Admin Password Box matching User Screenshot */}
+        {/* Right Side: Admin Password Box */}
         <div className="lg:col-span-5 w-full max-w-md mx-auto">
           <div className="relative rounded-3xl bg-[#0d0307]/90 border border-[#F0444B]/50 p-6 sm:p-8 shadow-[0_0_50px_rgba(240,68,75,0.35)] backdrop-blur-2xl space-y-6">
             
