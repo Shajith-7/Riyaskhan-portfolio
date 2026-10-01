@@ -43,113 +43,50 @@ export const SkillsSection: React.FC = () => {
     return null;
   }
 
-  // 1. Technical & Programming Skills with Floating Icons
-  const technicalSkills = [
-    {
-      id: 'c-lang',
-      name: 'C Language',
-      category: 'Core Programming',
-      level: 'Foundational & Logic',
-      icon: <CIcon />,
-      color: '#5C6BC0',
-      tag: 'Core Tech',
-      rating: 85,
-      desc: 'Structured Programming, Memory Allocation & Algorithms'
-    },
-    {
-      id: 'python',
-      name: 'Python',
-      category: 'Programming & Automation',
-      level: 'Proficient',
-      icon: <PythonIcon />,
-      color: '#3776AB',
-      tag: 'Scripting & AI',
-      rating: 90,
-      desc: 'Data Processing, Scripting, AI Workflows & Logic'
-    },
-    {
-      id: 'web-dev',
-      name: 'Web Development',
-      category: 'Frontend & UI',
-      level: 'Proficient',
-      icon: <Globe className="w-8 h-8 text-[#38bdf8]" />,
-      color: '#38bdf8',
-      tag: 'Fullstack UI',
-      rating: 88,
-      desc: 'HTML5, CSS3, JavaScript, React & Modern Web Design'
-    },
-    {
-      id: 'ms-office',
-      name: 'MS Office Suite',
-      category: 'Productivity & Analysis',
-      level: 'Certified (Excel)',
-      icon: <FileSpreadsheet className="w-8 h-8 text-[#107C41]" />,
-      color: '#107C41',
-      tag: 'Data & Reports',
-      rating: 92,
-      desc: 'MS Excel Data Analysis, Word Documentation & Presentations'
-    },
-    {
-      id: 'machine-learning',
-      name: 'Machine Learning',
-      category: 'Artificial Intelligence',
-      level: 'Hands-on Projects',
-      icon: <Brain className="w-8 h-8 text-[#AB47BC]" />,
-      color: '#AB47BC',
-      tag: 'AI & Data',
-      rating: 82,
-      desc: 'Predictive Modeling, Scikit-Learn & Intelligent Systems'
-    },
-    {
-      id: 'vibe-coding',
-      name: 'Vibe Coding',
-      category: 'AI-Assisted Dev',
-      level: 'Hackathon Champion',
-      icon: <Sparkles className="w-8 h-8 text-[#FFD700]" />,
-      color: '#FFD700',
-      tag: 'Rapid Dev',
-      rating: 95,
-      desc: 'Rapid Prototyping, Prompt Engineering & Agentic Tooling'
-    },
-    {
-      id: 'cybersecurity',
-      name: 'Cybersecurity',
-      category: 'Security & Defense',
-      level: 'Internship Certified',
-      icon: <ShieldCheck className="w-8 h-8 text-[#00E676]" />,
-      color: '#00E676',
-      tag: 'CodTech Certified',
-      rating: 86,
-      desc: 'Network Auditing, Security Tools, Vulnerability Scan'
-    },
-    {
-      id: 'database',
-      name: 'Database',
-      category: 'Data & Storage',
-      level: 'Practical Hands-on',
-      icon: <Database className="w-8 h-8 text-[#009688]" />,
-      color: '#009688',
-      tag: 'SQL & Storage',
-      rating: 85,
-      desc: 'Relational Databases, SQL Queries, Data Modeling & Management'
-    }
-  ];
+  const getSkillIcon = (name: string) => {
+    const lower = name.toLowerCase();
+    if (lower.includes('c ') || lower === 'c' || lower.includes('c language') || lower.includes('c programming')) return <CIcon />;
+    if (lower.includes('python')) return <PythonIcon />;
+    if (lower.includes('web') || lower.includes('html') || lower.includes('react') || lower.includes('css') || lower.includes('frontend')) return <Globe className="w-8 h-8 text-[#38bdf8]" />;
+    if (lower.includes('excel') || lower.includes('office') || lower.includes('ms office')) return <FileSpreadsheet className="w-8 h-8 text-[#107C41]" />;
+    if (lower.includes('machine') || lower.includes('ai') || lower.includes('intelligence')) return <Brain className="w-8 h-8 text-[#AB47BC]" />;
+    if (lower.includes('vibe') || lower.includes('prompt') || lower.includes('logic')) return <Sparkles className="w-8 h-8 text-[#FFD700]" />;
+    if (lower.includes('cyber') || lower.includes('security') || lower.includes('ethical') || lower.includes('hacking')) return <ShieldCheck className="w-8 h-8 text-[#00E676]" />;
+    if (lower.includes('data') || lower.includes('sql') || lower.includes('db') || lower.includes('database')) return <Database className="w-8 h-8 text-[#009688]" />;
+    if (lower.includes('cisco') || lower.includes('network') || lower.includes('tcp')) return <Cpu className="w-8 h-8 text-[#27D6D9]" />;
+    return <Zap className="w-8 h-8 text-[#F0444B]" />;
+  };
 
-  // 2. Soft Skills & Strengths
-  const softSkillsRow1 = [
-    'Quick Learner',
-    'Team Collaboration',
-    'Time Management',
-    'Adaptability'
-  ];
+  // Build Technical & Programming Skills dynamically from CMS state (data.skills)
+  const technicalSkills = data.skills.flatMap((cat) =>
+    cat.skills.map((s, idx) => ({
+      id: `${cat.id}-${idx}`,
+      name: s.name,
+      category: cat.name,
+      level: s.level >= 90 ? 'Expert' : s.level >= 80 ? 'Proficient' : 'Foundational & Practical',
+      icon: getSkillIcon(s.name),
+      tag: cat.name.split(' ')[0] || 'Core',
+      rating: s.level || 85,
+      desc: `${s.name} proficiency under ${cat.name}`,
+    }))
+  );
 
-  const softSkillsRow2 = [
-    'Curious & Self-Motivated',
-    'Consistent Learner',
-    'Open to Feedback'
-  ];
+  // Build Soft Skills & Strengths dynamically from CMS state (data.softSkills)
+  const allSoftSkills = (data.softSkills && data.softSkills.length > 0)
+    ? data.softSkills
+    : [
+        'Quick Learner',
+        'Team Collaboration',
+        'Time Management',
+        'Adaptability',
+        'Curious & Self-Motivated',
+        'Consistent Learner',
+        'Open to Feedback',
+      ];
 
-  const allSoftSkills = [...softSkillsRow1, ...softSkillsRow2];
+  const midIndex = Math.ceil(allSoftSkills.length / 2);
+  const softSkillsRow1 = allSoftSkills.slice(0, midIndex);
+  const softSkillsRow2 = allSoftSkills.slice(midIndex);
 
   return (
     <section id="skills" className="py-[60px] md:py-[80px] bg-[#000000] border-b border-[#2A2A2A] relative overflow-hidden">

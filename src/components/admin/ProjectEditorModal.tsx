@@ -244,12 +244,26 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
               />
             </div>
 
-            {/* Cover Image Selector */}
+            {/* 1. Certificate Image Uploader (Shown on View Certificate) */}
+            <ImageUploader
+              value={certificateUrl}
+              onChange={setCertificateUrl}
+              label="1. Hackathon / Project Certificate Image (Shown on 'View Certificate')"
+              placeholder="e.g. /images/hackathon-certificates/Selavu Sherlock AI.PNG or upload certificate image file"
+              presetImages={[
+                { label: 'Selavu Sherlock Cert', url: '/images/hackathon-certificates/Selavu Sherlock AI.PNG' },
+                { label: 'Bio-Arbitrage Cert', url: '/images/hackathon-certificates/Bio-Arbitrage.PNG' },
+                { label: 'SmartQ AI Cert', url: '/images/hackathon-certificates/SmartQ AI.PNG' },
+                { label: 'CIH 2k26 Cert', url: '/images/hackathon-certificates/CIH 2k26.PNG' },
+              ]}
+            />
+
+            {/* 2. Project Showcase Image Uploader (Shown on Cards) */}
             <ImageUploader
               value={coverImage}
               onChange={setCoverImage}
-              label="Project Cover Image"
-              placeholder="e.g. /images/selavu-sherlock.png or upload image file"
+              label="2. Project Showcase Image (Shown on Project Cards)"
+              placeholder="e.g. /images/project-showcase/selavu-sherlock-ui.png or upload showcase image file"
               presetImages={PRESET_COVERS}
             />
 

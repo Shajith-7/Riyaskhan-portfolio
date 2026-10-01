@@ -42,9 +42,7 @@ export const ProjectsSection: React.FC = () => {
               'proj-4': '/images/project-showcase/cih-2k26-ui.png',
             };
 
-            const projectCover = (project.coverImage && !project.coverImage.includes('hackathon-certificates'))
-              ? project.coverImage
-              : defaultShowcaseMap[project.id] || '/images/project-showcase/selavu-sherlock-ui.png';
+            const projectCover = project.coverImage || defaultShowcaseMap[project.id] || '/images/project-showcase/selavu-sherlock-ui.png';
 
             return (
               <article

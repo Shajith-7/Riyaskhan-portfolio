@@ -46,45 +46,62 @@ export const Hero: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, roleIndex]);
 
-  // Handle Automatic Audio Autoplay and Scroll Stop / Play Logic
+  // Handle Automatic Audio Autoplay on Hero, and Strict Pause / Mute on Scroll & Navigation
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.volume = 1.0;
+    let isHeroVisible = true;
 
-    // Attempt unmuted play on mount
-    video.muted = false;
-    video.play().catch(() => {
-      // If browser blocks unmuted autoplay, play muted temporarily until first visitor gesture
-      video.muted = true;
-      video.play().catch(() => {});
-    });
-
-    // Invisible background handler: Unmute audio on any visitor interaction
-    const handleUserInteraction = () => {
-      if (video) {
-        video.muted = false;
-        video.volume = 1.0;
+    const playAudioOnHero = () => {
+      if (!isHeroVisible) return;
+      video.muted = false;
+      video.volume = 1.0;
+      video.play().catch(() => {
+        // Fallback if browser blocks unmuted autoplay until user gesture
+        video.muted = true;
         video.play().catch(() => {});
+      });
+    };
+
+    const stopAudioOnOtherPages = () => {
+      video.pause();
+      video.muted = true;
+    };
+
+    // Attempt audio playback on mount
+    playAudioOnHero();
+
+    // User gesture listener to enable audio if browser blocked initial autoplay
+    const handleUserGesture = () => {
+      const heroElement = heroRef.current;
+      if (!heroElement) return;
+      const rect = heroElement.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (inView) {
+        playAudioOnHero();
+      } else {
+        stopAudioOnOtherPages();
       }
     };
 
-    const events = ['click', 'touchstart', 'keydown', 'pointerdown', 'scroll', 'mousemove'];
-    events.forEach((evt) => window.addEventListener(evt, handleUserInteraction, { passive: true }));
+    const gestureEvents = ['click', 'touchstart', 'pointerdown', 'keydown'];
+    gestureEvents.forEach((evt) => window.addEventListener(evt, handleUserGesture, { passive: true }));
 
-    // IntersectionObserver: Pause video and audio when scrolled away, resume when on Hero screen
+    // IntersectionObserver: Strict threshold checking for Hero section
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            video.play().catch(() => {});
+            isHeroVisible = true;
+            playAudioOnHero();
           } else {
-            video.pause();
+            isHeroVisible = false;
+            stopAudioOnOtherPages();
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.2 }
     );
 
     if (heroRef.current) {
@@ -93,7 +110,8 @@ export const Hero: React.FC = () => {
 
     return () => {
       observer.disconnect();
-      events.forEach((evt) => window.removeEventListener(evt, handleUserInteraction));
+      gestureEvents.forEach((evt) => window.removeEventListener(evt, handleUserGesture));
+      stopAudioOnOtherPages();
     };
   }, []);
 
