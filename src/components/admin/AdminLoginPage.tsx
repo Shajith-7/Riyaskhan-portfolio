@@ -111,60 +111,9 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ onBackToPublic }
       </div>
 
       {/* Ambient Red Glow behind Left Big Spider */}
-      <div className="absolute top-[35%] left-[20%] -translate-y-1/2 w-[500px] h-[500px] bg-[#F0444B]/20 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-[32%] left-[18%] -translate-y-1/2 w-[500px] h-[500px] bg-[#F0444B]/20 rounded-full blur-[150px] pointer-events-none" />
 
-      {/* 2. Connected Glowing Web Strands Overlay Layer */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible" fill="none">
-        <defs>
-          <filter id="connectedWebGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="1.5" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        <g filter="url(#connectedWebGlow)">
-          {/* Radial Web Spokes Radiating Outward from Big Spider Center (20vw, 35vh) */}
-          <line x1="20vw" y1="35vh" x2="20vw" y2="8vh" stroke="#F0444B" strokeOpacity="0.5" strokeWidth="1.2" strokeDasharray="3 2" />
-          <line x1="20vw" y1="35vh" x2="36vw" y2="18vh" stroke="#F0444B" strokeOpacity="0.5" strokeWidth="1.2" strokeDasharray="3 2" />
-          <line x1="20vw" y1="35vh" x2="42vw" y2="35vh" stroke="#F0444B" strokeOpacity="0.5" strokeWidth="1.2" strokeDasharray="3 2" />
-          <line x1="20vw" y1="35vh" x2="34vw" y2="55vh" stroke="#F0444B" strokeOpacity="0.5" strokeWidth="1.2" strokeDasharray="3 2" />
-          <line x1="20vw" y1="35vh" x2="20vw" y2="68vh" stroke="#F0444B" strokeOpacity="0.5" strokeWidth="1.2" strokeDasharray="3 2" />
-          <line x1="20vw" y1="35vh" x2="6vw" y2="55vh" stroke="#F0444B" strokeOpacity="0.5" strokeWidth="1.2" strokeDasharray="3 2" />
-          <line x1="20vw" y1="35vh" x2="3vw" y2="35vh" stroke="#F0444B" strokeOpacity="0.5" strokeWidth="1.2" strokeDasharray="3 2" />
-          <line x1="20vw" y1="35vh" x2="6vw" y2="15vh" stroke="#F0444B" strokeOpacity="0.5" strokeWidth="1.2" strokeDasharray="3 2" />
-
-          {/* Concentric Inner Connected Web Ring */}
-          <path
-            d="M 20vw 22vh Q 28vw 25vh 30vw 35vh Q 27vw 45vh 20vw 48vh Q 13vw 45vh 10vw 35vh Q 13vw 25vh 20vw 22vh Z"
-            stroke="#FF6B6B"
-            strokeWidth="1.5"
-            strokeOpacity="0.65"
-          />
-
-          {/* Concentric Outer Connected Web Ring */}
-          <path
-            d="M 20vw 10vh Q 36vw 18vh 40vw 35vh Q 34vw 55vh 20vw 65vh Q 6vw 55vh 4vw 35vh Q 6vw 15vh 20vw 10vh Z"
-            stroke="#F0444B"
-            strokeWidth="1.5"
-            strokeOpacity="0.55"
-          />
-
-          {/* Glowing Intersect Web Nodes */}
-          <circle cx="20vw" cy="22vh" r="3.5" fill="#F0444B" />
-          <circle cx="30vw" cy="35vh" r="3.5" fill="#F0444B" />
-          <circle cx="20vw" cy="48vh" r="3.5" fill="#F0444B" />
-          <circle cx="10vw" cy="35vh" r="3.5" fill="#F0444B" />
-          <circle cx="20vw" cy="10vh" r="4" fill="#FF6B6B" />
-          <circle cx="40vw" cy="35vh" r="4" fill="#FF6B6B" />
-          <circle cx="20vw" cy="65vh" r="4" fill="#FF6B6B" />
-          <circle cx="4vw" cy="35vh" r="4" fill="#FF6B6B" />
-        </g>
-      </svg>
-
-      {/* 3. Multiple Realistic Mini Spiders Walking EXACTLY along the Connected Web Strands */}
+      {/* 2. Multiple Realistic Mini Spiders Wandering around the Left Big Spider Emblem */}
       <WanderingSpider size={28} className="animate-spider-orbit-1" />
       <WanderingSpider size={24} className="animate-spider-orbit-2" />
       <WanderingSpider size={30} className="animate-spider-orbit-3" />
