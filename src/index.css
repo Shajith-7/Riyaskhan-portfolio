@@ -301,37 +301,58 @@
   }
 }
 
-/* Spider Web Pulse & Glowing Animations */
-@keyframes webPulse {
-  0%, 100% {
-    stroke: #F0444B;
-    stroke-opacity: 0.85;
-    filter: drop-shadow(0 0 12px rgba(240, 68, 75, 0.9));
-  }
-  50% {
-    stroke: #FF6B6B;
-    stroke-opacity: 1;
-    filter: drop-shadow(0 0 22px rgba(240, 68, 75, 1));
-  }
+/* Spiders Wandering & Orbiting around the Big Spider Emblem */
+@keyframes orbitSpider1 {
+  0% { transform: translate(20vw, 12vh) rotate(90deg); }
+  25% { transform: translate(36vw, 32vh) rotate(180deg); }
+  50% { transform: translate(22vw, 58vh) rotate(270deg); }
+  75% { transform: translate(6vw, 32vh) rotate(360deg); }
+  100% { transform: translate(20vw, 12vh) rotate(450deg); }
 }
 
-/* Spider Web Sway & Hanging Droop Animation */
-@keyframes webHangSway {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(6px) rotate(1.2deg);
-  }
+@keyframes orbitSpider2 {
+  0% { transform: translate(4vw, 18vh) rotate(-90deg); }
+  25% { transform: translate(20vw, 68vh) rotate(0deg); }
+  50% { transform: translate(42vw, 38vh) rotate(90deg); }
+  75% { transform: translate(20vw, 8vh) rotate(180deg); }
+  100% { transform: translate(4vw, 18vh) rotate(270deg); }
 }
 
-.animate-web-hang-sway {
-  animation: webHangSway 3.5s ease-in-out infinite;
+@keyframes orbitSpider3 {
+  0% { transform: translate(10vw, 8vh) rotate(45deg); }
+  33% { transform: translate(34vw, 52vh) rotate(190deg); }
+  66% { transform: translate(8vw, 48vh) rotate(310deg); }
+  100% { transform: translate(10vw, 8vh) rotate(405deg); }
 }
 
-.animate-web-pulse {
-  animation: webPulse 2.5s ease-in-out infinite;
+@keyframes orbitSpider4 {
+  0% { transform: translate(2vw, 28vh) rotate(30deg); }
+  40% { transform: translate(24vw, 6vh) rotate(110deg); }
+  70% { transform: translate(38vw, 24vh) rotate(210deg); }
+  100% { transform: translate(2vw, 28vh) rotate(390deg); }
 }
+
+@keyframes orbitSpider5 {
+  0% { transform: translate(36vw, 42vh) rotate(220deg); }
+  50% { transform: translate(14vw, 70vh) rotate(320deg); }
+  80% { transform: translate(4vw, 42vh) rotate(420deg); }
+  100% { transform: translate(36vw, 42vh) rotate(580deg); }
+}
+
+@keyframes orbitSpider6 {
+  0% { transform: translate(26vw, 28vh) rotate(140deg); }
+  25% { transform: translate(16vw, 44vh) rotate(240deg); }
+  50% { transform: translate(12vw, 24vh) rotate(340deg); }
+  75% { transform: translate(22vw, 16vh) rotate(440deg); }
+  100% { transform: translate(26vw, 28vh) rotate(500deg); }
+}
+
+.animate-spider-orbit-1 { animation: orbitSpider1 24s linear infinite; }
+.animate-spider-orbit-2 { animation: orbitSpider2 30s linear infinite; }
+.animate-spider-orbit-3 { animation: orbitSpider3 18s linear infinite; }
+.animate-spider-orbit-4 { animation: orbitSpider4 22s linear infinite; }
+.animate-spider-orbit-5 { animation: orbitSpider5 28s linear infinite; }
+.animate-spider-orbit-6 { animation: orbitSpider6 16s linear infinite; }
 
 /* Hanging Spider Swinging & Dangling Keyframes */
 @keyframes spiderHangSwing1 {
