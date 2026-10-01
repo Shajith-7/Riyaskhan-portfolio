@@ -128,7 +128,7 @@ export const AboutSection: React.FC = () => {
               <div className="inline-block animate-float-subtle group cursor-default transition-all duration-300">
                 <div className="px-6 py-2.5 rounded-2xl bg-[#050505] border border-[#F0444B]/40 shadow-xl group-hover:border-[#FF6B6B] group-hover:shadow-[0_0_20px_rgba(255,107,107,0.3)] group-hover:-translate-y-1.5 transition-all duration-300 backdrop-blur-sm">
                   <h2 className="text-3xl sm:text-[36px] font-bold text-white font-['Plus_Jakarta_Sans'] tracking-tight flex items-center gap-2">
-                    About <span className="text-[#F0444B]">Me</span>
+                    Who I <span className="text-[#F0444B]">Am</span>
                   </h2>
                 </div>
               </div>

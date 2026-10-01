@@ -78,6 +78,7 @@ export interface InternshipProject {
   description: string;
   imageUrl: string;
   tags?: string[];
+  githubUrl?: string;
 }
 
 export interface Experience {

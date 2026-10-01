@@ -158,19 +158,10 @@ export const Hero: React.FC = () => {
           {/* Left Column Text Container */}
           <div className="lg:col-span-8 bg-[#000000]/80 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none p-5 sm:p-8 rounded-3xl border border-[#2A2A2A]/40 lg:border-none space-y-5 sm:space-y-6 text-center lg:text-left shadow-2xl lg:shadow-none">
             
-            {/* Top Pill Badge */}
-            <div className="flex justify-center lg:justify-start">
-              <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-[#050505]/90 border border-[#F0444B]/40 text-[#F0444B] text-[10px] sm:text-xs font-mono font-bold tracking-wider shadow-sand-glow backdrop-blur-md">
-                <span className="w-2 h-2 rounded-full bg-[#F0444B] animate-ping shrink-0" />
-                <span className="w-2 h-2 rounded-full bg-[#27D6D9] shrink-0" />
-                <span className="uppercase text-[#BDBDBD] truncate">AVAILABLE FOR TECH & SOFTWARE OPPORTUNITIES</span>
-              </div>
-            </div>
-
             {/* Headline Title */}
             <div className="space-y-1 sm:space-y-2">
               <p className="text-xl sm:text-3xl font-bold text-white tracking-tight drop-shadow-md">
-                Hi, I'm
+                I'm
               </p>
               <h1 className="text-3xl sm:text-5xl lg:text-[62px] font-extrabold tracking-tight uppercase font-['Plus_Jakarta_Sans'] leading-tight text-[#F0444B] drop-shadow-[0_0_30px_rgba(240,68,75,0.45)]">
                 Mohamed Riyaskhan S

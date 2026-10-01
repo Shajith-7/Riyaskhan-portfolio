@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '../../context/PortfolioContext';
-import { FileText, Award, Eye, X, Maximize2, ShieldCheck, FolderGit2, ExternalLink } from 'lucide-react';
+import { FileText, Award, X, Maximize2, ShieldCheck, FolderGit2, ExternalLink, Info, CheckCircle2, Sparkles } from 'lucide-react';
 import { Experience } from '../../types/portfolio';
 
 interface ActiveImageModal {
@@ -12,6 +12,7 @@ interface ActiveImageModal {
 export const ExperienceSection: React.FC = () => {
   const { data } = usePortfolio();
   const [activeImage, setActiveImage] = useState<ActiveImageModal | null>(null);
+  const [activeDetailsExp, setActiveDetailsExp] = useState<Experience | null>(null);
   const [activeCredentialsExp, setActiveCredentialsExp] = useState<Experience | null>(null);
   const [activeProjectsExp, setActiveProjectsExp] = useState<Experience | null>(null);
 
@@ -111,22 +112,32 @@ export const ExperienceSection: React.FC = () => {
 
                 {/* CARD ACTION BUTTONS */}
                 <div className="pt-4 border-t border-[#2A2A2A] flex flex-wrap items-center gap-3">
-                  {/* View Details Button (Shows Offer Letter & Certificates) */}
+                  
+                  {/* View Details Button (Shows Internship Details Overview) */}
                   <button
-                    onClick={() => setActiveCredentialsExp(exp)}
+                    onClick={() => setActiveDetailsExp(exp)}
                     className="px-5 py-2.5 bg-[#F0444B] hover:bg-[#FF6B6B] text-white text-xs font-bold rounded-xl transition-all shadow-md flex items-center gap-2 hover:scale-105"
                   >
-                    <FileText className="w-4 h-4" />
+                    <Info className="w-4 h-4" />
                     <span>View Details</span>
                   </button>
 
-                  {/* View Projects Button (Shows Internship Projects with Images) */}
+                  {/* View Certificate Button (Shows Offer Letter & Completion Certificate) */}
+                  <button
+                    onClick={() => setActiveCredentialsExp(exp)}
+                    className="px-5 py-2.5 bg-[#050505] hover:bg-[#1B1B1B] text-white border border-[#F0444B]/60 hover:border-[#F0444B] text-xs font-bold rounded-xl transition-all flex items-center gap-2 hover:scale-105"
+                  >
+                    <Award className="w-4 h-4 text-[#F0444B]" />
+                    <span>View Certificate</span>
+                  </button>
+
+                  {/* View Projects Button (Shows Internship Projects with Images & GitHub links) */}
                   <button
                     onClick={() => setActiveProjectsExp(exp)}
                     className="px-5 py-2.5 bg-[#000000] hover:bg-[#1B1B1B] text-[#FFFFFF] hover:text-[#27D6D9] border border-[#2A2A2A] text-xs font-bold rounded-xl transition-all flex items-center gap-2 hover:border-[#27D6D9]"
                   >
                     <FolderGit2 className="w-4 h-4 text-[#27D6D9]" />
-                    <span>View Projects</span>
+                    <span>View Projects ({exp.internshipProjects?.length || 4})</span>
                   </button>
                 </div>
 
@@ -137,7 +148,114 @@ export const ExperienceSection: React.FC = () => {
 
       </div>
 
-      {/* VIEW DETAILS MODAL (Offer Letter & Completion Certificate) */}
+      {/* VIEW DETAILS MODAL (Full Internship Role Information & Overview) */}
+      {activeDetailsExp && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md animate-fadeIn"
+          onClick={() => setActiveDetailsExp(null)}
+        >
+          <div 
+            className="relative max-w-3xl w-full bg-[#050505] border border-[#F0444B]/40 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="px-6 py-4 bg-[#000000] border-b border-[#2A2A2A] flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#27D6D9] font-bold flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#F0444B]" />
+                  Internship Overview & Details
+                </span>
+                <h3 className="text-xl font-bold text-white tracking-tight font-['Plus_Jakarta_Sans']">
+                  {activeDetailsExp.role}
+                </h3>
+              </div>
+              <button
+                onClick={() => setActiveDetailsExp(null)}
+                className="p-2 text-[#BDBDBD] hover:text-white hover:bg-[#1B1B1B] rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-[#050505] text-sm text-[#BDBDBD] leading-relaxed">
+              
+              {/* Organization Banner */}
+              <div className="p-5 rounded-2xl bg-[#000000] border border-[#2A2A2A] space-y-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h4 className="text-lg font-bold text-white font-['Plus_Jakarta_Sans']">
+                    {activeDetailsExp.company}
+                  </h4>
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#27D6D9]/15 text-[#27D6D9] border border-[#27D6D9]/30 flex items-center gap-1">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#27D6D9]" />
+                    Verified Certificate Holder
+                  </span>
+                </div>
+                <div className="text-xs font-mono text-[#F0444B]">
+                  {activeDetailsExp.period} · {activeDetailsExp.location}
+                </div>
+              </div>
+
+              {/* Comprehensive Description */}
+              <div className="space-y-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#F0444B]" />
+                  Internship Highlights & Core Focus
+                </h4>
+                <ul className="space-y-3 pl-2">
+                  {activeDetailsExp.achievements.map((ach, idx) => (
+                    <li key={idx} className="flex items-start gap-3 bg-[#000000] p-3.5 rounded-xl border border-[#2A2A2A]">
+                      <span className="w-2 h-2 rounded-full bg-[#F0444B] mt-2 shrink-0 shadow-[0_0_10px_rgba(240,68,75,0.5)]" />
+                      <span className="text-white text-xs sm:text-sm font-medium">{ach}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Technical Stack */}
+              <div className="space-y-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-[#27D6D9]">
+                  Technologies & Competencies Exercised
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {activeDetailsExp.tech.map((t) => (
+                    <span key={t} className="px-3 py-1.5 bg-[#000000] text-[#27D6D9] text-xs font-mono rounded-xl border border-[#2A2A2A]">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 py-3.5 bg-[#000000] border-t border-[#2A2A2A] flex items-center justify-between text-xs text-[#BDBDBD]">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    const exp = activeDetailsExp;
+                    setActiveDetailsExp(null);
+                    setActiveCredentialsExp(exp);
+                  }}
+                  className="px-3.5 py-1.5 bg-[#F0444B]/20 text-[#F0444B] hover:bg-[#F0444B] hover:text-white rounded-lg transition-all border border-[#F0444B]/40 font-bold flex items-center gap-1.5"
+                >
+                  <Award className="w-3.5 h-3.5" />
+                  <span>View Certificate</span>
+                </button>
+              </div>
+
+              <button
+                onClick={() => setActiveDetailsExp(null)}
+                className="px-4 py-1.5 bg-[#1B1B1B] hover:bg-[#2A2A2A] text-white font-bold rounded-lg transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* VIEW CERTIFICATE MODAL (Offer Letter & Completion Certificate) */}
       {activeCredentialsExp && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md animate-fadeIn"
@@ -151,7 +269,7 @@ export const ExperienceSection: React.FC = () => {
             <div className="px-6 py-4 bg-[#000000] border-b border-[#2A2A2A] flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-mono uppercase tracking-widest text-[#27D6D9] font-bold">
-                  Official Credentials & Documents
+                  Official Credentials & Certificates
                 </span>
                 <h3 className="text-lg font-bold text-white tracking-tight">
                   {activeCredentialsExp.role} @ {activeCredentialsExp.company}
@@ -250,7 +368,7 @@ export const ExperienceSection: React.FC = () => {
 
             {/* Footer */}
             <div className="px-6 py-3 bg-[#000000] border-t border-[#2A2A2A] flex items-center justify-between text-xs text-[#BDBDBD]">
-              <span>Click any image to view in fullscreen high-resolution</span>
+              <span>Click any document image to view in fullscreen high-resolution</span>
               <button
                 onClick={() => setActiveCredentialsExp(null)}
                 className="px-4 py-1.5 bg-[#F0444B] hover:bg-[#FF6B6B] text-white font-bold rounded-lg transition-colors"
@@ -262,14 +380,14 @@ export const ExperienceSection: React.FC = () => {
         </div>
       )}
 
-      {/* VIEW PROJECTS MODAL (Internship Projects with Images) */}
+      {/* VIEW PROJECTS MODAL (Internship Projects with Images & Direct GitHub Links) */}
       {activeProjectsExp && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md animate-fadeIn"
           onClick={() => setActiveProjectsExp(null)}
         >
           <div 
-            className="relative max-w-5xl w-full bg-[#050505] border border-[#2A2A2A] rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+            className="relative max-w-6xl w-full bg-[#050505] border border-[#2A2A2A] rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -293,13 +411,13 @@ export const ExperienceSection: React.FC = () => {
             {/* Modal Body */}
             <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-[#050505]">
               {activeProjectsExp.internshipProjects && activeProjectsExp.internshipProjects.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                   {activeProjectsExp.internshipProjects.map((proj) => (
                     <div 
                       key={proj.id}
-                      className="group/proj bg-[#000000] border border-[#2A2A2A] rounded-xl overflow-hidden hover:border-[#F0444B] transition-all duration-300 flex flex-col justify-between shadow-lg"
+                      className="group/proj bg-[#000000] border border-[#2A2A2A] rounded-2xl overflow-hidden hover:border-[#F0444B] transition-all duration-300 flex flex-col justify-between shadow-xl"
                     >
-                      <div>
+                      <div className="space-y-3">
                         {/* Image Container */}
                         <div 
                           onClick={() => setActiveImage({
@@ -325,25 +443,40 @@ export const ExperienceSection: React.FC = () => {
 
                         {/* Text Info */}
                         <div className="p-4 space-y-2">
-                          <h5 className="text-base font-bold text-white group-hover/proj:text-[#F0444B] transition-colors leading-snug font-['Plus_Jakarta_Sans']">
+                          <h5 className="text-sm font-bold text-white group-hover/proj:text-[#F0444B] transition-colors leading-snug font-['Plus_Jakarta_Sans']">
                             {proj.title}
                           </h5>
-                          <p className="text-xs text-[#BDBDBD] leading-relaxed">
+                          <p className="text-xs text-[#BDBDBD] leading-relaxed line-clamp-3">
                             {proj.description}
                           </p>
                         </div>
                       </div>
 
-                      {/* Tags */}
-                      {proj.tags && (
-                        <div className="p-4 pt-0 flex flex-wrap gap-1.5">
-                          {proj.tags.map((tag) => (
-                            <span key={tag} className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#050505] text-[#27D6D9] border border-[#2A2A2A]">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
+                      <div className="p-4 pt-0 space-y-3">
+                        {/* Tags */}
+                        {proj.tags && (
+                          <div className="flex flex-wrap gap-1.5">
+                            {proj.tags.map((tag) => (
+                              <span key={tag} className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#050505] text-[#27D6D9] border border-[#2A2A2A]">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* VIEW PROJECT BUTTON WITH GITHUB LINK */}
+                        {proj.githubUrl && (
+                          <a
+                            href={proj.githubUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="w-full py-2.5 bg-[#050505] hover:bg-[#F0444B] text-white text-xs font-bold rounded-xl border border-[#2A2A2A] hover:border-[#F0444B] transition-all flex items-center justify-center gap-2 group/btn shadow-md"
+                          >
+                            <span>View Project</span>
+                            <ExternalLink className="w-3.5 h-3.5 text-[#27D6D9] group-hover/btn:text-white transition-colors" />
+                          </a>
+                        )}
+                      </div>
 
                     </div>
                   ))}
@@ -357,7 +490,7 @@ export const ExperienceSection: React.FC = () => {
 
             {/* Footer */}
             <div className="px-6 py-3 bg-[#000000] border-t border-[#2A2A2A] flex items-center justify-between text-xs text-[#BDBDBD]">
-              <span>Click project image to view in high resolution</span>
+              <span>Click any project image to view in high resolution, or click View Project for code repository</span>
               <button
                 onClick={() => setActiveProjectsExp(null)}
                 className="px-4 py-1.5 bg-[#F0444B] hover:bg-[#FF6B6B] text-white font-bold rounded-lg transition-colors"
@@ -425,3 +558,4 @@ export const ExperienceSection: React.FC = () => {
     </section>
   );
 };
+

@@ -32,6 +32,7 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
   const [newProjTitle, setNewProjTitle] = useState('');
   const [newProjDesc, setNewProjDesc] = useState('');
   const [newProjImg, setNewProjImg] = useState('');
+  const [newProjGithubUrl, setNewProjGithubUrl] = useState('');
 
   useEffect(() => {
     if (expToEdit) {
@@ -53,14 +54,40 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
       setCurrent(false);
       setAchievementsString('Successfully completed intensive internship focused on cyber security\nAnalyzed web vulnerabilities (OWASP Top 10) and practiced packet capture');
       setTechString('Cyber Security, Ethical Hacking, Linux, Network Protocols');
-      setOfferLetterUrl('/images/internship-certificates/intern offer letter.PNG');
-      setCompletionCertificateUrl('/images/internship-certificates/intern certificate.PNG');
+      setOfferLetterUrl('/images/internship-certificates/offer-letter.png');
+      setCompletionCertificateUrl('/images/internship-certificates/internship-certificate.png');
       setInternshipProjects([
         {
-          id: 'iproj-1',
-          title: 'Vulnerability Assessment & Network Lab',
-          description: 'Conducted OWASP Top 10 penetration testing and analyzed packet captures in lab simulations.',
-          imageUrl: '/images/project-showcase/selavu-sherlock-ui.png',
+          id: 'int-p1',
+          title: 'File Integrity Monitoring Tool',
+          description: 'SHA-256 hash calculation and integrity validation tool for detecting unauthorized file modifications and system tampering.',
+          imageUrl: '/images/internship-certificates/file-integrity.jpg',
+          tags: ['Python', 'SHA-256', 'Security Audit'],
+          githubUrl: 'https://github.com/Riyaskhan2010/FILE-INTEGRITY-CHECKER',
+        },
+        {
+          id: 'int-p2',
+          title: 'AI-Powered Malware Detection',
+          description: 'Automated file threat analysis tool to detect malicious signatures, suspicious file structures, and payload patterns.',
+          imageUrl: '/images/internship-certificates/malwareguard.jpg',
+          tags: ['Python', 'Malware Analysis', 'Threat Detection'],
+          githubUrl: 'https://github.com/Riyaskhan2010/AI-Powered-Malware-Detection',
+        },
+        {
+          id: 'int-p3',
+          title: 'Password Strength & Entropy Analyzer',
+          description: 'Cyber security utility for testing password complexity, entropy scoring, dictionary vulnerability, and brute-force estimate.',
+          imageUrl: '/images/internship-certificates/password-strength.jpg',
+          tags: ['Cyber Security', 'Entropy Scoring', 'Python'],
+          githubUrl: 'https://github.com/Riyaskhan2010/Password-Strength-Checker',
+        },
+        {
+          id: 'int-p4',
+          title: 'Cloud Security Auditor for AWS',
+          description: 'Automated cloud security & compliance auditor scanning AWS S3 bucket encryption, IAM user roles, and security group vulnerabilities.',
+          imageUrl: '/images/internship-certificates/aws-security-auditor.jpg',
+          tags: ['AWS', 'Cloud Security', 'Python', 'IAM Audit'],
+          githubUrl: 'https://github.com/Riyaskhan2010/Cloud-Security-Auditor-for-AWS',
         },
       ]);
     }
@@ -74,12 +101,14 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
       id: `iproj-${Date.now()}`,
       title: newProjTitle.trim(),
       description: newProjDesc.trim() || 'Key deliverable completed during internship.',
-      imageUrl: newProjImg.trim() || '/images/project-showcase/selavu-sherlock-ui.png',
+      imageUrl: newProjImg.trim() || '/images/internship-certificates/file-integrity.jpg',
+      githubUrl: newProjGithubUrl.trim() || undefined,
     };
     setInternshipProjects([...internshipProjects, newProject]);
     setNewProjTitle('');
     setNewProjDesc('');
     setNewProjImg('');
+    setNewProjGithubUrl('');
   };
 
   const handleDeleteProject = (id: string) => {
@@ -306,6 +335,16 @@ export const ExperienceEditorModal: React.FC<ExperienceEditorModalProps> = ({
                   value={newProjDesc}
                   onChange={(e) => setNewProjDesc(e.target.value)}
                   className="rounded-lg border border-[#2A2A2A] bg-[#050505] px-3 py-2 text-xs text-white focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <input
+                  type="url"
+                  placeholder="Project GitHub Link (e.g. https://github.com/User/Repo)"
+                  value={newProjGithubUrl}
+                  onChange={(e) => setNewProjGithubUrl(e.target.value)}
+                  className="w-full rounded-lg border border-[#2A2A2A] bg-[#050505] px-3 py-2 text-xs text-white focus:outline-none"
                 />
               </div>
 
