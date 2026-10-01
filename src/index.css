@@ -276,3 +276,36 @@
 .animate-float-icon-2 { animation: floatIcon2 5s ease-in-out infinite 0.5s; }
 .animate-float-icon-3 { animation: floatIcon3 4.5s ease-in-out infinite 1s; }
 
+/* Spider Web Pulse & Dash Animations */
+@keyframes webPulse {
+  0%, 100% {
+    stroke: #F0444B;
+    stroke-opacity: 0.85;
+    filter: drop-shadow(0 0 10px rgba(240, 68, 75, 0.9));
+  }
+  50% {
+    stroke: #27D6D9;
+    stroke-opacity: 0.95;
+    filter: drop-shadow(0 0 18px rgba(39, 214, 217, 0.95));
+  }
+}
+
+@keyframes spiderGlowBreathing {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 35px rgba(240, 68, 75, 0.95)) drop-shadow(0 0 60px rgba(240, 68, 75, 0.5));
+  }
+  50% {
+    transform: scale(1.03);
+    filter: drop-shadow(0 0 50px rgba(255, 107, 107, 1)) drop-shadow(0 0 85px rgba(39, 214, 217, 0.75));
+  }
+}
+
+.animate-web-pulse {
+  animation: webPulse 3s ease-in-out infinite;
+}
+
+.animate-spider-glow {
+  animation: spiderGlowBreathing 4s ease-in-out infinite;
+}
+
