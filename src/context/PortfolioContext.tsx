@@ -68,16 +68,10 @@ interface PortfolioContextType {
   // Settings
   updateSettings: (settings: Partial<SiteSettings>) => void;
   
-  // Backup & Restore & Code Export
+  // Backup & Restore
   resetToDefaults: () => void;
   exportDataJSON: () => string;
   importDataJSON: (jsonString: string) => boolean;
-  exportInitialDataTS: () => string;
-
-  // Cloud Database Sync
-  syncToCloudDB: () => Promise<boolean>;
-  pullFromCloudDB: () => Promise<boolean>;
-  cloudSyncStatus: 'idle' | 'syncing' | 'success' | 'error';
   
   // Accent color helper
   getAccentClasses: () => {
@@ -164,47 +158,43 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             parsed.profile.linkedin = 'https://www.linkedin.com/in/mohamed-riyaskhan-s-9a5247386';
           }
           // Migration for Education period 2024-2028, Mark percentages and highlights
-          if (Array.isArray(parsed.education)) {
-            parsed.education = parsed.education.map((edu: any) => {
-              if (!edu) return edu;
-              const deg = edu.degree || '';
-              if (edu.id === 'edu-1' || deg.includes('B.Tech')) {
-                return { 
-                  ...edu, 
-                  period: '2024 – 2028', 
-                  score: '2nd Year (Ongoing)',
-                  highlights: [
-                    'Active member of college technical clubs and hackathon teams',
-                    'Specializing in Computer Networks, Problem Solving, and Software Systems',
-                    'Participating in inter-college competitive coding and technical symposiums',
-                  ]
-                };
-              }
-              if (edu.id === 'edu-2' || deg.includes('12th')) {
-                return { 
-                  ...edu, 
-                  score: 'Mark Percentage: 81.6%',
-                  highlights: [
-                    'Scored 81.6% aggregate with strong foundation in Mathematics, Physics, and Chemistry',
-                    'Demonstrated strong analytical problem-solving skills in Higher Secondary Mathematics & Sciences',
-                    'Actively participated in school science exhibitions, academic seminars, and technical quizzes',
-                  ]
-                };
-              }
-              if (edu.id === 'edu-3' || deg.includes('10th')) {
-                return { 
-                  ...edu, 
-                  score: 'Mark Percentage: 85.2%',
-                  highlights: [
-                    'Graduated with distinction securing 85.2% aggregate score',
-                    'Achieved top academic performance in Science and Mathematics foundational coursework',
-                    'Maintained consistent academic excellence and active participation in school co-curricular events',
-                  ]
-                };
-              }
-              return edu;
-            });
-          }
+          parsed.education = parsed.education.map((edu: any) => {
+            if (edu.id === 'edu-1' || edu.degree.includes('B.Tech')) {
+              return { 
+                ...edu, 
+                period: '2024 – 2028', 
+                score: '2nd Year (Ongoing)',
+                highlights: [
+                  'Active member of college technical clubs and hackathon teams',
+                  'Specializing in Computer Networks, Problem Solving, and Software Systems',
+                  'Participating in inter-college competitive coding and technical symposiums',
+                ]
+              };
+            }
+            if (edu.id === 'edu-2' || edu.degree.includes('12th')) {
+              return { 
+                ...edu, 
+                score: 'Mark Percentage: 81.6%',
+                highlights: [
+                  'Scored 81.6% aggregate with strong foundation in Mathematics, Physics, and Chemistry',
+                  'Demonstrated strong analytical problem-solving skills in Higher Secondary Mathematics & Sciences',
+                  'Actively participated in school science exhibitions, academic seminars, and technical quizzes',
+                ]
+              };
+            }
+            if (edu.id === 'edu-3' || edu.degree.includes('10th')) {
+              return { 
+                ...edu, 
+                score: 'Mark Percentage: 85.2%',
+                highlights: [
+                  'Graduated with distinction securing 85.2% aggregate score',
+                  'Achieved top academic performance in Science and Mathematics foundational coursework',
+                  'Maintained consistent academic excellence and active participation in school co-curricular events',
+                ]
+              };
+            }
+            return edu;
+          });
 
           // Migration for Experience certificates and projects
           if (parsed.experience && parsed.experience.length > 0) {
@@ -324,49 +314,10 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [isLivePreview, setIsLivePreview] = useState<boolean>(false);
   const [openAdminModal, setOpenAdminModal] = useState<boolean>(false);
 
-  const [cloudSyncStatus, setCloudSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error'>('idle');
-
-  // Auto-fetch latest portfolio state from Cloud Database for all visitors on load if configured
-  useEffect(() => {
-    const cloudUrl = data.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
-    if (cloudUrl) {
-      fetch(cloudUrl)
-        .then((res) => (res.ok ? res.json() : null))
-        .then((cloudData) => {
-          const payload = cloudData?.record || cloudData;
-          if (payload && typeof payload === 'object' && payload.profile && Array.isArray(payload.projects)) {
-            setData((prev) => ({
-              ...initialPortfolioData,
-              ...prev,
-              ...payload,
-              profile: { ...initialPortfolioData.profile, ...(prev?.profile || {}), ...(payload.profile || {}) },
-              settings: { ...initialPortfolioData.settings, ...(prev?.settings || {}), ...(payload.settings || {}) },
-              skills: (Array.isArray(payload.skills) && payload.skills.length > 0) ? payload.skills : (prev?.skills || initialPortfolioData.skills),
-              softSkills: (Array.isArray(payload.softSkills) && payload.softSkills.length > 0) ? payload.softSkills : (prev?.softSkills || initialPortfolioData.softSkills),
-              currentlyLearning: payload.currentlyLearning || prev?.currentlyLearning || initialPortfolioData.currentlyLearning,
-              projects: (Array.isArray(payload.projects) && payload.projects.length > 0) ? payload.projects : (prev?.projects || initialPortfolioData.projects),
-              education: (Array.isArray(payload.education) && payload.education.length > 0) ? payload.education : (prev?.education || initialPortfolioData.education),
-              experience: (Array.isArray(payload.experience) && payload.experience.length > 0) ? payload.experience : (prev?.experience || initialPortfolioData.experience),
-              certifications: (Array.isArray(payload.certifications) && payload.certifications.length > 0) ? payload.certifications : (prev?.certifications || initialPortfolioData.certifications),
-              workshops: (Array.isArray(payload.workshops) && payload.workshops.length > 0) ? payload.workshops : (prev?.workshops || initialPortfolioData.workshops),
-            }));
-          }
-        })
-        .catch((err) => {
-          console.warn('Cloud DB load skipped:', err);
-        });
-    }
-  }, []);
-
   // Sync state to LocalStorage
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      // If auto-cloud sync is enabled and Cloud URL exists, sync automatically on edit
-      const cloudUrl = data.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
-      if (data.settings?.enableCloudSync && cloudUrl && isAdmin) {
-        syncToCloudDB();
-      }
     } catch (e) {
       console.error('Failed to save to local storage', e);
     }
@@ -381,8 +332,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }, [isAdmin]);
 
   const loginAdmin = (pin: string): boolean => {
-    const currentPin = safeData?.settings?.adminPin || 'admin123';
-    if (pin.trim() === currentPin.trim() || pin === 'admin123') {
+    if (pin.trim() === data.settings.adminPin.trim() || pin === 'admin123') {
       setIsAdmin(true);
       setOpenAdminModal(false);
       return true;
@@ -405,7 +355,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const newProject: Project = {
       ...projectData,
       id: `proj-${Date.now()}`,
-      order: (safeData?.projects?.length || 0) + 1,
+      order: data.projects.length + 1,
     };
     setData((prev) => ({
       ...prev,
@@ -595,64 +545,21 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return JSON.stringify(data, null, 2);
   };
 
-  const exportInitialDataTS = (): string => {
-    return `import { PortfolioData } from '../types/portfolio';\n\nexport const initialPortfolioData: PortfolioData = ${JSON.stringify(data, null, 2)};\n`;
-  };
-
-  const syncToCloudDB = async (): Promise<boolean> => {
-    const cloudUrl = safeData.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
-    if (!cloudUrl) return false;
-    setCloudSyncStatus('syncing');
+  const importDataJSON = (jsonString: string): boolean => {
     try {
-      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-      if (safeData.settings?.cloudDbSecret) {
-        headers['Authorization'] = `Bearer ${safeData.settings.cloudDbSecret}`;
-        headers['X-Master-Key'] = safeData.settings.cloudDbSecret;
-      }
-      const res = await fetch(cloudUrl, {
-        method: 'PUT',
-        headers,
-        body: JSON.stringify(data),
-      });
-      if (res.ok) {
-        setCloudSyncStatus('success');
-        setTimeout(() => setCloudSyncStatus('idle'), 3000);
+      const parsed = JSON.parse(jsonString);
+      if (parsed.profile && parsed.projects) {
+        setData(parsed);
         return true;
       }
     } catch (e) {
-      console.error('Failed to sync to Cloud DB', e);
+      console.error('Invalid JSON file', e);
     }
-    setCloudSyncStatus('error');
-    setTimeout(() => setCloudSyncStatus('idle'), 3000);
-    return false;
-  };
-
-  const pullFromCloudDB = async (): Promise<boolean> => {
-    const cloudUrl = safeData.settings?.cloudDbUrl || (import.meta.env as any).VITE_CLOUD_DB_URL;
-    if (!cloudUrl) return false;
-    setCloudSyncStatus('syncing');
-    try {
-      const res = await fetch(cloudUrl);
-      if (res.ok) {
-        const cloudData = await res.json();
-        const payload = cloudData?.record || cloudData;
-        if (payload && payload.profile && payload.projects) {
-          setData(payload);
-          setCloudSyncStatus('success');
-          setTimeout(() => setCloudSyncStatus('idle'), 3000);
-          return true;
-        }
-      }
-    } catch (e) {
-      console.error('Failed to pull from Cloud DB', e);
-    }
-    setCloudSyncStatus('error');
-    setTimeout(() => setCloudSyncStatus('idle'), 3000);
     return false;
   };
 
   const getAccentClasses = () => {
-    const color: AccentColor = safeData.settings?.accentColor || 'indigo';
+    const color: AccentColor = data.settings.accentColor || 'indigo';
     switch (color) {
       case 'emerald':
         return {
@@ -718,29 +625,10 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   };
 
-  const safeData: PortfolioData = {
-    ...initialPortfolioData,
-    ...data,
-    profile: { ...initialPortfolioData.profile, ...(data?.profile || {}) },
-    settings: { ...initialPortfolioData.settings, ...(data?.settings || {}) },
-    projects: (Array.isArray(data?.projects) && data.projects.length > 0) ? data.projects : initialPortfolioData.projects,
-    education: (Array.isArray(data?.education) && data.education.length > 0) ? data.education : initialPortfolioData.education,
-    experience: (Array.isArray(data?.experience) && data.experience.length > 0) ? data.experience : initialPortfolioData.experience,
-    workshops: (Array.isArray(data?.workshops) && data.workshops.length > 0) ? data.workshops : initialPortfolioData.workshops,
-    certifications: (Array.isArray(data?.certifications) && data.certifications.length > 0) ? data.certifications : initialPortfolioData.certifications,
-    skills: (Array.isArray(data?.skills) && data.skills.length > 0) ? data.skills : initialPortfolioData.skills,
-    currentlyLearning: (Array.isArray(data?.currentlyLearning) && data.currentlyLearning.length > 0) ? data.currentlyLearning : initialPortfolioData.currentlyLearning,
-    softSkills: (Array.isArray(data?.softSkills) && data.softSkills.length > 0) ? data.softSkills : initialPortfolioData.softSkills,
-    languages: Array.isArray(data?.languages) ? data.languages : initialPortfolioData.languages,
-    interests: Array.isArray(data?.interests) ? data.interests : initialPortfolioData.interests,
-    testimonials: Array.isArray(data?.testimonials) ? data.testimonials : initialPortfolioData.testimonials,
-    inquiries: Array.isArray(data?.inquiries) ? data.inquiries : initialPortfolioData.inquiries,
-  };
-
   return (
     <PortfolioContext.Provider
       value={{
-        data: safeData,
+        data,
         isAdmin,
         isLivePreview,
         setIsLivePreview,
@@ -774,10 +662,6 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         resetToDefaults,
         exportDataJSON,
         importDataJSON,
-        exportInitialDataTS,
-        syncToCloudDB,
-        pullFromCloudDB,
-        cloudSyncStatus,
         getAccentClasses,
       }}
     >

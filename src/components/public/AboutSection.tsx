@@ -7,23 +7,21 @@ export const AboutSection: React.FC = () => {
   const { profile } = data;
 
   // Dynamically compute Executive Highlights from live CMS state
-  const currentEdu = data?.education?.[0];
-  const eduDegree = currentEdu?.degree || '';
-  const eduValue = currentEdu ? (eduDegree.includes('B.Tech') ? 'B.Tech IT' : eduDegree) : 'B.Tech IT';
-  const eduDetail = currentEdu ? `${(currentEdu.institution || '').split(' ')[0]} (${(currentEdu.period || '').replace(/\s+/g, '')})` : 'Rathinam Tech (2024–28)';
+  const currentEdu = data.education[0];
+  const eduValue = currentEdu ? (currentEdu.degree.includes('B.Tech') ? 'B.Tech IT' : currentEdu.degree) : 'B.Tech IT';
+  const eduDetail = currentEdu ? `${currentEdu.institution.split(' ')[0]} (${currentEdu.period.replace(/\s+/g, '')})` : 'Rathinam Tech (2024–28)';
 
-  const currentExp = data?.experience?.[0];
-  const expPeriod = currentExp?.period || '';
-  const expValue = currentExp ? (expPeriod.includes('Week') ? `${expPeriod} Cert.` : expPeriod) : '6-Week Cert.';
-  const expDetail = currentExp ? (currentExp.company || 'CodTech IT Solutions') : 'CodTech IT Solutions';
+  const currentExp = data.experience[0];
+  const expValue = currentExp ? (currentExp.period.includes('Week') ? `${currentExp.period} Cert.` : currentExp.period) : '6-Week Cert.';
+  const expDetail = currentExp ? currentExp.company : 'CodTech IT Solutions';
 
   // Extract Hackathon ranks dynamically from projects
-  const hackathonProjects = (data?.projects || []).filter(p => p && (p.award || p.category === 'hackathon'));
+  const hackathonProjects = data.projects.filter(p => p.award || p.category === 'hackathon');
   const hackValue = hackathonProjects.length > 0 
-    ? hackathonProjects.map(p => (p.award || '').split('@')[0]?.trim() || p.award || 'Top Rank').join(' & ').replace(/Place/g, '').replace(/th/g, '') 
+    ? hackathonProjects.map(p => p.award?.split('@')[0]?.trim() || p.award || 'Top Rank').join(' & ').replace(/Place/g, '').replace(/th/g, '') 
     : 'Top 5 & 12';
   const hackDetail = hackathonProjects.length > 0
-    ? hackathonProjects.map(p => (p.title || '').replace('Hackathon Project', '').replace('System', '').trim()).slice(0, 2).join(' & ')
+    ? hackathonProjects.map(p => p.title.replace('Hackathon Project', '').replace('System', '').trim()).slice(0, 2).join(' & ')
     : 'Corexathon & Inno Hack';
 
   const keyMetrics = [
