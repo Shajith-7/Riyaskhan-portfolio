@@ -164,43 +164,47 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             parsed.profile.linkedin = 'https://www.linkedin.com/in/mohamed-riyaskhan-s-9a5247386';
           }
           // Migration for Education period 2024-2028, Mark percentages and highlights
-          parsed.education = parsed.education.map((edu: any) => {
-            if (edu.id === 'edu-1' || edu.degree.includes('B.Tech')) {
-              return { 
-                ...edu, 
-                period: '2024 – 2028', 
-                score: '2nd Year (Ongoing)',
-                highlights: [
-                  'Active member of college technical clubs and hackathon teams',
-                  'Specializing in Computer Networks, Problem Solving, and Software Systems',
-                  'Participating in inter-college competitive coding and technical symposiums',
-                ]
-              };
-            }
-            if (edu.id === 'edu-2' || edu.degree.includes('12th')) {
-              return { 
-                ...edu, 
-                score: 'Mark Percentage: 81.6%',
-                highlights: [
-                  'Scored 81.6% aggregate with strong foundation in Mathematics, Physics, and Chemistry',
-                  'Demonstrated strong analytical problem-solving skills in Higher Secondary Mathematics & Sciences',
-                  'Actively participated in school science exhibitions, academic seminars, and technical quizzes',
-                ]
-              };
-            }
-            if (edu.id === 'edu-3' || edu.degree.includes('10th')) {
-              return { 
-                ...edu, 
-                score: 'Mark Percentage: 85.2%',
-                highlights: [
-                  'Graduated with distinction securing 85.2% aggregate score',
-                  'Achieved top academic performance in Science and Mathematics foundational coursework',
-                  'Maintained consistent academic excellence and active participation in school co-curricular events',
-                ]
-              };
-            }
-            return edu;
-          });
+          if (Array.isArray(parsed.education)) {
+            parsed.education = parsed.education.map((edu: any) => {
+              if (!edu) return edu;
+              const deg = edu.degree || '';
+              if (edu.id === 'edu-1' || deg.includes('B.Tech')) {
+                return { 
+                  ...edu, 
+                  period: '2024 – 2028', 
+                  score: '2nd Year (Ongoing)',
+                  highlights: [
+                    'Active member of college technical clubs and hackathon teams',
+                    'Specializing in Computer Networks, Problem Solving, and Software Systems',
+                    'Participating in inter-college competitive coding and technical symposiums',
+                  ]
+                };
+              }
+              if (edu.id === 'edu-2' || deg.includes('12th')) {
+                return { 
+                  ...edu, 
+                  score: 'Mark Percentage: 81.6%',
+                  highlights: [
+                    'Scored 81.6% aggregate with strong foundation in Mathematics, Physics, and Chemistry',
+                    'Demonstrated strong analytical problem-solving skills in Higher Secondary Mathematics & Sciences',
+                    'Actively participated in school science exhibitions, academic seminars, and technical quizzes',
+                  ]
+                };
+              }
+              if (edu.id === 'edu-3' || deg.includes('10th')) {
+                return { 
+                  ...edu, 
+                  score: 'Mark Percentage: 85.2%',
+                  highlights: [
+                    'Graduated with distinction securing 85.2% aggregate score',
+                    'Achieved top academic performance in Science and Mathematics foundational coursework',
+                    'Maintained consistent academic excellence and active participation in school co-curricular events',
+                  ]
+                };
+              }
+              return edu;
+            });
+          }
 
           // Migration for Experience certificates and projects
           if (parsed.experience && parsed.experience.length > 0) {
