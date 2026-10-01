@@ -9,6 +9,16 @@ interface ActiveImageModal {
   category: string;
 }
 
+const getProjectGithubUrl = (proj: { title: string; githubUrl?: string }) => {
+  if (proj.githubUrl) return proj.githubUrl;
+  const t = proj.title.toLowerCase();
+  if (t.includes('integrity') || t.includes('file')) return 'https://github.com/Riyaskhan2010/FILE-INTEGRITY-CHECKER';
+  if (t.includes('malware') || t.includes('ai-powered')) return 'https://github.com/Riyaskhan2010/AI-Powered-Malware-Detection';
+  if (t.includes('password') || t.includes('entropy')) return 'https://github.com/Riyaskhan2010/Password-Strength-Checker';
+  if (t.includes('cloud') || t.includes('aws')) return 'https://github.com/Riyaskhan2010/Cloud-Security-Auditor-for-AWS';
+  return 'https://github.com/Riyaskhan2010';
+};
+
 export const ExperienceSection: React.FC = () => {
   const { data } = usePortfolio();
   const [activeImage, setActiveImage] = useState<ActiveImageModal | null>(null);
@@ -465,17 +475,15 @@ export const ExperienceSection: React.FC = () => {
                         )}
 
                         {/* VIEW PROJECT BUTTON WITH GITHUB LINK */}
-                        {proj.githubUrl && (
-                          <a
-                            href={proj.githubUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="w-full py-2.5 bg-[#050505] hover:bg-[#F0444B] text-white text-xs font-bold rounded-xl border border-[#2A2A2A] hover:border-[#F0444B] transition-all flex items-center justify-center gap-2 group/btn shadow-md"
-                          >
-                            <span>View Project</span>
-                            <ExternalLink className="w-3.5 h-3.5 text-[#27D6D9] group-hover/btn:text-white transition-colors" />
-                          </a>
-                        )}
+                        <a
+                          href={getProjectGithubUrl(proj)}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="w-full py-2.5 bg-[#050505] hover:bg-[#F0444B] text-white text-xs font-bold rounded-xl border border-[#2A2A2A] hover:border-[#F0444B] transition-all flex items-center justify-center gap-2 group/btn shadow-md"
+                        >
+                          <span>View Project</span>
+                          <ExternalLink className="w-3.5 h-3.5 text-[#27D6D9] group-hover/btn:text-white transition-colors" />
+                        </a>
                       </div>
 
                     </div>

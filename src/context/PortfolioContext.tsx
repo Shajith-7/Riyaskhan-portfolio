@@ -91,7 +91,7 @@ interface PortfolioContextType {
   };
 }
 
-const STORAGE_KEY = 'portfolio_cms_riyaskhan_v10';
+const STORAGE_KEY = 'portfolio_cms_riyaskhan_v12';
 const AUTH_STORAGE_KEY = 'portfolio_admin_auth_v1';
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
@@ -103,9 +103,10 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.profile?.name?.includes('Riyaskhan') && parsed.education) {
-          // Force final profile avatar photo and latest 8 skills
+          // Force final profile avatar photo, latest skills, and latest experience
           parsed.profile.avatarUrl = '/images/final profile.jpg';
           parsed.skills = initialPortfolioData.skills;
+          parsed.experience = initialPortfolioData.experience;
           return parsed;
         }
       }
@@ -135,7 +136,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     settings: { ...initialPortfolioData.settings, ...(data?.settings || {}) },
     projects: (Array.isArray(data?.projects) && data.projects.length > 0) ? data.projects : initialPortfolioData.projects,
     education: (Array.isArray(data?.education) && data.education.length > 0) ? data.education : initialPortfolioData.education,
-    experience: (Array.isArray(data?.experience) && data.experience.length > 0) ? data.experience : initialPortfolioData.experience,
+    experience: (Array.isArray(data?.experience) && data.experience[0]?.internshipProjects?.length === 4 && data.experience[0]?.internshipProjects[0]?.githubUrl) ? data.experience : initialPortfolioData.experience,
     workshops: (Array.isArray(data?.workshops) && data.workshops.length > 0) ? data.workshops : initialPortfolioData.workshops,
     certifications: (Array.isArray(data?.certifications) && data.certifications.length > 0) ? data.certifications : initialPortfolioData.certifications,
     skills: (Array.isArray(data?.skills) && data.skills.length === 2 && data.skills[0]?.skills?.some((s: any) => s.name === 'C Programming')) ? data.skills : initialPortfolioData.skills,
