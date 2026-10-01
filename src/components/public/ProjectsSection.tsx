@@ -42,7 +42,28 @@ export const ProjectsSection: React.FC = () => {
               'proj-4': '/images/project-showcase/cih-2k26-ui.png',
             };
 
-            const projectCover = project.coverImage || defaultShowcaseMap[project.id] || '/images/project-showcase/selavu-sherlock-ui.png';
+            const defaultCertMap: { [id: string]: string } = {
+              'proj-1': '/images/hackathon-certificates/Selavu Sherlock AI.PNG',
+              'proj-2': '/images/hackathon-certificates/Bio-Arbitrage.PNG',
+              'proj-3': '/images/hackathon-certificates/SmartQ AI.PNG',
+              'proj-4': '/images/hackathon-certificates/CIH 2k26.PNG',
+            };
+
+            const isCertPath = (url?: string) =>
+              url &&
+              (url.includes('hackathon-certificates') ||
+                url.includes('Selavu Sherlock AI') ||
+                url.includes('Bio-Arbitrage') ||
+                url.includes('SmartQ AI') ||
+                url.includes('CIH 2k26'));
+
+            const projectCover = (!isCertPath(project.coverImage) && project.coverImage)
+              ? project.coverImage
+              : defaultShowcaseMap[project.id] || '/images/project-showcase/selavu-sherlock-ui.png';
+
+            const projectCert = (project.certificateUrl && isCertPath(project.certificateUrl))
+              ? project.certificateUrl
+              : defaultCertMap[project.id] || project.certificateUrl || defaultCertMap['proj-1'];
 
             return (
               <article
@@ -147,7 +168,7 @@ export const ProjectsSection: React.FC = () => {
                   {/* View Certificate Button */}
                   <button
                     onClick={() => setActiveCertificate({
-                      url: project.certificateUrl || project.coverImage,
+                      url: projectCert,
                       title: project.title,
                       award: project.award || project.impactMetric,
                     })}
