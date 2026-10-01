@@ -330,8 +330,22 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         .then((res) => (res.ok ? res.json() : null))
         .then((cloudData) => {
           const payload = cloudData?.record || cloudData;
-          if (payload && payload.profile && payload.projects) {
-            setData(payload);
+          if (payload && typeof payload === 'object' && payload.profile && Array.isArray(payload.projects)) {
+            setData((prev) => ({
+              ...initialPortfolioData,
+              ...prev,
+              ...payload,
+              profile: { ...initialPortfolioData.profile, ...(prev?.profile || {}), ...(payload.profile || {}) },
+              settings: { ...initialPortfolioData.settings, ...(prev?.settings || {}), ...(payload.settings || {}) },
+              skills: (Array.isArray(payload.skills) && payload.skills.length > 0) ? payload.skills : (prev?.skills || initialPortfolioData.skills),
+              softSkills: (Array.isArray(payload.softSkills) && payload.softSkills.length > 0) ? payload.softSkills : (prev?.softSkills || initialPortfolioData.softSkills),
+              currentlyLearning: payload.currentlyLearning || prev?.currentlyLearning || initialPortfolioData.currentlyLearning,
+              projects: (Array.isArray(payload.projects) && payload.projects.length > 0) ? payload.projects : (prev?.projects || initialPortfolioData.projects),
+              education: (Array.isArray(payload.education) && payload.education.length > 0) ? payload.education : (prev?.education || initialPortfolioData.education),
+              experience: (Array.isArray(payload.experience) && payload.experience.length > 0) ? payload.experience : (prev?.experience || initialPortfolioData.experience),
+              certifications: (Array.isArray(payload.certifications) && payload.certifications.length > 0) ? payload.certifications : (prev?.certifications || initialPortfolioData.certifications),
+              workshops: (Array.isArray(payload.workshops) && payload.workshops.length > 0) ? payload.workshops : (prev?.workshops || initialPortfolioData.workshops),
+            }));
           }
         })
         .catch((err) => {

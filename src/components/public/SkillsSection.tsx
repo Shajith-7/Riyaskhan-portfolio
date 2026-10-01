@@ -39,12 +39,12 @@ export const SkillsSection: React.FC = () => {
   const { data } = usePortfolio();
   const [activeTab, setActiveTab] = useState<'all' | 'technical' | 'soft'>('all');
 
-  if (!data.settings.showSkills || data.skills.length === 0) {
+  if (!data?.settings?.showSkills || !data?.skills || data.skills.length === 0) {
     return null;
   }
 
   const getSkillIcon = (name: string) => {
-    const lower = name.toLowerCase();
+    const lower = (name || '').toLowerCase();
     if (lower.includes('c ') || lower === 'c' || lower.includes('c language') || lower.includes('c programming')) return <CIcon />;
     if (lower.includes('python')) return <PythonIcon />;
     if (lower.includes('web') || lower.includes('html') || lower.includes('react') || lower.includes('css') || lower.includes('frontend')) return <Globe className="w-8 h-8 text-[#38bdf8]" />;
@@ -58,21 +58,21 @@ export const SkillsSection: React.FC = () => {
   };
 
   // Build Technical & Programming Skills dynamically from CMS state (data.skills)
-  const technicalSkills = data.skills.flatMap((cat) =>
-    cat.skills.map((s, idx) => ({
-      id: `${cat.id}-${idx}`,
-      name: s.name,
-      category: cat.name,
-      level: s.level >= 90 ? 'Expert' : s.level >= 80 ? 'Proficient' : 'Foundational & Practical',
-      icon: getSkillIcon(s.name),
-      tag: cat.name.split(' ')[0] || 'Core',
+  const technicalSkills = (data.skills || []).flatMap((cat) =>
+    (cat?.skills || []).map((s, idx) => ({
+      id: `${cat.id || 'cat'}-${idx}`,
+      name: s.name || 'Skill',
+      category: cat.name || 'Category',
+      level: (s.level || 80) >= 90 ? 'Expert' : (s.level || 80) >= 80 ? 'Proficient' : 'Foundational & Practical',
+      icon: getSkillIcon(s.name || ''),
+      tag: (cat.name || 'Core').split(' ')[0] || 'Core',
       rating: s.level || 85,
-      desc: `${s.name} proficiency under ${cat.name}`,
+      desc: `${s.name || 'Skill'} proficiency under ${cat.name || 'Category'}`,
     }))
   );
 
   // Build Soft Skills & Strengths dynamically from CMS state (data.softSkills)
-  const allSoftSkills = (data.softSkills && data.softSkills.length > 0)
+  const allSoftSkills = (data?.softSkills && data.softSkills.length > 0)
     ? data.softSkills
     : [
         'Quick Learner',
