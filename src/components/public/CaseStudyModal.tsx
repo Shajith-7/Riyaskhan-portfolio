@@ -26,6 +26,11 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
 
   if (!project) return null;
 
+  const rawCert = project.certificateUrl || '';
+  const certUrl = (rawCert.includes('bio-arbitrage') || project.id === 'proj-2')
+    ? '/images/hackathon-certificates/Bio-Arbitrage.PNG'
+    : rawCert;
+
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto">
@@ -178,7 +183,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
       </div>
 
       {/* FULLSCREEN CERTIFICATE ZOOM MODAL */}
-      {showCertificateZoom && project.certificateUrl && (
+      {showCertificateZoom && certUrl && (
         <div 
           className="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/95 backdrop-blur-lg"
           onClick={() => setShowCertificateZoom(false)}
@@ -206,7 +211,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
 
             <div className="p-4 overflow-auto flex items-center justify-center bg-black/70 flex-1 min-h-[300px]">
               <img 
-                src={encodeURI(project.certificateUrl)} 
+                src={encodeURI(certUrl)} 
                 alt={`${project.title} Certificate`}
                 className="max-h-[78vh] w-auto object-contain rounded-lg shadow-2xl border border-[#2A2A2A]"
               />
@@ -215,7 +220,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
             <div className="px-5 py-3 bg-[#000000] border-t border-[#2A2A2A] flex items-center justify-between text-xs text-[#BDBDBD]">
               <span>Press ESC or click anywhere outside to close</span>
               <a 
-                href={project.certificateUrl} 
+                href={certUrl} 
                 target="_blank" 
                 rel="noreferrer"
                 className="px-3 py-1.5 bg-[#F0444B] hover:bg-[#FF6B6B] text-white font-bold rounded-md transition-colors"

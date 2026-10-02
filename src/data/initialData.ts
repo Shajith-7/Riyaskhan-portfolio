@@ -108,7 +108,7 @@ export const initialPortfolioData: PortfolioData = {
       award: '🏆 Top 12th Place — Inno Hack 2.0 (VIT Vellore)',
       year: '2025',
       order: 2,
-      certificateUrl: '/images/hackathon-certificates/bio-arbitrage.png',
+      certificateUrl: '/images/hackathon-certificates/Bio-Arbitrage.PNG',
       caseStudy: {
         problem: 'Discovering if approved drugs can treat alternative diseases requires querying fragmented biomedical repositories, creating high manual research friction.',
         solution: 'Engineered BioArbitrage to aggregate and trace disease-target connections across multi-source clinical databases, evaluating repurposing viability quickly.',

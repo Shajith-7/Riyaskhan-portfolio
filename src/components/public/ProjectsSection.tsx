@@ -61,9 +61,13 @@ export const ProjectsSection: React.FC = () => {
               ? project.coverImage
               : defaultShowcaseMap[project.id] || '/images/project-showcase/selavu-sherlock-ui.png';
 
-            const projectCert = (project.certificateUrl && isCertPath(project.certificateUrl))
+            const certRaw = (project.certificateUrl && isCertPath(project.certificateUrl))
               ? project.certificateUrl
               : defaultCertMap[project.id] || project.certificateUrl || defaultCertMap['proj-1'];
+
+            const projectCert = (certRaw.includes('bio-arbitrage') || project.id === 'proj-2')
+              ? '/images/hackathon-certificates/Bio-Arbitrage.PNG'
+              : certRaw;
 
             return (
               <article

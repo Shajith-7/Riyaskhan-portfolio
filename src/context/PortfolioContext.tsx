@@ -129,7 +129,9 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     ...data,
     profile: { ...initialPortfolioData.profile, ...(data?.profile || {}) },
     settings: { ...initialPortfolioData.settings, ...(data?.settings || {}) },
-    projects: (Array.isArray(data?.projects) && data.projects.length === 4 && data.projects[3]?.title?.includes('Vision')) ? data.projects : initialPortfolioData.projects,
+    projects: (Array.isArray(data?.projects) && data.projects.length === 4 && data.projects[3]?.title?.includes('Vision')) 
+      ? data.projects.map((p) => (p.id === 'proj-2' || p.title.toLowerCase().includes('bioarbitrage')) ? { ...p, certificateUrl: '/images/hackathon-certificates/Bio-Arbitrage.PNG' } : p)
+      : initialPortfolioData.projects,
     education: (Array.isArray(data?.education) && data.education.length > 0) ? data.education : initialPortfolioData.education,
     experience: (Array.isArray(data?.experience) && data.experience[0]?.internshipProjects?.length === 4 && data.experience[0]?.internshipProjects[0]?.githubUrl) ? data.experience : initialPortfolioData.experience,
     workshops: (Array.isArray(data?.workshops) && data.workshops.length > 0) ? data.workshops : initialPortfolioData.workshops,
