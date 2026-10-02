@@ -224,16 +224,6 @@ export const ContactSection: React.FC = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Response Speed Card */}
-                <div className="p-3.5 rounded-2xl bg-gradient-to-r from-[#27D6D9]/10 to-[#F0444B]/10 border border-[#27D6D9]/30 flex items-center justify-between text-xs font-mono">
-                  <div className="flex items-center gap-2 text-[#27D6D9]">
-                    <Clock className="w-4 h-4 animate-spin-slow" />
-                    <span>Average Response: &lt; 2 Hours</span>
-                  </div>
-                  <Zap className="w-4 h-4 text-[#F0444B] animate-bounce" />
-                </div>
-
               </div>
 
               {/* Glowing Social Media Buttons Section */}
@@ -295,7 +285,7 @@ export const ContactSection: React.FC = () => {
           {/* Right Column (7 Cols): Executive Interactive & Glowing Form Card */}
           <div className="lg:col-span-7 flex flex-col">
             {submitted ? (
-              <div className="p-8 sm:p-12 rounded-3xl bg-[#050508]/90 border border-[#F0444B]/40 text-center space-y-6 shadow-[0_0_50px_rgba(240,68,75,0.3)] backdrop-blur-md my-auto animate-float-subtle">
+              <div className="p-8 sm:p-12 rounded-3xl bg-[#05050A]/95 border border-[#F0444B]/40 text-center space-y-6 shadow-[0_0_50px_rgba(240,68,75,0.3)] backdrop-blur-md my-auto animate-float-subtle">
                 <div className="w-20 h-20 rounded-full bg-[#F0444B]/20 text-[#F0444B] border-2 border-[#F0444B] flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(240,68,75,0.6)] animate-bounce">
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
@@ -315,26 +305,30 @@ export const ContactSection: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <div className="bg-[#050508]/90 p-6 sm:p-8 rounded-3xl space-y-6 border border-[#2A2A2A] hover:border-[#27D6D9]/50 shadow-[0_0_40px_rgba(0,0,0,0.9)] backdrop-blur-md flex-1 flex flex-col justify-between transition-all duration-500">
+              <div className="relative overflow-hidden bg-[#040408]/95 p-6 sm:p-9 rounded-3xl space-y-6 border border-[#2A2A38] hover:border-[#F0444B]/60 shadow-[0_0_45px_rgba(240,68,75,0.2)] hover:shadow-[0_0_65px_rgba(39,214,217,0.4)] backdrop-blur-xl flex-1 flex flex-col justify-between transition-all duration-500 group/formcard">
                 
-                {/* Form Title & Description */}
-                <div className="space-y-2 border-b border-[#2A2A2A] pb-4">
+                {/* Background Glow Accents inside card */}
+                <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#F0444B]/15 rounded-full blur-[90px] pointer-events-none animate-pulse-glow" />
+                <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#27D6D9]/15 rounded-full blur-[90px] pointer-events-none animate-pulse-glow" style={{ animationDelay: '2s' }} />
+
+                {/* Form Title & Description Header */}
+                <div className="relative z-10 space-y-2 border-b border-[#2A2A38] pb-4">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xl font-bold text-white font-['Plus_Jakarta_Sans'] flex items-center gap-2.5">
-                      <span>Send an Instant Inquiry</span>
-                      <Sparkles className="w-5 h-5 text-[#27D6D9] animate-pulse" />
+                      <span className="text-sand-gradient">Send an Instant Inquiry</span>
+                      <Sparkles className="w-5 h-5 text-[#27D6D9] animate-bounce" />
                     </h4>
-                    <span className="text-[11px] font-mono text-[#F0444B] bg-[#F0444B]/10 px-2.5 py-1 rounded-full border border-[#F0444B]/30 font-semibold">
+                    <span className="text-[11px] font-mono text-[#F0444B] bg-[#F0444B]/15 px-3 py-1 rounded-full border border-[#F0444B]/40 font-bold shadow-[0_0_12px_rgba(240,68,75,0.3)]">
                       Direct Dispatch
                     </span>
                   </div>
-                  <p className="text-xs text-[#BDBDBD]">
+                  <p className="text-xs text-[#BDBDBD] leading-relaxed">
                     Fill in your project details below to initiate direct communication via Email or WhatsApp.
                   </p>
                 </div>
                 
-                {/* Interactive Form */}
-                <form className="space-y-5 flex-1 flex flex-col justify-between">
+                {/* Interactive Glowing Form */}
+                <form className="relative z-10 space-y-5 flex-1 flex flex-col justify-between">
                   <div className="space-y-4">
                     
                     {/* Name & Email Row */}
@@ -342,14 +336,17 @@ export const ContactSection: React.FC = () => {
                       
                       {/* Name Input */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-[#BDBDBD] flex items-center justify-between">
+                        <label className="text-xs font-bold text-[#D4D4D8] flex items-center justify-between">
                           <span className="flex items-center gap-1.5">
-                            <User className={`w-3.5 h-3.5 transition-colors ${focusedField === 'name' || form.name ? 'text-[#F0444B]' : 'text-[#777777]'}`} />
+                            <User className={`w-3.5 h-3.5 transition-colors ${focusedField === 'name' || form.name ? 'text-[#F0444B]' : 'text-[#888888]'}`} />
                             <span>Your Name</span>
                           </span>
                           <span className="text-[#F0444B] text-[10px]">*</span>
                         </label>
-                        <div className="relative group">
+                        <div className="relative group/input flex items-center">
+                          <div className={`absolute left-3.5 p-1.5 rounded-lg transition-all duration-300 ${focusedField === 'name' || form.name ? 'bg-[#F0444B]/20 text-[#F0444B] shadow-[0_0_10px_rgba(240,68,75,0.5)]' : 'bg-[#181820] text-[#777777]'}`}>
+                            <User className="w-3.5 h-3.5" />
+                          </div>
                           <input
                             type="text"
                             required
@@ -358,24 +355,29 @@ export const ContactSection: React.FC = () => {
                             onBlur={() => setFocusedField(null)}
                             onChange={(e) => setForm({ ...form, name: e.target.value })}
                             placeholder="John Doe"
-                            className="w-full bg-[#000000] border border-[#2A2A2A] focus:border-[#F0444B] p-3.5 rounded-2xl text-xs text-white placeholder-[#666666] focus:outline-none focus:ring-2 focus:ring-[#F0444B]/30 focus:shadow-[0_0_20px_rgba(240,68,75,0.35)] transition-all duration-300"
+                            className="w-full bg-[#020205] border border-[#2A2A38] focus:border-[#F0444B] pl-11 pr-10 py-3.5 rounded-2xl text-xs text-white placeholder-[#666666] shadow-[0_0_15px_rgba(0,0,0,0.8)] hover:border-[#F0444B]/50 hover:shadow-[0_0_20px_rgba(240,68,75,0.25)] focus:outline-none focus:ring-2 focus:ring-[#F0444B]/40 focus:shadow-[0_0_30px_rgba(240,68,75,0.55),inset_0_0_12px_rgba(240,68,75,0.15)] focus:bg-[#070710] transition-all duration-300 font-medium"
                           />
                           {form.name && (
-                            <Check className="absolute right-3.5 top-3.5 w-4 h-4 text-emerald-400 animate-scale-in" />
+                            <div className="absolute right-3.5 p-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.5)]">
+                              <Check className="w-3.5 h-3.5 animate-bounce" />
+                            </div>
                           )}
                         </div>
                       </div>
 
                       {/* Email Input */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-[#BDBDBD] flex items-center justify-between">
+                        <label className="text-xs font-bold text-[#D4D4D8] flex items-center justify-between">
                           <span className="flex items-center gap-1.5">
-                            <Mail className={`w-3.5 h-3.5 transition-colors ${focusedField === 'email' || form.email ? 'text-[#27D6D9]' : 'text-[#777777]'}`} />
+                            <Mail className={`w-3.5 h-3.5 transition-colors ${focusedField === 'email' || form.email ? 'text-[#27D6D9]' : 'text-[#888888]'}`} />
                             <span>Email Address</span>
                           </span>
                           <span className="text-[#F0444B] text-[10px]">*</span>
                         </label>
-                        <div className="relative group">
+                        <div className="relative group/input flex items-center">
+                          <div className={`absolute left-3.5 p-1.5 rounded-lg transition-all duration-300 ${focusedField === 'email' || form.email ? 'bg-[#27D6D9]/20 text-[#27D6D9] shadow-[0_0_10px_rgba(39,214,217,0.5)]' : 'bg-[#181820] text-[#777777]'}`}>
+                            <Mail className="w-3.5 h-3.5" />
+                          </div>
                           <input
                             type="email"
                             required
@@ -384,10 +386,12 @@ export const ContactSection: React.FC = () => {
                             onBlur={() => setFocusedField(null)}
                             onChange={(e) => setForm({ ...form, email: e.target.value })}
                             placeholder="you@company.com"
-                            className="w-full bg-[#000000] border border-[#2A2A2A] focus:border-[#27D6D9] p-3.5 rounded-2xl text-xs text-white placeholder-[#666666] focus:outline-none focus:ring-2 focus:ring-[#27D6D9]/30 focus:shadow-[0_0_20px_rgba(39,214,217,0.35)] transition-all duration-300"
+                            className="w-full bg-[#020205] border border-[#2A2A38] focus:border-[#27D6D9] pl-11 pr-10 py-3.5 rounded-2xl text-xs text-white placeholder-[#666666] shadow-[0_0_15px_rgba(0,0,0,0.8)] hover:border-[#27D6D9]/50 hover:shadow-[0_0_20px_rgba(39,214,217,0.25)] focus:outline-none focus:ring-2 focus:ring-[#27D6D9]/40 focus:shadow-[0_0_30px_rgba(39,214,217,0.55),inset_0_0_12px_rgba(39,214,217,0.15)] focus:bg-[#070710] transition-all duration-300 font-medium"
                           />
                           {form.email && form.email.includes('@') && (
-                            <Check className="absolute right-3.5 top-3.5 w-4 h-4 text-emerald-400 animate-scale-in" />
+                            <div className="absolute right-3.5 p-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.5)]">
+                              <Check className="w-3.5 h-3.5 animate-bounce" />
+                            </div>
                           )}
                         </div>
                       </div>
@@ -399,11 +403,14 @@ export const ContactSection: React.FC = () => {
                       
                       {/* Phone Input */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-[#BDBDBD] flex items-center gap-1.5">
-                          <Phone className={`w-3.5 h-3.5 transition-colors ${focusedField === 'phone' || form.phone ? 'text-[#25D366]' : 'text-[#777777]'}`} />
+                        <label className="text-xs font-bold text-[#D4D4D8] flex items-center gap-1.5">
+                          <Phone className={`w-3.5 h-3.5 transition-colors ${focusedField === 'phone' || form.phone ? 'text-[#25D366]' : 'text-[#888888]'}`} />
                           <span>Phone / WhatsApp</span>
                         </label>
-                        <div className="relative group">
+                        <div className="relative group/input flex items-center">
+                          <div className={`absolute left-3.5 p-1.5 rounded-lg transition-all duration-300 ${focusedField === 'phone' || form.phone ? 'bg-[#25D366]/20 text-[#25D366] shadow-[0_0_10px_rgba(37,211,102,0.5)]' : 'bg-[#181820] text-[#777777]'}`}>
+                            <Phone className="w-3.5 h-3.5" />
+                          </div>
                           <input
                             type="text"
                             value={form.phone}
@@ -411,21 +418,26 @@ export const ContactSection: React.FC = () => {
                             onBlur={() => setFocusedField(null)}
                             onChange={(e) => setForm({ ...form, phone: e.target.value })}
                             placeholder="+91 91509 00577"
-                            className="w-full bg-[#000000] border border-[#2A2A2A] focus:border-[#25D366] p-3.5 rounded-2xl text-xs text-white placeholder-[#666666] focus:outline-none focus:ring-2 focus:ring-[#25D366]/30 focus:shadow-[0_0_20px_rgba(37,211,102,0.35)] transition-all duration-300"
+                            className="w-full bg-[#020205] border border-[#2A2A38] focus:border-[#25D366] pl-11 pr-10 py-3.5 rounded-2xl text-xs text-white placeholder-[#666666] shadow-[0_0_15px_rgba(0,0,0,0.8)] hover:border-[#25D366]/50 hover:shadow-[0_0_20px_rgba(37,211,102,0.25)] focus:outline-none focus:ring-2 focus:ring-[#25D366]/40 focus:shadow-[0_0_30px_rgba(37,211,102,0.55),inset_0_0_12px_rgba(37,211,102,0.15)] focus:bg-[#070710] transition-all duration-300 font-medium"
                           />
                           {form.phone && (
-                            <Check className="absolute right-3.5 top-3.5 w-4 h-4 text-emerald-400 animate-scale-in" />
+                            <div className="absolute right-3.5 p-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.5)]">
+                              <Check className="w-3.5 h-3.5 animate-bounce" />
+                            </div>
                           )}
                         </div>
                       </div>
 
                       {/* Subject Input */}
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-[#BDBDBD] flex items-center gap-1.5">
-                          <Tag className={`w-3.5 h-3.5 transition-colors ${focusedField === 'subject' || form.subject ? 'text-[#F0444B]' : 'text-[#777777]'}`} />
+                        <label className="text-xs font-bold text-[#D4D4D8] flex items-center gap-1.5">
+                          <Tag className={`w-3.5 h-3.5 transition-colors ${focusedField === 'subject' || form.subject ? 'text-[#F0444B]' : 'text-[#888888]'}`} />
                           <span>Subject</span>
                         </label>
-                        <div className="relative group">
+                        <div className="relative group/input flex items-center">
+                          <div className={`absolute left-3.5 p-1.5 rounded-lg transition-all duration-300 ${focusedField === 'subject' || form.subject ? 'bg-[#F0444B]/20 text-[#F0444B] shadow-[0_0_10px_rgba(240,68,75,0.5)]' : 'bg-[#181820] text-[#777777]'}`}>
+                            <Tag className="w-3.5 h-3.5" />
+                          </div>
                           <input
                             type="text"
                             value={form.subject}
@@ -433,10 +445,12 @@ export const ContactSection: React.FC = () => {
                             onBlur={() => setFocusedField(null)}
                             onChange={(e) => setForm({ ...form, subject: e.target.value })}
                             placeholder="Project Opportunity"
-                            className="w-full bg-[#000000] border border-[#2A2A2A] focus:border-[#F0444B] p-3.5 rounded-2xl text-xs text-white placeholder-[#666666] focus:outline-none focus:ring-2 focus:ring-[#F0444B]/30 focus:shadow-[0_0_20px_rgba(240,68,75,0.35)] transition-all duration-300"
+                            className="w-full bg-[#020205] border border-[#2A2A38] focus:border-[#F0444B] pl-11 pr-10 py-3.5 rounded-2xl text-xs text-white placeholder-[#666666] shadow-[0_0_15px_rgba(0,0,0,0.8)] hover:border-[#F0444B]/50 hover:shadow-[0_0_20px_rgba(240,68,75,0.25)] focus:outline-none focus:ring-2 focus:ring-[#F0444B]/40 focus:shadow-[0_0_30px_rgba(240,68,75,0.55),inset_0_0_12px_rgba(240,68,75,0.15)] focus:bg-[#070710] transition-all duration-300 font-medium"
                           />
                           {form.subject && (
-                            <Check className="absolute right-3.5 top-3.5 w-4 h-4 text-emerald-400 animate-scale-in" />
+                            <div className="absolute right-3.5 p-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.5)]">
+                              <Check className="w-3.5 h-3.5 animate-bounce" />
+                            </div>
                           )}
                         </div>
                       </div>
@@ -444,11 +458,12 @@ export const ContactSection: React.FC = () => {
                     </div>
 
                     {/* Quick Topic Chips */}
-                    <div className="space-y-1.5">
-                      <span className="text-[10px] font-mono text-[#BDBDBD] font-semibold block">
-                        Quick Subject Presets:
+                    <div className="space-y-2">
+                      <span className="text-[11px] font-mono text-[#A1A1AA] font-bold block flex items-center gap-1.5">
+                        <Sparkles className="w-3 h-3 text-[#27D6D9]" />
+                        <span>Quick Subject Presets:</span>
                       </span>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2.5">
                         {[
                           '💼 Full-time Role',
                           '🚀 Freelance Project',
@@ -459,10 +474,10 @@ export const ContactSection: React.FC = () => {
                             key={preset}
                             type="button"
                             onClick={() => handleQuickTopic(preset)}
-                            className={`px-3 py-1.5 rounded-xl text-[11px] font-mono border transition-all duration-300 ${
+                            className={`px-3.5 py-2 rounded-xl text-xs font-mono border transition-all duration-300 ${
                               form.subject === preset
-                                ? 'bg-[#F0444B]/20 text-[#F0444B] border-[#F0444B] shadow-[0_0_12px_rgba(240,68,75,0.4)] scale-105'
-                                : 'bg-[#000000] text-[#BDBDBD] border-[#2A2A2A] hover:border-[#27D6D9] hover:text-[#27D6D9] hover:shadow-[0_0_10px_rgba(39,214,217,0.3)]'
+                                ? 'bg-gradient-to-r from-[#F0444B]/25 to-[#FF6B6B]/20 text-[#FF6B6B] border-[#F0444B] shadow-[0_0_20px_rgba(240,68,75,0.6)] scale-105 font-bold'
+                                : 'bg-[#020205] text-[#BDBDBD] border-[#2A2A38] hover:border-[#27D6D9] hover:text-[#27D6D9] hover:shadow-[0_0_16px_rgba(39,214,217,0.45)] hover:-translate-y-0.5'
                             }`}
                           >
                             {preset}
@@ -473,14 +488,14 @@ export const ContactSection: React.FC = () => {
 
                     {/* Message Textarea */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-[#BDBDBD] flex items-center justify-between">
+                      <label className="text-xs font-bold text-[#D4D4D8] flex items-center justify-between">
                         <span className="flex items-center gap-1.5">
-                          <MessageSquare className={`w-3.5 h-3.5 transition-colors ${focusedField === 'message' || form.message ? 'text-[#27D6D9]' : 'text-[#777777]'}`} />
+                          <MessageSquare className={`w-3.5 h-3.5 transition-colors ${focusedField === 'message' || form.message ? 'text-[#27D6D9]' : 'text-[#888888]'}`} />
                           <span>Message</span>
                         </span>
                         <span className="text-[#F0444B] text-[10px]">*</span>
                       </label>
-                      <div className="relative group">
+                      <div className="relative group/input">
                         <textarea
                           required
                           rows={4}
@@ -489,7 +504,7 @@ export const ContactSection: React.FC = () => {
                           onBlur={() => setFocusedField(null)}
                           onChange={(e) => setForm({ ...form, message: e.target.value })}
                           placeholder="Hi Mohamed, I'd like to discuss an opportunity regarding..."
-                          className="w-full bg-[#000000] border border-[#2A2A2A] focus:border-[#27D6D9] p-3.5 rounded-2xl text-xs text-white placeholder-[#666666] focus:outline-none focus:ring-2 focus:ring-[#27D6D9]/30 focus:shadow-[0_0_20px_rgba(39,214,217,0.35)] transition-all duration-300 resize-none"
+                          className="w-full bg-[#020205] border border-[#2A2A38] focus:border-[#27D6D9] p-4 rounded-2xl text-xs text-white placeholder-[#666666] shadow-[0_0_15px_rgba(0,0,0,0.8)] hover:border-[#27D6D9]/50 hover:shadow-[0_0_20px_rgba(39,214,217,0.25)] focus:outline-none focus:ring-2 focus:ring-[#27D6D9]/40 focus:shadow-[0_0_30px_rgba(39,214,217,0.55),inset_0_0_12px_rgba(39,214,217,0.15)] focus:bg-[#070710] transition-all duration-300 resize-none font-medium"
                         />
                       </div>
                     </div>
@@ -497,16 +512,16 @@ export const ContactSection: React.FC = () => {
                   </div>
 
                   {/* Submit Action Buttons with Dynamic Shimmer Streaks & Glowing Shadows */}
-                  <div className="pt-3 flex flex-col sm:flex-row items-center gap-4">
+                  <div className="pt-4 flex flex-col sm:flex-row items-center gap-4">
                     
                     {/* Email Dispatch Button */}
                     <button
                       type="button"
                       onClick={handleSendEmail}
-                      className="relative overflow-hidden w-full py-4 px-6 bg-gradient-to-r from-[#F0444B] via-[#FF6B6B] to-[#F0444B] bg-[length:200%_100%] text-white font-bold text-xs sm:text-sm rounded-2xl shadow-[0_0_25px_rgba(240,68,75,0.45)] hover:shadow-[0_0_40px_rgba(240,68,75,0.8)] transition-all duration-300 flex items-center justify-center gap-2.5 group hover:scale-[1.02] active:scale-[0.98]"
+                      className="relative overflow-hidden w-full py-4 px-6 bg-gradient-to-r from-[#F0444B] via-[#FF6B6B] to-[#F0444B] bg-[length:200%_100%] text-white font-bold text-xs sm:text-sm rounded-2xl shadow-[0_0_30px_rgba(240,68,75,0.55)] hover:shadow-[0_0_50px_rgba(240,68,75,0.85)] transition-all duration-300 flex items-center justify-center gap-2.5 group hover:scale-[1.02] active:scale-[0.98]"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                      <Send className="w-4 h-4 text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                      <Send className="w-4 h-4 text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
                       <span>Send via Email</span>
                     </button>
                     
@@ -514,10 +529,10 @@ export const ContactSection: React.FC = () => {
                     <button
                       type="button"
                       onClick={handleSendWhatsApp}
-                      className="relative overflow-hidden w-full sm:w-auto py-4 px-7 bg-gradient-to-r from-[#25D366] via-[#2CEE74] to-[#25D366] text-slate-950 font-extrabold text-xs sm:text-sm rounded-2xl shadow-[0_0_25px_rgba(37,211,102,0.45)] hover:shadow-[0_0_40px_rgba(37,211,102,0.8)] transition-all duration-300 flex items-center justify-center gap-2.5 shrink-0 hover:scale-[1.03] active:scale-[0.98]"
+                      className="relative overflow-hidden w-full sm:w-auto py-4 px-7 bg-gradient-to-r from-[#25D366] via-[#2CEE74] to-[#25D366] text-slate-950 font-extrabold text-xs sm:text-sm rounded-2xl shadow-[0_0_30px_rgba(37,211,102,0.55)] hover:shadow-[0_0_50px_rgba(37,211,102,0.85)] transition-all duration-300 flex items-center justify-center gap-2.5 shrink-0 hover:scale-[1.03] active:scale-[0.98]"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                      <MessageSquare className="w-4 h-4 text-slate-950 fill-current group-hover:rotate-12 transition-transform" />
+                      <MessageSquare className="w-4 h-4 text-slate-950 fill-current group-hover:rotate-12 transition-transform duration-300" />
                       <span>WhatsApp Direct</span>
                     </button>
 
@@ -528,6 +543,7 @@ export const ContactSection: React.FC = () => {
               </div>
             )}
           </div>
+
 
         </div>
 
