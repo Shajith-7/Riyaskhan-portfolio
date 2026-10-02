@@ -441,4 +441,100 @@
   50% { transform: rotate(-20deg); }
 }
 
+/* Contact Section Advanced Animations & Glow Effects */
+@keyframes pulseGlowSlow {
+  0%, 100% {
+    box-shadow: 0 0 18px rgba(240, 68, 75, 0.4), 0 0 35px rgba(240, 68, 75, 0.15);
+    border-color: rgba(240, 68, 75, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(39, 214, 217, 0.55), 0 0 50px rgba(39, 214, 217, 0.25);
+    border-color: rgba(39, 214, 217, 0.7);
+  }
+}
 
+@keyframes socialPulseGithub {
+  0%, 100% {
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(39, 214, 217, 0.6), 0 0 45px rgba(39, 214, 217, 0.25);
+    border-color: rgba(39, 214, 217, 0.8);
+  }
+}
+
+@keyframes socialPulseLinkedin {
+  0%, 100% {
+    box-shadow: 0 0 18px rgba(10, 102, 194, 0.5), 0 0 32px rgba(10, 102, 194, 0.2);
+    border-color: rgba(10, 102, 194, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(10, 102, 194, 0.9), 0 0 55px rgba(10, 102, 194, 0.35);
+    border-color: rgba(10, 102, 194, 0.95);
+  }
+}
+
+@keyframes socialPulseWhatsapp {
+  0%, 100% {
+    box-shadow: 0 0 18px rgba(37, 211, 102, 0.5), 0 0 32px rgba(37, 211, 102, 0.2);
+    border-color: rgba(37, 211, 102, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(37, 211, 102, 0.9), 0 0 55px rgba(37, 211, 102, 0.35);
+    border-color: rgba(37, 211, 102, 0.95);
+  }
+}
+
+@keyframes socialPulseEmail {
+  0%, 100% {
+    box-shadow: 0 0 18px rgba(240, 68, 75, 0.5), 0 0 32px rgba(240, 68, 75, 0.2);
+    border-color: rgba(240, 68, 75, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(240, 68, 75, 0.9), 0 0 55px rgba(240, 68, 75, 0.35);
+    border-color: rgba(240, 68, 75, 0.95);
+  }
+}
+
+@keyframes iconPulseRotate {
+  0%, 100% {
+    transform: translateY(0px) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.1) rotate(5deg);
+  }
+}
+
+@keyframes shimmerStreak {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlowSlow 4s ease-in-out infinite;
+}
+
+.animate-social-github {
+  animation: socialPulseGithub 3.5s ease-in-out infinite;
+}
+
+.animate-social-linkedin {
+  animation: socialPulseLinkedin 3.5s ease-in-out infinite 0.6s;
+}
+
+.animate-social-whatsapp {
+  animation: socialPulseWhatsapp 3.5s ease-in-out infinite 1.2s;
+}
+
+.animate-social-email {
+  animation: socialPulseEmail 3.5s ease-in-out infinite 1.8s;
+}
+
+.animate-icon-pulse-rotate {
+  animation: iconPulseRotate 4s ease-in-out infinite;
+}
+
+.animate-shimmer-streak {
+  animation: shimmerStreak 2.5s infinite;
+}
